@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 数据库驱动:换成你本地的驱动包位置-->
+    <classPathEntry
+            location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 自定义的注释生成插件-->
+        <plugin type="com.chrm.mybatis.generator.plugins.CommentPlugin">
+            <!-- 抑制警告 -->
+            <property name="suppressTypeWarnings" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false"/>
+            <!-- 是否生成注释代时间戳-->
+            <property name="suppressDate" value="true"/>
+        </plugin>
+        <!-- 整合lombok-->
+        <plugin type="com.chrm.mybatis.generator.plugins.LombokPlugin">
+            <property name="hasLombok" value="true"/>
+            <!--设置表对应名称-->
+            <property name="fb_zg_cm_attach" value="公司附件"/>
+            <property name="fb_zg_cm_post" value="公司岗位"/>
+            <property name="fb_zg_cm_rel_user" value="用户公司岗位"/>
+            <property name="fb_zg_company" value="公司"/>
+            <property name="fb_zg_member_level" value="会员等级"/>
+            <property name="fb_zg_member_level_order" value="会员订单"/>
+            <property name="fb_zg_member_level_perm" value="会员权限"/>
+            <property name="fb_zg_pro_attach" value="项目/任务附件"/>
+            <property name="fb_zg_pro_task" value="项目-任务"/>
+            <property name="fb_zg_project" value="项目"/>
+            <property name="fb_zg_project_per" value="参与项目人员"/>
+            <property name="fb_zg_task_user" value="任务类型"/>
+            <property name="fb_zg_team" value="团队"/>
+            <property name="fb_zg_team_attach" value="团队附件"/>
+            <property name="fb_zg_team_rel_user" value="用户团队岗位"/>
+            <property name="fb_zg_work_plan" value="工作计划"/>
+        </plugin>
+        <!--整合序列化-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+            <property name="suppressJavaInterface" value="true"/>
+        </plugin>
+        <!--整合provider-->
+        <plugin type="com.chrm.mybatis.generator.plugins.ProviderPlugin">
+            <property name="targetProject" value="../taskcenter-provider/src/main/java"></property>
+            <property name="servicePackage" value="org.smartwork.biz.service"></property>
+            <property name="providerPackage" value="org.smartwork.provider"/>
+            <property name="providerSuffix" value="Controller"/>
+            <property name="servicePreffix" value="I"></property>
+            <property name="serviceSuffix" value="Service"></property>
+            <property name="superProvider" value="org.forbes.provider.BaseProvider"></property>
+            <!--设置表对应名称-->
+            <property name="fb_zg_cm_attach" value="公司附件"/>
+            <property name="fb_zg_cm_post" value="公司岗位"/>
+            <property name="fb_zg_cm_rel_user" value="用户公司岗位"/>
+            <property name="fb_zg_company" value="公司"/>
+            <property name="fb_zg_member_level" value="会员等级"/>
+            <property name="fb_zg_member_level_order" value="会员订单"/>
+            <property name="fb_zg_member_level_perm" value="会员权限"/>
+            <property name="fb_zg_pro_attach" value="项目/任务附件"/>
+            <property name="fb_zg_pro_task" value="项目-任务"/>
+            <property name="fb_zg_project" value="项目"/>
+            <property name="fb_zg_project_per" value="参与项目人员"/>
+            <property name="fb_zg_task_user" value="任务类型"/>
+            <property name="fb_zg_team" value="团队"/>
+            <property name="fb_zg_team_attach" value="团队附件"/>
+            <property name="fb_zg_team_rel_user" value="用户团队岗位"/>
+            <property name="fb_zg_work_plan" value="工作计划"/>
+        </plugin>
+        <!--整合service-->
+        <plugin type="com.chrm.mybatis.generator.plugins.ServicePlugin">
+            <property name="targetProject" value="../taskcenter-biz/src/main/java"></property>
+            <property name="servicePackage" value="org.smartwork.biz.service"></property>
+            <property name="serviceImplPackage" value="org.smartwork.biz.service.impl"></property>
+            <property name="mapperPackage" value="org.smartwork.dal.mapper"/>
+            <property name="servicePreffix" value="I"></property>
+            <property name="serviceSuffix" value="Service"></property>
+            <property name="serviceImplSuffix" value="Impl"></property>
+            <property name="mapperSuffix" value="Mapper"></property>
+            <property name="superServiceInterface"
+                      value="com.baomidou.mybatisplus.extension.service.IService"></property>
+            <property name="superServiceImpl"
+                      value="com.baomidou.mybatisplus.extension.service.impl.ServiceImpl"></property>
+        </plugin>
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://122.51.238.114:4408/smartworkmember" userId="smartworkmember"
+                        password="TSrecFBRhy5KjWRp">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置-->
+        <javaModelGenerator targetPackage="org.smartwork.dal.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="rootClass" value="org.forbes.comm.entity.BaseEntity"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置-->
+        <sqlMapGenerator targetPackage="org.smartwork.dal.mapper.xml" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.smartwork.dal.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <table tableName="fb_zg_cm_attach" domainObjectName="ZGCmAttach" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_cm_post" domainObjectName="ZGCmPost" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_cm_rel_user" domainObjectName="ZGCmRelUser" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_company" domainObjectName="ZGCompany" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_member_level" domainObjectName="ZGMemberLevel" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_member_level_order" domainObjectName="ZGMemberLevelOrder" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        <table tableName="fb_zg_member_level_perm" domainObjectName="ZGMemberLevelPerm" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_pro_attach" domainObjectName="ZGProAttach" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_pro_task" domainObjectName="ZGProTask" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_project" domainObjectName="ZGProject" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_project_per" domainObjectName="ZGProjectPer" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_task_user" domainObjectName="ZGTaskUser" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_team" domainObjectName="ZGTeam" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_team_attach" domainObjectName="ZGTeamAttach" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_team_rel_user" domainObjectName="ZGTeamRelUser" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_work_plan" domainObjectName="ZGWorkPlan" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+    </context>
+</generatorConfiguration>
