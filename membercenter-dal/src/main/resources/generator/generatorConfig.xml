@@ -5,7 +5,7 @@
 <generatorConfiguration>
     <!-- 数据库驱动:换成你本地的驱动包位置-->
     <classPathEntry
-            location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar"/>
+            location="D:/maven/localRepository/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar"/>
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <property name="javaFileEncoding" value="UTF-8"/>
         <!-- 自定义的注释生成插件-->
@@ -44,7 +44,7 @@
         </plugin>
         <!--整合provider-->
         <plugin type="com.chrm.mybatis.generator.plugins.ProviderPlugin">
-            <property name="targetProject" value="../taskcenter-provider/src/main/java"></property>
+            <property name="targetProject" value="../membercenter-provider/src/main/java"></property>
             <property name="servicePackage" value="org.smartwork.biz.service"></property>
             <property name="providerPackage" value="org.smartwork.provider"/>
             <property name="providerSuffix" value="Controller"/>
@@ -71,7 +71,7 @@
         </plugin>
         <!--整合service-->
         <plugin type="com.chrm.mybatis.generator.plugins.ServicePlugin">
-            <property name="targetProject" value="../taskcenter-biz/src/main/java"></property>
+            <property name="targetProject" value="../membercenter-biz/src/main/java"></property>
             <property name="servicePackage" value="org.smartwork.biz.service"></property>
             <property name="serviceImplPackage" value="org.smartwork.biz.service.impl"></property>
             <property name="mapperPackage" value="org.smartwork.dal.mapper"/>
