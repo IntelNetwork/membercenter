@@ -1,19 +1,35 @@
-package org.smartwork.dal.entity;
+package org.smartwork.comm.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.forbes.comm.entity.BaseEntity;
 
-/**
- * Table: fb_zg_team
+import java.io.Serializable;
+import java.util.List;
+
+/***
+ * 概述: 团队相关传入参数
+ * @创建人 niehy(Frunk)
+ * @创建时间 2020/3/16
+ * @修改人 (修改了该文件，请填上修改人的名字)
+ * @修改日期 (请填上修改该文件时的日期)
  */
 @Data
-@ApiModel(description = "团队")
-@TableName("fb_zg_team")
-public class ZGTeam extends BaseEntity {
-    private static final long serialVersionUID = 7204885117344789484L;
+@ApiModel(description="团队相关传入参数")
+public class ZGTeamDto implements Serializable {
+
+    private static final long serialVersionUID = 3303918946433156074L;
+
+    /**
+     * id
+     * <p>
+     * Table:     fb_zg_team
+     * Column:    id
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "团队ID,添加不传值", example = "")
+    private Long id;
+
     /**
      * 负责人
      * <p>
@@ -53,4 +69,13 @@ public class ZGTeam extends BaseEntity {
      */
     @ApiModelProperty(value = "团队介绍", example = "")
     private String intr;
+
+
+    @ApiModelProperty(value = "团队附件(集合)", example = "")
+    private List<ZGTeamAttachDto> teamAttachDtos;
+
+
+    @ApiModelProperty(value = "团队用户(集合)", example = "")
+    private List<ZGTeamRelUserDto> teamRelUserDtos;
+
 }
