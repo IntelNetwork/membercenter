@@ -5,7 +5,7 @@
 <generatorConfiguration>
     <!-- 数据库驱动:换成你本地的驱动包位置-->
     <classPathEntry
-            location="D:/maven/localRepository/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar"/>
+            location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar"/>
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <property name="javaFileEncoding" value="UTF-8"/>
         <!-- 自定义的注释生成插件-->
