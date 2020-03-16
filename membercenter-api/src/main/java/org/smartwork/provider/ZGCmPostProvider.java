@@ -46,5 +46,23 @@ public class ZGCmPostProvider {
         return result;
     }
 
+    /***
+     * updatePost方法概述:修改岗位
+     * @param zgCmPostDto
+     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCmPostDto>
+     * @创建人 Tom
+     * @创建时间 2020/3/16 18:08
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ApiOperation("修改岗位")
+    public Result<ZGCmPostDto> updatePost(@RequestBody @Validated(value = SaveValid.class) ZGCmPostDto zgCmPostDto) {
+        Result<ZGCmPostDto> result=new Result<ZGCmPostDto>();
+        zgCmPostService.updatePost(zgCmPostDto);
+        result.setResult(zgCmPostDto);
+        return result;
+    }
+
 
 }

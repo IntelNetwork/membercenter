@@ -32,4 +32,23 @@ public class ZGCmPostServiceImpl extends ServiceImpl<ZGCmPostMapper, ZGCmPost> i
                 .copy(zgCmPostDto, zgCmPost, null);
         baseMapper.insert(zgCmPost);
     }
+
+    /***
+     * updatePost方法概述:修改岗位
+     * @param zgCmPostDto
+     * @return
+     * @创建人 Tom
+     * @创建时间 2020/3/16 18:08
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @Transactional
+    @Override
+    public void updatePost(ZGCmPostDto zgCmPostDto) {
+        //修改岗位
+        ZGCmPost zgCmPost = new ZGCmPost();
+        BeanCopier.create(ZGCmPostDto.class, ZGCmPost.class, false)
+                .copy(zgCmPostDto, zgCmPost, null);
+        baseMapper.updateById(zgCmPost);
+    }
 }
