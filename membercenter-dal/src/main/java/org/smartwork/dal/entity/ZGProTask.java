@@ -15,6 +15,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="项目-任务")
 @TableName("fb_zg_pro_task")
 public class ZGProTask extends BaseEntity {
+    private static final long serialVersionUID = -2198950292956314850L;
     /**
      * 项目ID
      *

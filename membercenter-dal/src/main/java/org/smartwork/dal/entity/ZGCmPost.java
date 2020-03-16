@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="公司岗位")
 @TableName("fb_zg_cm_post")
 public class ZGCmPost extends BaseEntity {
+    private static final long serialVersionUID = 7952219968741747608L;
     /**
      * 岗位名称
      *

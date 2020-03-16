@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="团队附件")
 @TableName("fb_zg_team_attach")
 public class ZGTeamAttach extends BaseEntity {
+    private static final long serialVersionUID = -3226719835507842351L;
     /**
      * 数据ID
      *

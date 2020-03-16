@@ -15,6 +15,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="会员订单")
 @TableName("fb_zg_member_level_order")
 public class ZGMemberLevelOrder extends BaseEntity {
+    private static final long serialVersionUID = 736178856451340892L;
     /**
      * 会员id
      *

@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="团队")
 @TableName("fb_zg_team")
 public class ZGTeam extends BaseEntity {
+    private static final long serialVersionUID = 7204885117344789484L;
     /**
      * 负责人
      *

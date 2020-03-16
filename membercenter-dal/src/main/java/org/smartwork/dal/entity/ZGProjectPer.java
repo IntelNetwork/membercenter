@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="参与项目人员")
 @TableName("fb_zg_project_per")
 public class ZGProjectPer extends BaseEntity {
+    private static final long serialVersionUID = -5849881543566349320L;
     /**
      * 人员ID
      *

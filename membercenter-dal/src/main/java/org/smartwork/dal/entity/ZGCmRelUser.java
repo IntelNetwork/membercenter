@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="用户公司岗位")
 @TableName("fb_zg_cm_rel_user")
 public class ZGCmRelUser extends BaseEntity {
+    private static final long serialVersionUID = 250595911067606601L;
     /**
      * 公司ID
      *

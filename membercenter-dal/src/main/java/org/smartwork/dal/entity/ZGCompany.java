@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="公司")
 @TableName("fb_zg_company")
 public class ZGCompany extends BaseEntity {
+    private static final long serialVersionUID = 617303110412016501L;
     /**
      * 公司名称
      *

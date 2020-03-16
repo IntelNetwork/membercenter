@@ -13,6 +13,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="会员权限")
 @TableName("fb_zg_member_level_perm")
 public class ZGMemberLevelPerm extends BaseEntity {
+    private static final long serialVersionUID = -6074175591541961940L;
     /**
      * 会员id
      *

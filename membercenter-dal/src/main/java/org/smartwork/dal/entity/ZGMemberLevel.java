@@ -14,6 +14,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="会员等级")
 @TableName("fb_zg_member_level")
 public class ZGMemberLevel extends BaseEntity {
+    private static final long serialVersionUID = 8991568520001407643L;
     /**
      * 等级名称
      *
