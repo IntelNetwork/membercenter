@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags={"用户公司岗位管理"})
 @RestController
 @RequestMapping("/zgcmreluser")
-public class ZGCmRelUserController extends BaseProvider<IZGCmRelUserService, ZGCmRelUser> {
+public class ZGCompanyProvider extends BaseProvider<IZGCmRelUserService, ZGCmRelUser> {
 }
