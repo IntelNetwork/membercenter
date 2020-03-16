@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamService;
 import org.smartwork.comm.constant.SaveValid;
+import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGTeamDto;
 import org.smartwork.comm.utils.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,11 @@ public class ZGTeamApiProvider {
     public Result<ZGTeamDto> addTeam(@RequestBody @Validated(value = SaveValid.class)ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
         if(ConvertUtils.isEmpty(teamDto)){
-
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
         }
+        teamService.addTeam(teamDto)
 
         return result;
     }

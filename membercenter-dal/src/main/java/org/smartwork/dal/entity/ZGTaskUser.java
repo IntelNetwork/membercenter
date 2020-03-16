@@ -63,4 +63,16 @@ public class ZGTaskUser extends BaseEntity {
      */
     @ApiModelProperty(value = "联系电话",example="")
     private String phone;
+
+     /**
+     * 项目任务ID
+     *
+     * Table:     fb_zg_task_user
+     * Column:    phone
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "项目任务ID",example="")
+    private Long proTaskId;
+
+
 }

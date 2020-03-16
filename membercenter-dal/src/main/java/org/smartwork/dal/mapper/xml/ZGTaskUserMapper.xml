@@ -12,9 +12,10 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="posit" jdbcType="TINYINT" property="posit" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="proTaskId" jdbcType="BIGINT" property="pro_task_id" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, create_by, create_time, update_by, update_time, pro_id, user_id, name, posit, 
+    id, create_by, create_time, update_by, update_time, pro_id, user_id, name, posit, pro_task_id
     phone
   </sql>
 </mapper>
