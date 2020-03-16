@@ -28,7 +28,7 @@ import java.util.List;
  * @修改日期 (请填上修改该文件时的日期)
  */
 @RestController
-@RequestMapping("/${smartwork.verision}/team")
+@RequestMapping("/${smartwork.verision}/team-user-rel")
 @Api(tags = {"API--团队任务分配"})
 @Slf4j
 public class ZGTeamRelUserProvider {
