@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class ZGTeamDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "负责人", example = "")
+    @NotEmpty(message = "负责人为空")
     private String legalPerson;
 
     /**
@@ -48,6 +50,7 @@ public class ZGTeamDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "负责人身份证", example = "")
+    @NotEmpty(message = "负责人身份证为空")
     private String idCard;
 
     /**

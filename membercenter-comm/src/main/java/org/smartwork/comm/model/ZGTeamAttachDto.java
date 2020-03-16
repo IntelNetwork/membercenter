@@ -12,6 +12,16 @@ public class ZGTeamAttachDto implements Serializable{
 
     private static final long serialVersionUID = 4495063649637070L;
     /**
+     * id
+     * <p>
+     * Table:     fb_zg_team_attach
+     * Column:    id
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "id,添加不传值", example = "0")
+    private Long id;
+
+    /**
      * 数据ID
      * <p>
      * Table:     fb_zg_team_attach
