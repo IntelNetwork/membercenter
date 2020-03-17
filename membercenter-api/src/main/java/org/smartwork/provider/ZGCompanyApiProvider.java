@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/${smartwork.verision}/company")
 @Api(tags = {"Api--设置岗位管理"})
 @Slf4j
-public class ZGCompanyProvider {
+public class ZGCompanyApiProvider {
 
     @Autowired
     IZGCompanyService zgCompanyService;
@@ -39,7 +39,7 @@ public class ZGCompanyProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/insert-company", method = RequestMethod.POST)
     @ApiOperation("创建公司")
     public Result<ZGCompanyDto> addCompany(@RequestBody @Validated(value = SaveValid.class) ZGCompanyDto zgCompanyDto) {
         Result<ZGCompanyDto> result=new Result<ZGCompanyDto>();
@@ -57,7 +57,7 @@ public class ZGCompanyProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/alter-company", method = RequestMethod.PUT)
     @ApiOperation("公司信息修改")
     public Result<ZGCompanyDto> updateCompany(@RequestBody @Validated(value = SaveValid.class) ZGCompanyDto zgCompanyDto) {
         Result<ZGCompanyDto> result=new Result<ZGCompanyDto>();
