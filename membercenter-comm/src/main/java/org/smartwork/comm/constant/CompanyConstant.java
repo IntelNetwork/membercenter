@@ -7,8 +7,13 @@ package org.smartwork.comm.constant;
 public interface CompanyConstant {
 
     /**
-     * 行业类型名称
+     * 公司id
      */
     public static final String DATAID = "data_id";
+
+    /**
+     * 行业类型名称
+     */
+    public static final String CMID = "cm_id";
 
 }
