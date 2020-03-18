@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /***
  * 概述:项目任务(子任务)增删改设置
@@ -103,11 +106,11 @@ public class ZGProTaskApiProvider {
      * 方法概述:项目任务编辑
      * @param proTask
      * @创建人 niehy(Frunk)
-     * @创建时间 2020/3/16
+     * @创建时间 2020/3/18
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/project-task-edit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT)
     @ApiOperation("项目任务编辑")
     public Result<ZGProTask> ProjectTaskEdit(@Validated(value = UpdateValid.class) ZGProTask proTask){
         Result<ZGProTask> result = new Result<>();
@@ -121,5 +124,45 @@ public class ZGProTaskApiProvider {
         return result;
 
     }
+
+  /***
+     * 方法概述:项目任务删除
+     * @param id
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/18
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
+    @ApiOperation("项目任务删除")
+    public Result<ZGProTask> ProjectTaskRemove(@RequestParam("id") String id){
+        Result<ZGProTask> result = new Result<>();
+        ZGProTask proTask = proTaskService.getById(id);
+        if (ConvertUtils.isEmpty(proTask)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        proTaskService.removeById(id);
+        return result;
+    }
+
+ /***
+     * 方法概述:项目任务批量删除
+     * @param ids
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/18
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/removes", method = RequestMethod.DELETE)
+    @ApiOperation("项目任务删除")
+    public Result<ZGProTask> ProjectTaskRemoves(@RequestParam("ids") String ids){
+        Result<ZGProTask> result = new Result<>();
+        proTaskService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
+        return result;
+    }
+
+
 
 }

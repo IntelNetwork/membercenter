@@ -15,7 +15,9 @@ public enum MemberBizResultEnum {
     /*****公司001(中间三位)****/
 
     /*****团队002(中间三位)****/
-
+    NO_PERMISSION_TO_MODIFY("005002001", "您没有权限修改管理员", "%您没有权限修改管理员"),
+    /*****项目任务003(中间三位)****/
+    PRO_TASK_PRO_ID_NOT_UPDATE("005003001", "项目ID不能修改", "%s项目ID不能修改"),
     ;
 
     /**
