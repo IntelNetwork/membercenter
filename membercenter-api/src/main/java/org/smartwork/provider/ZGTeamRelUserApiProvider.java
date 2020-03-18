@@ -7,10 +7,8 @@ import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamRelUserService;
 import org.smartwork.comm.constant.UpdateValid;
 import org.smartwork.comm.enums.MemberBizResultEnum;
-import org.smartwork.comm.model.ZGTeamDto;
 import org.smartwork.comm.model.ZGTeamRelUserDto;
 import org.smartwork.comm.utils.ConvertUtils;
-import org.smartwork.dal.mapper.ZGTeamRelUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +29,7 @@ import java.util.List;
 @RequestMapping("/${smartwork.verision}/team-user-rel")
 @Api(tags = {"API--团队任务分配"})
 @Slf4j
-public class ZGTeamRelUserProvider {
+public class ZGTeamRelUserApiProvider {
 
     @Autowired
     IZGTeamRelUserService teamRelUserService;
@@ -45,7 +43,7 @@ public class ZGTeamRelUserProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT)
     @ApiOperation("团队任务分配")
     public Result<List<ZGTeamRelUserDto>> editTeam(@RequestBody @Validated(value = UpdateValid.class) List<ZGTeamRelUserDto> teamRelUserDtos) {
         Result<List<ZGTeamRelUserDto>> result = new Result<>();
@@ -54,7 +52,6 @@ public class ZGTeamRelUserProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
-
         teamRelUserService.addTeamRelUser(teamRelUserDtos);
         result.setResult(teamRelUserDtos);
         return result;

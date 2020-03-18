@@ -16,7 +16,7 @@ import java.util.List;
  * @修改日期 (请填上修改该文件时的日期)
  */
 @Data
-@ApiModel(description="团队相关传入参数")
+@ApiModel(description="团队相关参数")
 public class ZGTeamDto implements Serializable {
 
     private static final long serialVersionUID = 3303918946433156074L;

@@ -3,7 +3,6 @@ package org.smartwork.provider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Update;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamService;
 import org.smartwork.comm.constant.SaveValid;
@@ -44,7 +43,7 @@ public class ZGTeamApiProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/create-team", method = RequestMethod.POST)
     @ApiOperation("创建团队")
     public Result<ZGTeamDto> addTeam(@RequestBody @Validated(value = SaveValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
@@ -66,7 +65,7 @@ public class ZGTeamApiProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modify-team", method = RequestMethod.PUT)
     @ApiOperation("编辑团队")
     public Result<ZGTeamDto> editTeam(@RequestBody @Validated(value = UpdateValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();

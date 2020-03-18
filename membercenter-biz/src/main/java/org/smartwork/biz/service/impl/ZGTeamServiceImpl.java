@@ -2,7 +2,6 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.comm.utils.ConvertUtils;
-import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamService;
 import org.smartwork.comm.model.ZGTeamAttachDto;
 import org.smartwork.comm.model.ZGTeamDto;
