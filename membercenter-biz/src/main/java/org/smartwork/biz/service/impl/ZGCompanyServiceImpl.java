@@ -48,19 +48,19 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
                 .copy(zgCompanyDto, zgCompany, null);
         baseMapper.insert(zgCompany);
 
-        Long companyId=zgCompanyDto.getId();
+        Long companyId=zgCompany.getId();
         //添加公司附件信息
-        List<ZGCmAttachDto> zgCmAttachDtos=zgCompanyDto.getZgCmAttachDto();
+        List<ZGCmAttachDto> zgCmAttachDtos=zgCompanyDto.getZgCmAttachDtos();
         if (ConvertUtils.isNotEmpty(zgCmAttachDtos)) {
             zgCmAttachDtos.stream().forEach(zgCmAttachDto -> {
-                ZGCmAttach zgCmAttach = new ZGCmAttach();
-                zgCmAttach.setDataId(companyId);
-                zgCmAttach.setCnName(zgCmAttach.getCnName());
-                zgCmAttach.setSuffix(zgCmAttach.getSuffix());
-                zgCmAttach.setFilePath(zgCmAttach.getFilePath());
-                zgCmAttach.setDataType(zgCmAttach.getDataType());
-                zgCmAttach.setOrders(zgCmAttach.getOrders());
-                zgCmAttachMapper.insert(zgCmAttach);
+                ZGCmAttach attach = new ZGCmAttach();
+                attach.setDataId(companyId);
+                attach.setCnName(zgCmAttachDto.getCnName());
+                attach.setSuffix(zgCmAttachDto.getSuffix());
+                attach.setFilePath(zgCmAttachDto.getFilePath());
+                attach.setDataType(zgCmAttachDto.getDataType());
+                attach.setOrders(zgCmAttachDto.getOrders());
+                zgCmAttachMapper.insert(attach);
             });
         }
         //添加公司用户中间表信息
@@ -70,10 +70,10 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
             BeanCopier.create(ZGCmRelUserDto.class, ZGCmRelUser.class, false)
                     .copy(zgCmRelUserDto, zgCmRelUser, null);
             zgCmRelUser.setCmId(companyId);
-            //获取当前用户名
-            SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
-            zgCmRelUser.setUserId(user.getId());
-            zgCmRelUser.setUserName(user.getUsername());
+//            //获取当前用户名
+//            SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
+//            zgCmRelUser.setUserId(user.getId());
+//            zgCmRelUser.setUserName(user.getUsername());
             zgCmRelUserMapper.insert(zgCmRelUser);
         }
     }
@@ -99,16 +99,16 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
         zgCmAttachMapper.delete(new QueryWrapper<ZGCmAttach>().eq(CompanyConstant.DATAID, zgCompanyDto.getId()));
         Long companyId=zgCompanyDto.getId();
         //添加公司附件信息
-        List<ZGCmAttachDto> zgCmAttachDtos=zgCompanyDto.getZgCmAttachDto();
+        List<ZGCmAttachDto> zgCmAttachDtos=zgCompanyDto.getZgCmAttachDtos();
         if (ConvertUtils.isNotEmpty(zgCmAttachDtos)) {
+            ZGCmAttach zgCmAttach = new ZGCmAttach();
             zgCmAttachDtos.stream().forEach(zgCmAttachDto -> {
-                ZGCmAttach zgCmAttach = new ZGCmAttach();
                 zgCmAttach.setDataId(companyId);
-                zgCmAttach.setCnName(zgCmAttach.getCnName());
-                zgCmAttach.setSuffix(zgCmAttach.getSuffix());
-                zgCmAttach.setFilePath(zgCmAttach.getFilePath());
-                zgCmAttach.setDataType(zgCmAttach.getDataType());
-                zgCmAttach.setOrders(zgCmAttach.getOrders());
+                zgCmAttach.setCnName(zgCmAttachDto.getCnName());
+                zgCmAttach.setSuffix(zgCmAttachDto.getSuffix());
+                zgCmAttach.setFilePath(zgCmAttachDto.getFilePath());
+                zgCmAttach.setDataType(zgCmAttachDto.getDataType());
+                zgCmAttach.setOrders(zgCmAttachDto.getOrders());
                 zgCmAttachMapper.insert(zgCmAttach);
             });
         }

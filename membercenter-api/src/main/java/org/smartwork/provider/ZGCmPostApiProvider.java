@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmPostService;
@@ -108,6 +109,7 @@ public class ZGCmPostApiProvider {
     @ApiOperation("岗位删除")
     public Result<Boolean> deletePost(@RequestParam(name="id",required=true) Long id) {
         Result<Boolean> result = new Result<Boolean>();
+
         Integer count = zgCmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq(CompanyPostConstant.POSTID,id));
         if(count > 0){
             result.setBizCode(MemberBizResultEnum.NO_DELECT_POST.getBizCode());
@@ -127,6 +129,13 @@ public class ZGCmPostApiProvider {
     public Result<Boolean> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
         Result<Boolean> result = new Result<Boolean>();
         try {
+            //判断中间表中是否有员工拥有此岗位
+            Integer count = zgCmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq(CompanyPostConstant.POSTID,ids.split(CommonConstant.SEPARATOR)));
+            if(count > 0){
+                result.setBizCode(MemberBizResultEnum.NO_DELECT_POST.getBizCode());
+                result.setMessage(MemberBizResultEnum.NO_DELECT_POST.getBizMessage());
+                return result;
+            }
             zgCmPostService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
         }catch(ForbesException e){
             result.setBizCode(e.getErrorCode());
