@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.forbes.comm.constant.DataColumnConstant;
+import org.forbes.comm.exception.ForbesException;
 import org.smartwork.biz.service.IZGCmPostService;
+import org.smartwork.comm.constant.CompanyPostConstant;
+import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmPostDto;
 import org.smartwork.comm.model.ZGCompanyDto;
 import org.smartwork.dal.entity.ZGCmPost;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 @Service
 public class ZGCmPostServiceImpl extends ServiceImpl<ZGCmPostMapper, ZGCmPost> implements IZGCmPostService {
@@ -62,15 +66,4 @@ public class ZGCmPostServiceImpl extends ServiceImpl<ZGCmPostMapper, ZGCmPost> i
                 .copy(zgCmPostDto, zgCmPost, null);
         baseMapper.updateById(zgCmPost);
     }
-
-    /***
-     *
-     */
-//    @Transactional(rollbackFor = Exception.class)
-//    @Override
-//    public boolean removeById(Serializable id) {
-//        zgCmRelUserMapper.delete(new QueryWrapper<ZGCmRelUser>().eq(DataColumnConstant.ROLE_ID, id));
-////        boolean delBool =  SqlHelper.delBool(baseMapper.deleteById(id));
-//        return null;
-//    }
 }

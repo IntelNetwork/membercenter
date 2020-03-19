@@ -15,7 +15,7 @@ public class ZGCmRelUserServiceImpl extends ServiceImpl<ZGCmRelUserMapper, ZGCmR
 
 
     /***
-     * addCmUser方法概述:
+     * addCmUser方法概述:添加员工
      * @param zgCmRelUserDto
      * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCmRelUserDto>
      * @创建人 Tom

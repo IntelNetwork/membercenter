@@ -84,15 +84,17 @@ public class ZGCompanyDto implements Serializable {
     private String intr;
 
     /**
-     * 公司用户中间表dto
-     *
-     */
-    ZGCmRelUserDto zgCmRelUserDto;
-
-    /**
      * 公司附件dto
      *
      */
-    List<ZGCmAttachDto> zgCmAttachDto;
+    @ApiModelProperty(value = "公司附件dto")
+    List<ZGCmAttachDto> zgCmAttachDtos;
+
+    /**
+     * 公司用户中间表dto
+     *
+     */
+    @ApiModelProperty(value = "公司用户中间表dto")
+    ZGCmRelUserDto zgCmRelUserDto;
 
 }

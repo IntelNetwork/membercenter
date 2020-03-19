@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/${smartwork.verision}/company")
-@Api(tags = {"Api--设置岗位管理"})
+@Api(tags = {"Api--创建公司-修改公司管理"})
 @Slf4j
 public class ZGCompanyApiProvider {
 
