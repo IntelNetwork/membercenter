@@ -16,6 +16,12 @@ public class ZGCmPostDto implements Serializable {
 
     private static final long serialVersionUID = 7994363878066352509L;
     /**
+     * id
+     */
+    @ApiModelProperty(value = "id,添加不传值", example = "0")
+    private Long id;
+
+    /**
      * 岗位名称
      *
      * Table:     fb_zg_cm_post

@@ -2,6 +2,7 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.smartwork.biz.service.IZGCompanyService;
 import org.smartwork.comm.constant.CompanyConstant;
@@ -38,7 +39,7 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void addCompany(ZGCompanyDto zgCompanyDto) {
         //添加公司信息
@@ -69,6 +70,10 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
             BeanCopier.create(ZGCmRelUserDto.class, ZGCmRelUser.class, false)
                     .copy(zgCmRelUserDto, zgCmRelUser, null);
             zgCmRelUser.setCmId(companyId);
+            //获取当前用户名
+            SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
+            zgCmRelUser.setUserId(user.getId());
+            zgCmRelUser.setUserName(user.getUsername());
             zgCmRelUserMapper.insert(zgCmRelUser);
         }
     }
@@ -82,7 +87,7 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateCompany(ZGCompanyDto zgCompanyDto) {
         //修改公司信息

@@ -23,7 +23,7 @@ public class ZGCmRelUserServiceImpl extends ServiceImpl<ZGCmRelUserMapper, ZGCmR
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void addCmUser(ZGCmRelUserDto zgCmRelUserDto) {
         ZGCmRelUser zgCmRelUser = new ZGCmRelUser();
@@ -41,7 +41,7 @@ public class ZGCmRelUserServiceImpl extends ServiceImpl<ZGCmRelUserMapper, ZGCmR
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateCmUser(ZGCmRelUserDto zgCmRelUserDto) {
         ZGCmRelUser zgCmRelUser = new ZGCmRelUser();
