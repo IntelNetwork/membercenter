@@ -7,14 +7,15 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="perm_code" jdbcType="BIGINT" property="permCode" />
+    <result column="perm_code" jdbcType="VARCHAR" property="permCode" />
     <result column="start_condition" jdbcType="DECIMAL" property="startCondition" />
     <result column="end_condition" jdbcType="DECIMAL" property="endCondition" />
     <result column="ele_val" jdbcType="DECIMAL" property="eleVal" />
     <result column="ele_des" jdbcType="VARCHAR" property="eleDes" />
+    <result column="level_id" jdbcType="BIGINT" property="levelId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_by, create_time, update_by, update_time, perm_code, start_condition, end_condition, 
-    ele_val, ele_des
+    ele_val, ele_des,level_id
   </sql>
 </mapper>

@@ -19,7 +19,9 @@ public enum MemberBizResultEnum {
     NO_PERMISSION_TO_MODIFY("008002001", "您没有权限修改管理员", "%您没有权限修改管理员"),
     /*****项目任务003(中间三位)****/
     PRO_TASK_PRO_ID_NOT_UPDATE("008003001", "项目ID不能修改", "%s项目ID不能修改"),
-    ;
+    MEMBER_LEVEL_ORDERS("008004001", "会员等级已经存在", "%s会员等级已经存在"),
+    MEMBER_DEAD_UNIT("008004002", "期限单位不存在", "%s期限单位不存在"),
+    ACTIVITY_STATE("008004003", "等级已启用", "%s等级已启用");
 
     /**
      * 错误编码业务系统代码+功能编码+错误代码

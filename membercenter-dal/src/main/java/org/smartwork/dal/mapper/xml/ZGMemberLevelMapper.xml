@@ -12,8 +12,10 @@
     <result column="orders" jdbcType="TINYINT" property="orders" />
     <result column="cost" jdbcType="DECIMAL" property="cost" />
     <result column="deadline" jdbcType="TINYINT" property="deadline" />
+    <result column="deadUnit" jdbcType="VARCHAR" property="dead_unit" />
+    <result column="state" jdbcType="TINYINT" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, create_by, create_time, update_by, update_time, name, instr, orders, cost, deadline
+    id, create_by, create_time, update_by, update_time, name, instr, orders, cost, deadline,dead_unit,state
   </sql>
 </mapper>

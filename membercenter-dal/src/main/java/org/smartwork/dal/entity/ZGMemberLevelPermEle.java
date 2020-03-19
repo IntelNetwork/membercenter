@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import lombok.Data;
 import org.forbes.comm.entity.BaseEntity;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * Table: fb_zg_member_level_perm_ele
  */
@@ -15,6 +17,10 @@ import org.forbes.comm.entity.BaseEntity;
 @TableName("fb_zg_member_level_perm_ele")
 public class ZGMemberLevelPermEle extends BaseEntity {
     private static final long serialVersionUID = 8500999493239800416L;
+
+    @ApiModelProperty(value = "等级ID",example="0")
+    private Long levelId;
+
     /**
      * 权限编码
      *
@@ -23,7 +29,8 @@ public class ZGMemberLevelPermEle extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "权限编码",example="0")
-    private Long permCode;
+    @NotEmpty(message = "权限编码为空")
+    private String permCode;
 
     /**
      * 开始条件
