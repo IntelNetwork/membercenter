@@ -13,9 +13,10 @@
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="take_effect" jdbcType="BIT" property="takeEffect" />
+    <result column="ml_order_no" jdbcType="VARCHAR" property="mlOrderNo" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_by, create_time, update_by, update_time, member_id, member_name, pay_amount, 
-    start_date, end_date, take_effect
+    start_date, end_date, take_effect, ml_order_no
   </sql>
 </mapper>

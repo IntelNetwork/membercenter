@@ -15,7 +15,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="会员订单")
 @TableName("fb_zg_member_level_order")
 public class ZGMemberLevelOrder extends BaseEntity {
-    private static final long serialVersionUID = 736178856451340892L;
+    private static final long serialVersionUID = -3088159050893581767L;
     /**
      * 会员id
      *
@@ -75,4 +75,14 @@ public class ZGMemberLevelOrder extends BaseEntity {
      */
     @ApiModelProperty(value = "0-否1-是",example="false")
     private Boolean takeEffect;
+
+    /**
+     * 等级订单号
+     *
+     * Table:     fb_zg_member_level_order
+     * Column:    ml_order_no
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "等级订单号",example="")
+    private String mlOrderNo;
 }

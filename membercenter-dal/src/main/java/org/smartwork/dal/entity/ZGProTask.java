@@ -23,7 +23,7 @@ public class ZGProTask extends BaseEntity {
      * Column:    pro_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "项目ID,不可修改",example="0")
+    @ApiModelProperty(value = "项目ID",example="0")
     private Long proId;
 
     /**

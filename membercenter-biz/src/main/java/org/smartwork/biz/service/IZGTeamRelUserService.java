@@ -7,7 +7,6 @@ import org.smartwork.dal.entity.ZGTeamRelUser;
 import java.util.List;
 
 public interface IZGTeamRelUserService extends IService<ZGTeamRelUser> {
-
     /***
      * addTeamRelUser方法概述:团队任务分配
      * @param teamRelUserDtos
@@ -18,4 +17,5 @@ public interface IZGTeamRelUserService extends IService<ZGTeamRelUser> {
      * @修改日期 (请填上修改该文件时的日期)
      */
     void addTeamRelUser(List<ZGTeamRelUserDto> teamRelUserDtos);
+
 }

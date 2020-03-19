@@ -10,12 +10,12 @@ import org.forbes.comm.entity.BaseEntity;
 
 /**
  * Table: fb_zg_work_plan
+ * @author Administrator
  */
 @Data
 @ApiModel(description="工作计划")
 @TableName("fb_zg_work_plan")
 public class ZGWorkPlan extends BaseEntity {
-    private static final long serialVersionUID = 6278148541296199653L;
     /**
      * 人员id
      *

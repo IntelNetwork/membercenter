@@ -13,24 +13,24 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="会员权限")
 @TableName("fb_zg_member_level_perm")
 public class ZGMemberLevelPerm extends BaseEntity {
-    private static final long serialVersionUID = -6074175591541961940L;
+    private static final long serialVersionUID = -8815931498133825735L;
     /**
-     * 会员id
+     * 等级ID
      *
      * Table:     fb_zg_member_level_perm
-     * Column:    member_id
+     * Column:    level_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "会员id",example="0")
-    private Long memberId;
+    @ApiModelProperty(value = "等级ID",example="0")
+    private Long levelId;
 
     /**
-     * 权限ID
+     * 权限编码
      *
      * Table:     fb_zg_member_level_perm
-     * Column:    perm_id
+     * Column:    perm_code
      * Nullable:  true
      */
-    @ApiModelProperty(value = "权限ID",example="0")
-    private Long permId;
+    @ApiModelProperty(value = "权限编码",example="0")
+    private Long permCode;
 }

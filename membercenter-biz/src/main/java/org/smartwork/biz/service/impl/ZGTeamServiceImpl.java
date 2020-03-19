@@ -21,6 +21,7 @@ import java.util.List;
 
 @Service
 public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> implements IZGTeamService {
+
     /**
      * 团队附件
      */
@@ -120,6 +121,4 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
         }
 
     }
-
-
 }

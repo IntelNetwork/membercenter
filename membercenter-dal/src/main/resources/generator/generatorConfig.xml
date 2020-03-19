@@ -28,6 +28,7 @@
             <property name="fb_zg_member_level" value="会员等级"/>
             <property name="fb_zg_member_level_order" value="会员订单"/>
             <property name="fb_zg_member_level_perm" value="会员权限"/>
+            <property name="fb_zg_member_level_perm_ele" value="会员等级权限要素权限"/>
             <property name="fb_zg_pro_attach" value="项目/任务附件"/>
             <property name="fb_zg_pro_task" value="项目-任务"/>
             <property name="fb_zg_project" value="项目"/>
@@ -59,6 +60,7 @@
             <property name="fb_zg_member_level" value="会员等级"/>
             <property name="fb_zg_member_level_order" value="会员订单"/>
             <property name="fb_zg_member_level_perm" value="会员权限"/>
+            <property name="fb_zg_member_level_perm_ele" value="会员等级权限要素权限"/>
             <property name="fb_zg_pro_attach" value="项目/任务附件"/>
             <property name="fb_zg_pro_task" value="项目-任务"/>
             <property name="fb_zg_project" value="项目"/>
@@ -179,6 +181,17 @@
         </table>
 
         <table tableName="fb_zg_member_level_perm" domainObjectName="ZGMemberLevelPerm" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_member_level_perm_ele" domainObjectName="ZGMemberLevelPermEle" enableSelectByPrimaryKey="true"
                enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false"
                enableCountByExample="false"

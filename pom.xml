@@ -16,6 +16,8 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+
     <groupId>org.smartwork</groupId>
     <artifactId>smartwork_membercenter</artifactId>
     <version>0.0.1-SNAPSHOT</version>

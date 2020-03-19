@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.smartwork.dal.mapper.ZGTeamMapper">
   <resultMap id="BaseResultMap" type="org.smartwork.dal.entity.ZGTeam">
-    <result column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
@@ -14,6 +14,9 @@
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.smartwork.dal.entity.ZGTeam">
     <result column="intr" jdbcType="LONGVARCHAR" property="intr" />
   </resultMap>
+  <sql id="Base_Column_List">
+    id, create_by, create_time, update_by, update_time, legal_person, Id_card, scale
+  </sql>
   <sql id="Blob_Column_List">
     intr
   </sql>

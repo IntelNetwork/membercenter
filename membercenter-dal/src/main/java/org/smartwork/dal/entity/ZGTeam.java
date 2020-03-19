@@ -10,47 +10,47 @@ import org.forbes.comm.entity.BaseEntity;
  * Table: fb_zg_team
  */
 @Data
-@ApiModel(description = "团队")
+@ApiModel(description="团队")
 @TableName("fb_zg_team")
 public class ZGTeam extends BaseEntity {
     private static final long serialVersionUID = 7204885117344789484L;
     /**
      * 负责人
-     * <p>
+     *
      * Table:     fb_zg_team
      * Column:    legal_person
      * Nullable:  true
      */
-    @ApiModelProperty(value = "负责人", example = "")
+    @ApiModelProperty(value = "负责人",example="")
     private String legalPerson;
 
     /**
      * 负责人身份证
-     * <p>
+     *
      * Table:     fb_zg_team
      * Column:    Id_card
      * Nullable:  true
      */
-    @ApiModelProperty(value = "负责人身份证", example = "")
+    @ApiModelProperty(value = "负责人身份证",example="")
     private String idCard;
 
     /**
      * 团队规模
-     * <p>
+     *
      * Table:     fb_zg_team
      * Column:    scale
      * Nullable:  true
      */
-    @ApiModelProperty(value = "团队规模", example = "")
+    @ApiModelProperty(value = "团队规模",example="")
     private Byte scale;
 
     /**
      * 团队介绍
-     * <p>
+     *
      * Table:     fb_zg_team
      * Column:    intr
      * Nullable:  true
      */
-    @ApiModelProperty(value = "团队介绍", example = "")
+    @ApiModelProperty(value = "团队介绍",example="")
     private String intr;
 }

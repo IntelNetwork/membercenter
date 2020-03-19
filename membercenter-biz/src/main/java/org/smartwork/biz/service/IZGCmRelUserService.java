@@ -5,7 +5,6 @@ import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.dal.entity.ZGCmRelUser;
 
 public interface IZGCmRelUserService extends IService<ZGCmRelUser> {
-
     /***
      * addCmUser方法概述:
      * @param zgCmRelUserDto

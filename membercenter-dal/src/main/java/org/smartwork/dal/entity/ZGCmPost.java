@@ -33,14 +33,4 @@ public class ZGCmPost extends BaseEntity {
      */
     @ApiModelProperty(value = "等级越小表示职位越高",example="0")
     private Integer level;
-
-    /**
-     * 公司id
-     *
-     * Table:     fb_zg_cm_post
-     * Column:    level
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "公司id",example="0")
-    private Long cmId;
 }
