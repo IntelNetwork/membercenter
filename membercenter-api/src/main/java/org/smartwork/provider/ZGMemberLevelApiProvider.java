@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/${smartwork.verision}/member-level")
 @Api(tags = {"前端会员等级管理"})
 @Slf4j
-public class MemberLevelApiProvider {
+public class ZGMemberLevelApiProvider {
 }

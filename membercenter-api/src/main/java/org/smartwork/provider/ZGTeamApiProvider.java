@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
@@ -53,6 +54,8 @@ public class ZGTeamApiProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
+        //默认将当前登录人设置为团队负责人
+        teamDto.setLegalPerson(UserContext.getSysUser().getUsername());
         teamService.addTeam(teamDto);
         result.setResult(teamDto);
         return result;
@@ -70,6 +73,18 @@ public class ZGTeamApiProvider {
     @ApiOperation("编辑团队")
     public Result<ZGTeamDto> editTeam(@RequestBody @Validated(value = UpdateValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
+
+        QueryWrapper<ZGTeam> qw = new QueryWrapper<>();
+        qw.eq(TeamCommonConstant.ID, teamDto.getId());
+        qw.eq(TeamCommonConstant.LEGAL_PERSON, teamDto.getLegalPerson());
+        ZGTeam team = teamService.getOne(qw);
+        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        SysUser user = UserContext.getSysUser();
+        if (!team.getLegalPerson().equals(user.getUsername())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
+            return result;
+        }
         if (ConvertUtils.isEmpty(teamDto)) {
             result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
@@ -96,22 +111,23 @@ public class ZGTeamApiProvider {
      */
     @RequestMapping(value = "/modify-admin", method = RequestMethod.PUT)
     @ApiOperation("修改团队负责人(仅负责人可使用)")
-    public Result<ZGTeam> modifyTeamAdmin(@RequestParam(value = "id")Long id, @RequestParam(value = "legalPerson") String legalPerson) {
+    public Result<ZGTeam> modifyTeamAdmin(@RequestParam(value = "id") Long id, @RequestParam(value = "legalPerson") String legalPerson) {
         Result<ZGTeam> result = new Result<>();
+
         QueryWrapper<ZGTeam> qw = new QueryWrapper<>();
-        qw.eq(TeamCommonConstant.ID,id);
-        qw.eq(TeamCommonConstant.LEGAL_PERSON,legalPerson);
+        qw.eq(TeamCommonConstant.ID, id);
+        qw.eq(TeamCommonConstant.LEGAL_PERSON, legalPerson);
         ZGTeam team = teamService.getOne(qw);
+        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        SysUser user = UserContext.getSysUser();
+        if (!team.getLegalPerson().equals(user.getUsername())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
+            return result;
+        }
         if (ConvertUtils.isEmpty(team)) {
             result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
-            return result;
-        }
-        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
-        SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
-        if(!team.getLegalPerson().equals(user.getUsername())){
-            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
-            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
         }
         team.setLegalPerson(legalPerson);
@@ -119,8 +135,6 @@ public class ZGTeamApiProvider {
         result.setResult(team);
         return result;
     }
-
-
 
 
 }
