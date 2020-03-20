@@ -14,9 +14,12 @@
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="take_effect" jdbcType="BIT" property="takeEffect" />
     <result column="ml_order_no" jdbcType="VARCHAR" property="mlOrderNo" />
+    <result column="bid" jdbcType="VARCHAR" property="bid" />
+    <result column="deadline" jdbcType="TINYINT" property="deadline" />
+    <result column="deadUnit" jdbcType="VARCHAR" property="dead_unit" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_by, create_time, update_by, update_time, member_id, member_name, pay_amount, 
-    start_date, end_date, take_effect, ml_order_no
+    start_date, end_date, take_effect, ml_order_no,bid,deadline,dead_unit
   </sql>
 </mapper>

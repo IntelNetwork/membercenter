@@ -6,13 +6,23 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
+import lombok.experimental.Accessors;
+import org.forbes.comm.annotations.BeforeDefault;
+import org.forbes.comm.annotations.ValidEnum;
+import org.forbes.comm.constant.SaveValid;
+import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.entity.BaseEntity;
+import org.forbes.comm.utils.IDCreater;
+import org.forbes.comm.vo.ResultEnum;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * Table: fb_zg_member_level_order
  */
 @Data
 @ApiModel(description="会员订单")
+@Accessors(chain = true)
 @TableName("fb_zg_member_level_order")
 public class ZGMemberLevelOrder extends BaseEntity {
     private static final long serialVersionUID = -3088159050893581767L;
@@ -74,7 +84,7 @@ public class ZGMemberLevelOrder extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "0-否1-是",example="false")
-    private Boolean takeEffect;
+    private Integer takeEffect;
 
     /**
      * 等级订单号
@@ -85,4 +95,17 @@ public class ZGMemberLevelOrder extends BaseEntity {
      */
     @ApiModelProperty(value = "等级订单号",example="")
     private String mlOrderNo;
+
+
+
+    @ApiModelProperty(value = "业务ID",example="0")
+    private String  bid;
+
+
+    @ApiModelProperty(value = "期限",example="0")
+    private Integer deadline;
+
+
+    @ApiModelProperty(value = "期限单位",example="")
+    private String deadUnit;
 }

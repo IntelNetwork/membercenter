@@ -8,11 +8,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Data;
+import org.forbes.comm.annotations.BeforeDefault;
 import org.forbes.comm.annotations.ValidEnum;
 import org.forbes.comm.annotations.ValidUnique;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.entity.BaseEntity;
+import org.forbes.comm.utils.IDCreater;
 import org.forbes.comm.vo.ResultEnum;
 
 import javax.validation.constraints.NotBlank;
@@ -94,6 +96,9 @@ public class ZGMemberLevel extends BaseEntity {
     @NotNull(message = "状态为空",groups = {SaveValid.class, UpdateValid.class})
     private Integer state;
 
+    @ApiModelProperty(value = "业务ID",example="0")
+    @BeforeDefault(strategyClass = IDCreater.class,methodName = "newID32",group = {SaveValid.class})
+    private String  bid;
 
     @ApiModelProperty(value = "会员等级权限",example="")
     @TableField(exist = false)

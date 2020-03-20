@@ -21,11 +21,9 @@ public enum MemberBizResultEnum {
     PRO_TASK_PRO_ID_NOT_UPDATE("008003001", "项目ID不能修改", "%s项目ID不能修改"),
     MEMBER_LEVEL_ORDERS("008004001", "会员等级已经存在", "%s会员等级已经存在"),
     MEMBER_DEAD_UNIT("008004002", "期限单位不存在", "%s期限单位不存在"),
-    ACTIVITY_STATE("008004003", "等级已启用", "%s等级已启用");
-
-    /**
-     * 错误编码业务系统代码+功能编码+错误代码
-     **/
+    ACTIVITY_STATE("008004003", "等级已启用", "%s等级已启用"),
+    TAKE_EFFECT("008005001", "等级再申请中", "%s等级再申请中"),
+    APPLY_TAKE_EFFECT("008005002", "等级已申请", "%s等级已申请");
     private String bizCode;
     /**
      * 错误描述

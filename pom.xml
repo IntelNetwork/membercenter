@@ -9,6 +9,7 @@
         <module>membercenter-comm</module>
         <module>membercenter-biz</module>
         <module>membercenter-api</module>
+        <module>membercenter-client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
