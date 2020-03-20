@@ -19,12 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
-@RestController
 @RequestMapping("/${smartwork.verision}/member-level")
 @Api(tags = {"前端会员等级管理"})
 @Slf4j
-<<<<<<< HEAD:membercenter-api/src/main/java/org/smartwork/provider/MemberLevelApiProvider.java
 public class MemberLevelApiProvider {
 
 
@@ -89,7 +86,6 @@ public class MemberLevelApiProvider {
         }
         return result;
     }
-=======
-public class ZGMemberLevelApiProvider {
->>>>>>> 326716a99cfd0ff9e7783400ed76c0ae9674ba09:membercenter-api/src/main/java/org/smartwork/provider/ZGMemberLevelApiProvider.java
+
+    
 }
