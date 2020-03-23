@@ -8,12 +8,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.enums.UserStausEnum;
 import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.comm.constant.CmRelUserCommonConstant;
 import org.smartwork.comm.constant.TeamRelUserCommonConstant;
+import org.smartwork.comm.enums.AdminFlagEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGCmRelUserPageDto;
@@ -125,5 +129,41 @@ public class ZGCmRelUserApiProvider {
         ZGCmRelUser zgCmRelUser = zgCmRelUserService.getOne(qw);
         zgCmRelUserService.removeById(zgCmRelUser);
         return result;
+    }
+
+    /***
+     * updateAdminFlag方法概述:公司设置管理员
+     * @param cmId, userId, adminFlag
+     * @return org.forbes.comm.vo.Result<org.smartwork.dal.entity.ZGCmRelUser>
+     * @创建人 Tom
+     * @创建时间 2020/3/23 13:32
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/update-adminFlag", method = RequestMethod.PUT)
+    @ApiOperation("设置管理员")
+    public Result<ZGCmRelUser> updateAdminFlag(@RequestParam(value="cmId",required=true)Long cmId,
+                                               @RequestParam(value="userId",required=true)Long userId,
+                                               @RequestParam(value="adminFlag",required=true)String adminFlag){
+        Result<ZGCmRelUser> result=new Result<ZGCmRelUser>();
+        boolean adminFlags = AdminFlagEnum.existsCode(adminFlag);
+        if(!adminFlags){
+            result.setBizCode(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizCode());
+            result.setMessage(String.format(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizFormateMessage(), adminFlag));
+            return result;
+        }
+        QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
+        qw.eq(CmRelUserCommonConstant.CM_ID, cmId);
+        qw.eq(CmRelUserCommonConstant.CM_USER_ID, userId);
+        ZGCmRelUser zgCmRelUser = zgCmRelUserService.getOne(qw);
+        if(ConvertUtils.isEmpty(zgCmRelUser)){
+            result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        zgCmRelUser.setAdminFlag(adminFlag);
+        zgCmRelUserService.updateById(zgCmRelUser);
+        return result;
+
     }
 }

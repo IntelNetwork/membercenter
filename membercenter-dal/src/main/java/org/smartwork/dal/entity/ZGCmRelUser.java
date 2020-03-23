@@ -62,5 +62,5 @@ public class ZGCmRelUser extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "0-否1-是",example="")
-    private Byte adminFlag;
+    private String adminFlag;
 }

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -23,7 +24,8 @@ public class ZGCmRelUserDto implements Serializable {
      * Column:    cm_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "公司ID",example="0")
+    @ApiModelProperty(value = "公司ID",example="0",required = true)
+    @NotNull(message = "公司id为空")
     private Long cmId;
 
     /**
@@ -33,7 +35,8 @@ public class ZGCmRelUserDto implements Serializable {
      * Column:    user_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "用户ID",example="0")
+    @ApiModelProperty(value = "用户ID",example="0",required = true)
+    @NotNull(message = "用户id为空")
     private Long userId;
 
     /**
@@ -43,7 +46,7 @@ public class ZGCmRelUserDto implements Serializable {
      * Column:    post_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "岗位ID",example="0")
+    @ApiModelProperty(value = "岗位ID(添加不传值)",example="0")
     private Long postId;
 
     /**
@@ -64,5 +67,5 @@ public class ZGCmRelUserDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "0-否1-是",example="")
-    private Byte adminFlag;
+    private String adminFlag;
 }
