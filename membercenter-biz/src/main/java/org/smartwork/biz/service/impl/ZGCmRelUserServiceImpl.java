@@ -9,6 +9,7 @@ import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.comm.constant.CmRelUserCommonConstant;
 import org.smartwork.comm.constant.TeamRelUserCommonConstant;
+import org.smartwork.comm.enums.AdminFlagEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.vo.ZGCmRelUserVo;
 import org.smartwork.comm.vo.ZGTeamRelUserVo;
@@ -45,6 +46,7 @@ public class ZGCmRelUserServiceImpl extends ServiceImpl<ZGCmRelUserMapper, ZGCmR
         ZGCmRelUser zgCmRelUser = new ZGCmRelUser();
         BeanCopier.create(ZGCmRelUserDto.class, ZGCmRelUser.class, false)
                 .copy(zgCmRelUserDto, zgCmRelUser, null);
+        zgCmRelUser.setAdminFlag(AdminFlagEnum.SUPER_ADMIN.getCode());
         baseMapper.insert(zgCmRelUser);
     }
 

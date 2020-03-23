@@ -18,6 +18,12 @@ public class ZGCmRelUserDto implements Serializable {
     private static final long serialVersionUID = 6992467856733867598L;
 
     /**
+     * id
+     */
+    @ApiModelProperty(value = "id,添加不传值", example = "0")
+    private Long id;
+
+    /**
      * 公司ID
      *
      * Table:     fb_zg_cm_rel_user
