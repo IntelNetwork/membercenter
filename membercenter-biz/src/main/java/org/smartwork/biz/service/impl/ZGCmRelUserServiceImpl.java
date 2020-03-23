@@ -8,10 +8,15 @@ import org.forbes.comm.service.ISysUserService;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.comm.constant.CmRelUserCommonConstant;
+import org.smartwork.comm.constant.TeamRelUserCommonConstant;
+import org.smartwork.comm.enums.AdminFlagEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.vo.ZGCmRelUserVo;
+import org.smartwork.comm.vo.ZGTeamRelUserVo;
 import org.smartwork.dal.entity.ZGCmRelUser;
+import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.smartwork.dal.mapper.ZGCmRelUserMapper;
+import org.smartwork.dal.mapper.ZGTeamRelUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
@@ -41,6 +46,7 @@ public class ZGCmRelUserServiceImpl extends ServiceImpl<ZGCmRelUserMapper, ZGCmR
         ZGCmRelUser zgCmRelUser = new ZGCmRelUser();
         BeanCopier.create(ZGCmRelUserDto.class, ZGCmRelUser.class, false)
                 .copy(zgCmRelUserDto, zgCmRelUser, null);
+        zgCmRelUser.setAdminFlag(AdminFlagEnum.SUPER_ADMIN.getCode());
         baseMapper.insert(zgCmRelUser);
     }
 
