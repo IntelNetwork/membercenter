@@ -7,10 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public enum TeamRelUserEnum {
+/**
+ * 项目任务状态
+ */
+public enum ProTaskEnum {
 
 
-    CHECK("0", "待审核"),
+    NOT_YET_BEGUN("0", "未开始"),
+    ALREADY_BEGUN("1", "已开始"),
+    COMPLETE("2", "完成"),
+    DELAY("3", "延期")
     ;
 
     /***编码
@@ -31,8 +37,8 @@ public enum TeamRelUserEnum {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public static boolean existsTeamRelUserEnum(String code) {
-        return Arrays.asList(TeamRelUserEnum.values()).stream()
+    public static boolean existsProTaskEnum(String code) {
+        return Arrays.asList(ProTaskEnum.values()).stream()
                 .filter(tEnum -> tEnum.getCode().equals(code)).count() > 0;
     }
 
@@ -45,8 +51,8 @@ public enum TeamRelUserEnum {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public static List<Map<String, String>> receTeamRelUserEnum() {
-        return Arrays.asList(TeamRelUserEnum.values()).stream().map(tEnum -> {
+    public static List<Map<String, String>> receProTaskEnum() {
+        return Arrays.asList(ProTaskEnum.values()).stream().map(tEnum -> {
             Map<String, String> reponseMap = Maps.newHashMap();
             reponseMap.put("code", tEnum.getCode());
             reponseMap.put("name", tEnum.getName());
@@ -60,7 +66,7 @@ public enum TeamRelUserEnum {
      * @param code
      * @param name
      */
-    TeamRelUserEnum(String code, String name) {
+    ProTaskEnum(String code, String name) {
         this.code = code;
         this.name = name;
     }

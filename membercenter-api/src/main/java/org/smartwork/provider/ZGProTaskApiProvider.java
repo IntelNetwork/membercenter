@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.CommonConstant;
+import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.utils.ConvertUtils;
@@ -14,14 +15,12 @@ import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGProTaskService;
 import org.smartwork.comm.constant.ProTaskCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
+import org.smartwork.comm.enums.ProTaskEnum;
 import org.smartwork.comm.model.ProTaskPageDto;
 import org.smartwork.dal.entity.ZGProTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -69,6 +68,32 @@ public class ZGProTaskApiProvider {
         IPage<ZGProTask> page = new Page<ZGProTask>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGProTask> pages = proTaskService.page(page, qw);
         result.setResult(pages);
+        return result;
+
+    }
+
+
+    /***
+     * 方法概述:项目任务进度更新
+     * @param proTask
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/16
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/create-project-task", method = RequestMethod.PUT)
+    @ApiOperation("创建项目任务")
+    public Result<ZGProTask> createProTask(@RequestBody @Validated(value = SaveValid.class) ZGProTask proTask) {
+        Result<ZGProTask> result = new Result<>();
+        if (ConvertUtils.isEmpty(proTask)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        //添加项目任务状态默认值:未开始
+        proTask.setTaskState(Byte.valueOf(ProTaskEnum.NOT_YET_BEGUN.getCode()));
+        proTaskService.save(proTask);
+        result.setResult(proTask);
         return result;
 
     }
