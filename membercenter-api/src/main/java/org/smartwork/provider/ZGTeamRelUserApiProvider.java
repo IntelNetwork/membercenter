@@ -126,7 +126,7 @@ public class ZGTeamRelUserApiProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/team-user-detail", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/team-user-detail", method = RequestMethod.GET)
     @ApiOperation("团队查看员工详情")
     public Result<ZGTeamRelUserVo> TeamUserDetail(@RequestParam(value = "teamId") Long teamId, @RequestParam(value = "userName") String userName) {
         Result<ZGTeamRelUserVo> result = new Result<>();

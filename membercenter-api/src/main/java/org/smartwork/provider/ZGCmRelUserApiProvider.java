@@ -178,7 +178,7 @@ public class ZGCmRelUserApiProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/team-user-detail", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/team-user-detail", method = RequestMethod.GET)
     @ApiOperation("公司查看员工详情")
     public Result<ZGCmRelUserVo> cmUserDetail(@RequestParam(value = "cmId") Long cmId, @RequestParam(value = "userName") String userName) {
         Result<ZGCmRelUserVo> result = new Result<>();
