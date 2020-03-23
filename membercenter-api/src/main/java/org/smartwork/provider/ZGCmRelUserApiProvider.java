@@ -8,8 +8,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
@@ -76,6 +78,14 @@ public class ZGCmRelUserApiProvider {
     @ApiOperation("添加员工")
     public Result<ZGCmRelUserDto> addCmUser(@RequestBody @Validated(value = SaveValid.class) ZGCmRelUserDto zgCmRelUserDto) {
         Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
+        if(!zgCmRelUser.getAdminFlag().equals(1)){
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_ADD_USER.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_ADD_USER.getBizMessage());
+            return result;
+        }
         zgCmRelUserService.addCmUser(zgCmRelUserDto);
         result.setResult(zgCmRelUserDto);
         return result;
@@ -94,6 +104,14 @@ public class ZGCmRelUserApiProvider {
     @ApiOperation("员工岗位变更")
     public Result<ZGCmRelUserDto> updateCmUser(@RequestBody @Validated(value = UpdateValid.class) ZGCmRelUserDto zgCmRelUserDto) {
         Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
+        if(!zgCmRelUser.getAdminFlag().equals(1)){
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
+            return result;
+        }
         zgCmRelUserService.updateCmUser(zgCmRelUserDto);
         result.setResult(zgCmRelUserDto);
         return result;
