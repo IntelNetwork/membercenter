@@ -45,8 +45,6 @@ public class ZGCmRelUserApiProvider {
     @Autowired
     IZGCmRelUserService zgCmRelUserService;
 
-    @Autowired
-
     /***
      * page方法概述:分页查询公司人员列表
      * @param basePageDto, pageDto

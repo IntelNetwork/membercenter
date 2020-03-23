@@ -12,7 +12,12 @@
     <dependencies>
         <dependency>
             <groupId>org.smartwork</groupId>
-            <artifactId>membercenter-biz</artifactId>
+            <artifactId>membercenter-comm</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.smartwork</groupId>
+            <artifactId>membercenter-dal</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -20,6 +25,10 @@
             <artifactId>membercenter-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.smartwork</groupId>
+            <artifactId>membercenter-biz</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-
 </project>
