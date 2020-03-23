@@ -1,12 +1,13 @@
-package org.smartwork.biz.service;
+package org.smartwork.dal.mapper.ext;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.smartwork.dal.entity.ZGWorkPlan;
 
 import java.util.Date;
 import java.util.List;
 
-public interface IZGWorkPlanService extends IService<ZGWorkPlan> {
+public interface ZGWorkPlanExtMapper extends BaseMapper<ZGWorkPlan> {
 
     /***
      * selectPlanDay方法概述:查询我的日程计划
@@ -17,5 +18,5 @@ public interface IZGWorkPlanService extends IService<ZGWorkPlan> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<ZGWorkPlan> selectPlanDay(Date startTime, Date endTime);
+    List<ZGWorkPlan> selectPlanDay(@Param("startTime")Date startTime, @Param("endTime")Date endTime);
 }
