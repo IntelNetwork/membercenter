@@ -9,8 +9,9 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="cm_id" jdbcType="BIGINT" property="cmId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, create_by, create_time, update_by, update_time, name, level
+    id, create_by, create_time, update_by, update_time, name, level,cm_id
   </sql>
 </mapper>
