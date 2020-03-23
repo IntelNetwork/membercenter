@@ -6,7 +6,7 @@ import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.smartwork.biz.service.IZGCompanyService;
 import org.smartwork.comm.constant.CompanyConstant;
-import org.smartwork.comm.enums.AdminFlagEnum;
+import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.model.ZGCmAttachDto;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGCompanyDto;
@@ -71,11 +71,11 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
             BeanCopier.create(ZGCmRelUserDto.class, ZGCmRelUser.class, false)
                     .copy(zgCmRelUserDto, zgCmRelUser, null);
             zgCmRelUser.setCmId(companyId);
-            zgCmRelUser.setAdminFlag(AdminFlagEnum.ORDINARY.getCode());
-//            //获取当前用户名
-//            SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
-//            zgCmRelUser.setUserId(user.getId());
-//            zgCmRelUser.setUserName(user.getUsername());
+            zgCmRelUser.setAdminFlag(CmAdminFlagEnum.ORDINARY.getCode());
+            //获取当前用户名
+            SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
+            zgCmRelUser.setUserId(user.getId());
+            zgCmRelUser.setUserName(user.getUsername());
             zgCmRelUserMapper.insert(zgCmRelUser);
         }
     }

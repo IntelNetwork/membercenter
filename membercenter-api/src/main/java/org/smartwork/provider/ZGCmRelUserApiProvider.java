@@ -9,28 +9,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.enums.BizResultEnum;
-import org.forbes.comm.enums.UserStausEnum;
 import org.forbes.comm.model.BasePageDto;
-import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.comm.constant.CmRelUserCommonConstant;
-import org.smartwork.comm.constant.TeamRelUserCommonConstant;
-import org.smartwork.comm.enums.AdminFlagEnum;
+import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGCmRelUserPageDto;
-import org.smartwork.comm.model.ZGTeamRelUserDto;
-import org.smartwork.comm.model.ZGTeamRelUserPageDto;
 import org.smartwork.comm.vo.ZGCmRelUserVo;
 import org.smartwork.dal.entity.ZGCmRelUser;
-import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author lzw
@@ -148,7 +140,7 @@ public class ZGCmRelUserApiProvider {
                                                @RequestParam(value = "userId", required = true) Long userId,
                                                @RequestParam(value = "adminFlag", required = true) String adminFlag) {
         Result<ZGCmRelUser> result = new Result<ZGCmRelUser>();
-        boolean adminFlags = AdminFlagEnum.existsCode(adminFlag);
+        boolean adminFlags = CmAdminFlagEnum.existsCode(adminFlag);
         if (!adminFlags) {
             result.setBizCode(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizCode());
             result.setMessage(String.format(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizFormateMessage(), adminFlag));

@@ -1,12 +1,19 @@
 package org.smartwork.provider;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
+import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.vo.Result;
+import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.biz.service.IZGCompanyService;
+import org.smartwork.comm.constant.CmRelUserCommonConstant;
+import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCompanyDto;
+import org.smartwork.dal.entity.ZGCmRelUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +36,9 @@ public class ZGCompanyApiProvider {
 
     @Autowired
     IZGCompanyService zgCompanyService;
+
+    @Autowired
+    IZGCmRelUserService zgCmRelUserService;
 
     /***
      * addCompany方法概述:创建公司
@@ -61,6 +71,14 @@ public class ZGCompanyApiProvider {
     @ApiOperation("公司信息修改")
     public Result<ZGCompanyDto> updateCompany(@RequestBody @Validated(value = SaveValid.class) ZGCompanyDto zgCompanyDto) {
         Result<ZGCompanyDto> result=new Result<ZGCompanyDto>();
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
+        if(!zgCmRelUser.getAdminFlag().equals(1)){
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_CM.getBizMessage());
+            return result;
+        }
         zgCompanyService.updateCompany(zgCompanyDto);
         result.setResult(zgCompanyDto);
         return result;

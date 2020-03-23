@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * AdminFlagEnum概要说明：管理员标识
  * @author Huanghy
  */
-public enum AdminFlagEnum {
+public enum CmAdminFlagEnum {
 
 	
 	SUPER_ADMIN("0","普通员工"),
@@ -60,7 +60,7 @@ public enum AdminFlagEnum {
 	 * @param code
 	 * @param name
 	 */
-	AdminFlagEnum(String code, String name){
+	CmAdminFlagEnum(String code, String name){
 		this.code = code;
 		this.name = name;
 	}

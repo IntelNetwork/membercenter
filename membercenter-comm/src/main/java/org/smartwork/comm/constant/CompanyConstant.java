@@ -16,4 +16,9 @@ public interface CompanyConstant {
      */
     public static final String CMID = "cm_id";
 
+    /**
+     * 公司id
+     */
+    public static final String ID = "id";
+
 }
