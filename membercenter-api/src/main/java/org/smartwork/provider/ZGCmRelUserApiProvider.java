@@ -63,6 +63,7 @@ public class ZGCmRelUserApiProvider {
                 qw.like(CmRelUserCommonConstant.CM_USER_NAME, pageDto.getUserName());
             }
         }
+        qw.eq(CmRelUserCommonConstant.CM_ID, pageDto.getCmId());
         IPage<ZGCmRelUser> page = new Page<ZGCmRelUser>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGCmRelUser> pages = zgCmRelUserService.page(page, qw);
         result.setResult(pages);
