@@ -46,7 +46,7 @@ public class ZGTeamRelUserApiProvider {
      * 方法概述:团队人员列表
      * @param pageDto
      * @创建人 niehy(Frunk)
-     * @创建时间 2020/3/16
+     * @创建时间 2020/3/20
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
@@ -60,11 +60,10 @@ public class ZGTeamRelUserApiProvider {
                 qw.like(TeamRelUserCommonConstant.TEAM_USER_NAME, pageDto.getUserName());
             }
         }
-        IPage<ZGTeamRelUser> page = new Page<ZGTeamRelUser>(basePageDto.getPageNo(), basePageDto.getPageSize());
+        IPage<ZGTeamRelUser> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGTeamRelUser> pages = teamRelUserService.page(page, qw);
         result.setResult(pages);
         return result;
-
     }
 
 
@@ -76,7 +75,7 @@ public class ZGTeamRelUserApiProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/modify", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ApiOperation("团队任务分配")
     public Result<List<ZGTeamRelUserDto>> editTeam(@RequestBody @Validated(value = UpdateValid.class) List<ZGTeamRelUserDto> teamRelUserDtos) {
         Result<List<ZGTeamRelUserDto>> result = new Result<>();
@@ -95,11 +94,11 @@ public class ZGTeamRelUserApiProvider {
      * 方法概述:团队人员删除
      * @param teamId,userId
      * @创建人 niehy(Frunk)
-     * @创建时间 2020/3/16
+     * @创建时间 2020/3/20
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/team-user-remove", method = RequestMethod.PUT)
+    @RequestMapping(value = "/team-user-remove", method = RequestMethod.DELETE)
     @ApiOperation("团队人员删除")
     public Result<List<ZGTeamRelUserDto>> removeTeamUser(@RequestParam(value = "teamId") Long teamId, @RequestParam(value = "userId") Long userId) {
         Result<List<ZGTeamRelUserDto>> result = new Result<>();

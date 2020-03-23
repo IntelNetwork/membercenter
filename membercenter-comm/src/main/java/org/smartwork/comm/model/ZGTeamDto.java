@@ -16,7 +16,7 @@ import java.util.List;
  * @修改日期 (请填上修改该文件时的日期)
  */
 @Data
-@ApiModel(description="团队相关参数")
+@ApiModel(description = "团队相关参数")
 public class ZGTeamDto implements Serializable {
 
     private static final long serialVersionUID = 3303918946433156074L;
@@ -50,7 +50,6 @@ public class ZGTeamDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "负责人身份证", example = "")
-    @NotEmpty(message = "负责人身份证为空")
     private String idCard;
 
     /**
