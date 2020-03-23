@@ -11,13 +11,11 @@ import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamRelUserService;
-import org.smartwork.comm.constant.ProTaskCommonConstant;
 import org.smartwork.comm.constant.TeamRelUserCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
-import org.smartwork.comm.model.ProTaskPageDto;
 import org.smartwork.comm.model.ZGTeamRelUserDto;
 import org.smartwork.comm.model.ZGTeamRelUserPageDto;
-import org.smartwork.dal.entity.ZGProTask;
+import org.smartwork.comm.vo.ZGTeamRelUserVo;
 import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -34,12 +32,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/${smartwork.verision}/team-user-rel")
-@Api(tags = {"API--团队任务分配"})
+@Api(tags = {"API--团队人员,查询,个人详情等等"})
 @Slf4j
 public class ZGTeamRelUserApiProvider {
 
     @Autowired
     IZGTeamRelUserService teamRelUserService;
+
+
 
 
     /***
@@ -55,6 +55,9 @@ public class ZGTeamRelUserApiProvider {
     public Result<IPage<ZGTeamRelUser>> list(BasePageDto basePageDto, ZGTeamRelUserPageDto pageDto) {
         Result<IPage<ZGTeamRelUser>> result = new Result<>();
         QueryWrapper<ZGTeamRelUser> qw = new QueryWrapper<>();
+        if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
+            qw.eq(TeamRelUserCommonConstant.TEAM_TEAM_ID, pageDto.getTeamId());
+        }
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
                 qw.like(TeamRelUserCommonConstant.TEAM_USER_NAME, pageDto.getUserName());
@@ -114,4 +117,30 @@ public class ZGTeamRelUserApiProvider {
         teamRelUserService.removeById(teamRelUser);
         return result;
     }
+
+     /***
+     * 方法概述:员工详情
+     * @param teamId,userId
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/team-user-detail", method = RequestMethod.DELETE)
+    @ApiOperation("团队查看员工详情")
+    public Result<ZGTeamRelUserVo> TeamUserDetail(@RequestParam(value = "teamId") Long teamId, @RequestParam(value = "userName") String userName) {
+        Result<ZGTeamRelUserVo> result = new Result<>();
+        if (ConvertUtils.isEmpty(teamId) || ConvertUtils.isEmpty(userName)) {
+            result.setBizCode(MemberBizResultEnum.EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.EMPTY.getBizMessage());
+            return result;
+        }
+        ZGTeamRelUserVo teamRelUserVo = teamRelUserService.teamUserDetail(teamId,userName);
+        result.setResult(teamRelUserVo);
+        return result;
+    }
+
+
+
+
 }

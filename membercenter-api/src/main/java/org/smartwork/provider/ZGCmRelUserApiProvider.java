@@ -23,6 +23,7 @@ import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGCmRelUserPageDto;
 import org.smartwork.comm.model.ZGTeamRelUserDto;
 import org.smartwork.comm.model.ZGTeamRelUserPageDto;
+import org.smartwork.comm.vo.ZGCmRelUserVo;
 import org.smartwork.dal.entity.ZGCmRelUser;
 import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,8 @@ public class ZGCmRelUserApiProvider {
 
     @Autowired
     IZGCmRelUserService zgCmRelUserService;
+
+    @Autowired
 
     /***
      * page方法概述:分页查询公司人员列表
@@ -81,8 +84,8 @@ public class ZGCmRelUserApiProvider {
      */
     @RequestMapping(value = "/insert-cm-user", method = RequestMethod.POST)
     @ApiOperation("添加员工")
-    public Result<ZGCmRelUserDto> addCmUser(@RequestBody @Validated(value = SaveValid.class)ZGCmRelUserDto zgCmRelUserDto){
-        Result<ZGCmRelUserDto> result=new Result<ZGCmRelUserDto>();
+    public Result<ZGCmRelUserDto> addCmUser(@RequestBody @Validated(value = SaveValid.class) ZGCmRelUserDto zgCmRelUserDto) {
+        Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
         zgCmRelUserService.addCmUser(zgCmRelUserDto);
         result.setResult(zgCmRelUserDto);
         return result;
@@ -99,8 +102,8 @@ public class ZGCmRelUserApiProvider {
      */
     @RequestMapping(value = "/alter-post-user", method = RequestMethod.PUT)
     @ApiOperation("员工岗位变更")
-    public Result<ZGCmRelUserDto> updateCmUser(@RequestBody @Validated(value = UpdateValid.class)ZGCmRelUserDto zgCmRelUserDto){
-        Result<ZGCmRelUserDto> result=new Result<ZGCmRelUserDto>();
+    public Result<ZGCmRelUserDto> updateCmUser(@RequestBody @Validated(value = UpdateValid.class) ZGCmRelUserDto zgCmRelUserDto) {
+        Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
         zgCmRelUserService.updateCmUser(zgCmRelUserDto);
         result.setResult(zgCmRelUserDto);
         return result;
@@ -143,12 +146,12 @@ public class ZGCmRelUserApiProvider {
      */
     @RequestMapping(value = "/update-adminFlag", method = RequestMethod.PUT)
     @ApiOperation("设置管理员")
-    public Result<ZGCmRelUser> updateAdminFlag(@RequestParam(value="cmId",required=true)Long cmId,
-                                               @RequestParam(value="userId",required=true)Long userId,
-                                               @RequestParam(value="adminFlag",required=true)String adminFlag){
-        Result<ZGCmRelUser> result=new Result<ZGCmRelUser>();
+    public Result<ZGCmRelUser> updateAdminFlag(@RequestParam(value = "cmId", required = true) Long cmId,
+                                               @RequestParam(value = "userId", required = true) Long userId,
+                                               @RequestParam(value = "adminFlag", required = true) String adminFlag) {
+        Result<ZGCmRelUser> result = new Result<ZGCmRelUser>();
         boolean adminFlags = AdminFlagEnum.existsCode(adminFlag);
-        if(!adminFlags){
+        if (!adminFlags) {
             result.setBizCode(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizCode());
             result.setMessage(String.format(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizFormateMessage(), adminFlag));
             return result;
@@ -157,7 +160,7 @@ public class ZGCmRelUserApiProvider {
         qw.eq(CmRelUserCommonConstant.CM_ID, cmId);
         qw.eq(CmRelUserCommonConstant.CM_USER_ID, userId);
         ZGCmRelUser zgCmRelUser = zgCmRelUserService.getOne(qw);
-        if(ConvertUtils.isEmpty(zgCmRelUser)){
+        if (ConvertUtils.isEmpty(zgCmRelUser)) {
             result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
             result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
@@ -167,4 +170,29 @@ public class ZGCmRelUserApiProvider {
         return result;
 
     }
+
+
+    /***
+     * 方法概述:员工详情
+     * @param cmId,userId
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/team-user-detail", method = RequestMethod.DELETE)
+    @ApiOperation("团队查看员工详情")
+    public Result<ZGCmRelUserVo> cmUserDetail(@RequestParam(value = "cmId") Long cmId, @RequestParam(value = "userName") String userName) {
+        Result<ZGCmRelUserVo> result = new Result<>();
+        if (ConvertUtils.isEmpty(cmId) || ConvertUtils.isEmpty(userName)) {
+            result.setBizCode(MemberBizResultEnum.EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.EMPTY.getBizMessage());
+            return result;
+        }
+        ZGCmRelUserVo teamRelUserVo = zgCmRelUserService.cmUserDetail(cmId, userName);
+        result.setResult(teamRelUserVo);
+        return result;
+    }
+
+
 }

@@ -14,6 +14,15 @@ import java.io.Serializable;
 public class ZGTeamRelUserPageDto implements Serializable{
     private static final long serialVersionUID = -8775195755223453974L;
     /**
+     * 团队ID
+     *
+     * Table:     fb_zg_team_rel_user
+     * Column:    user_name
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "团队ID",example="")
+    private Long teamId;
+ /**
      * 用户名
      *
      * Table:     fb_zg_team_rel_user
