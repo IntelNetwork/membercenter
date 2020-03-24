@@ -1,66 +1,73 @@
-package org.smartwork.dal.entity;
+package org.smartwork.comm.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.forbes.comm.entity.BaseEntity;
+import org.forbes.comm.model.SysUser;
+import org.forbes.comm.vo.Result;
+
+import java.io.Serializable;
 
 /**
- * Table: fb_zg_cm_rel_user
+ * 公司查看员工详情
  */
 @Data
-@ApiModel(description="用户公司岗位")
-@TableName("fb_zg_cm_rel_user")
-public class ZGCmRelUser extends BaseEntity {
-    private static final long serialVersionUID = 250595911067606601L;
+@ApiModel(value = "公司查看员工详情视图")
+public class ZGCmRelUserVo implements Serializable {
+    private static final long serialVersionUID = -6722984346704435888L;
+
     /**
      * 公司ID
-     *
+     * <p>
      * Table:     fb_zg_cm_rel_user
      * Column:    cm_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "公司ID",example="0")
+    @ApiModelProperty(value = "公司ID", example = "0")
     private Long cmId;
 
     /**
      * 用户ID
-     *
+     * <p>
      * Table:     fb_zg_cm_rel_user
      * Column:    user_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "用户ID",example="0")
+    @ApiModelProperty(value = "用户ID", example = "0")
     private Long userId;
 
     /**
      * 岗位ID
-     *
+     * <p>
      * Table:     fb_zg_cm_rel_user
      * Column:    post_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "岗位ID",example="0")
+    @ApiModelProperty(value = "岗位ID", example = "0")
     private Long postId;
 
     /**
      * 用户名
-     *
+     * <p>
      * Table:     fb_zg_cm_rel_user
      * Column:    user_name
      * Nullable:  true
      */
-    @ApiModelProperty(value = "用户名",example="")
+    @ApiModelProperty(value = "用户名", example = "")
     private String userName;
 
     /**
      * 0-否1-是
-     *
+     * <p>
      * Table:     fb_zg_cm_rel_user
      * Column:    admin_flag
      * Nullable:  true
      */
-    @ApiModelProperty(value = "0-否1-是",example="")
+    @ApiModelProperty(value = "0-否1-是", example = "")
     private String adminFlag;
+
+    /**
+     * 用户详情
+     */
+    Result<SysUser> user;
 }

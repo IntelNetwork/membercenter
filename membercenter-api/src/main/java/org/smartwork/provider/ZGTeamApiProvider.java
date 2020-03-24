@@ -10,11 +10,14 @@ import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
+import org.smartwork.biz.service.IZGTeamRelUserService;
 import org.smartwork.biz.service.IZGTeamService;
 import org.smartwork.comm.constant.TeamCommonConstant;
+import org.smartwork.comm.constant.TeamRelUserCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGTeamDto;
 import org.smartwork.dal.entity.ZGTeam;
+import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -133,6 +136,29 @@ public class ZGTeamApiProvider {
         team.setLegalPerson(legalPerson);
         teamService.updateById(team);
         result.setResult(team);
+        return result;
+    }
+
+
+    /***
+     * 方法概述:删除团队
+     * @param id,团队ID
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/16
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/remove-team", method = RequestMethod.DELETE)
+    @ApiOperation("删除团队")
+    public Result<ZGTeam> removeTeam(@RequestParam(value = "id") Long id) {
+        Result<ZGTeam> result = new Result<>();
+        ZGTeam team = teamService.getById(id);
+        if(team != null){
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        teamService.removeById(id);
         return result;
     }
 

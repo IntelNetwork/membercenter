@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,6 +40,26 @@ public class ZGProTaskDto implements Serializable{
      */
     @ApiModelProperty(value = "任务名称",example="")
     private String taskName;
+
+    /**
+     * Table:     fb_zg_pro_task
+     * Column:    task_name
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "负责人ID", example = "", required = true)
+    @NotEmpty(message = "负责人ID为空")
+    private String userId;
+
+    /**
+     * 任务名称
+     * <p>
+     * Table:     fb_zg_pro_task
+     * Column:    task_name
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "负责人姓名", example = "", required = true)
+    @NotEmpty(message = "负责人姓名为空")
+    private String userName;
 
     /**
      * 前置任务ID

@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication(scanBasePackages={"org.forbes","org.smartwork"})
 @EnableDiscoveryClient
 @EnableSwagger2
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"org.forbes","org.smartwork"} )
 public class SmartWorkApplication {
 
     /***

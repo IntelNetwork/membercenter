@@ -121,6 +121,15 @@ public class ZGCmPostApiProvider {
         return result;
     }
 
+    /***
+     * deleteBatch方法概述:批量删除岗位
+     * @param ids
+     * @return org.forbes.comm.vo.Result<java.lang.Boolean>
+     * @创建人 Tom
+     * @创建时间 2020/3/23 13:45
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
     @ApiOperation("批量删除岗位")
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "ids",value = "岗位IDs",required = true)
