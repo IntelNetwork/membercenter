@@ -64,7 +64,7 @@ public class MemberLevelConsumer {
                         .set("start_date",currentDate)
                         .set("end_date",endDate)
                         .set("take_effect",YesNoEnum.YES.getCode())
-                        .eq("ml_order_no",mchOrderNo)));
+                        .eq("ml_order_no",mchOrderNo));
             }
             Result<Object> result = mchApiNotifyService.notifySuccess(payOrderId);
             log.error("====回写返回结果===="+JSON.toJSONString(result));
