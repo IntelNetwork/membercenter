@@ -17,6 +17,7 @@ import org.smartwork.dal.entity.ZGMemberLevelOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 @RequestMapping("/${smartwork.verision}/member-level")
@@ -71,7 +72,7 @@ public class MemberLevelApiProvider {
             if (ConvertUtils.isNotEmpty(memberLevel)){
                 ZGMemberLevelOrder memberLevelOrder = memberLevelOrderService.createLevelOrder(memberLevel);
                 resultMap.put("mchOrderNo",memberLevelOrder.getMlOrderNo());
-                resultMap.put("amount",memberLevelOrder.getPayAmount());
+                resultMap.put("amount",memberLevelOrder.getPayAmount().multiply(new BigDecimal("100")));
                 resultMap.put("currency","cny");
                 resultMap.put("subject",memberLevel.getName());
                 resultMap.put("body",memberLevel.getName());
@@ -87,5 +88,5 @@ public class MemberLevelApiProvider {
         return result;
     }
 
-    
+
 }
