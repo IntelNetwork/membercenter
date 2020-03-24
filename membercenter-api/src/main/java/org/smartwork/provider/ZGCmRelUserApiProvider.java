@@ -152,7 +152,7 @@ public class ZGCmRelUserApiProvider {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/update-adminFlag", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update-adminflag", method = RequestMethod.PUT)
     @ApiOperation("设置管理员")
     public Result<ZGCmRelUser> updateAdminFlag(@RequestParam(value = "cmId", required = true) Long cmId,
                                                @RequestParam(value = "userId", required = true) Long userId,
@@ -202,5 +202,24 @@ public class ZGCmRelUserApiProvider {
         return result;
     }
 
+    /***
+     * selectAdminFlag方法概述:判断当前登录用户是否是管理员
+     * @param
+     * @return org.forbes.comm.vo.Result<org.smartwork.dal.entity.ZGCmRelUser>
+     * @创建人 Tom
+     * @创建时间 2020/3/24 10:20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select-adminflag", method = RequestMethod.GET)
+    @ApiOperation("判断当前登录用户是否是管理员")
+    public Result<ZGCmRelUser> selectAdminFlag(){
+        Result<ZGCmRelUser> result=new Result<ZGCmRelUser>();
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
+        result.setResult(zgCmRelUser);
+        return result;
+    }
 
 }
