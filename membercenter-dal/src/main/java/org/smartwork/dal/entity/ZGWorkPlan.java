@@ -82,7 +82,7 @@ public class ZGWorkPlan extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "",example="")
-    private Byte status;
+    private String status;
 
     /**
      * 实际开始时间

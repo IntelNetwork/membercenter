@@ -13,7 +13,7 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="actual_start_time" jdbcType="TIMESTAMP" property="actualStartTime" />
     <result column="actual_end_time" jdbcType="TIMESTAMP" property="actualEndTime" />
     <result column="ratio" jdbcType="DECIMAL" property="ratio" />
