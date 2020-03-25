@@ -32,7 +32,7 @@ public enum CmAdminFlagEnum {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	public static boolean existsCode(String code){
-		return Arrays.asList(org.forbes.comm.enums.AdminFlagEnum.values()).stream()
+		return Arrays.asList(CmAdminFlagEnum.values()).stream()
 		.filter(tEnum -> tEnum.getCode().equals(code)).count() > 0 ;
 	}
 	
@@ -45,8 +45,8 @@ public enum CmAdminFlagEnum {
 	 * @修改人 (修改了该文件，请填上修改人的名字)
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
-	public static List<Map<String,String>> receEnums(){
-		return Arrays.asList(org.forbes.comm.enums.AdminFlagEnum.values()).stream().map(tEnum -> {
+	public static List<Map<String,String>> receCmAdminFlagEnum(){
+		return Arrays.asList(CmAdminFlagEnum.values()).stream().map(tEnum -> {
 			Map<String,String> reponseMap = Maps.newHashMap();
 			reponseMap.put("code", tEnum.getCode());
 			reponseMap.put("name", tEnum.getName());
