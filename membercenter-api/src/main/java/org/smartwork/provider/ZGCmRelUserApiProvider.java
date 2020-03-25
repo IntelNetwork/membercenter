@@ -10,6 +10,7 @@ import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.enums.YesNoEnum;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
@@ -27,12 +28,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author lzw
+ * @author nhy
  * @date 2020/3/17 10:24
  */
 @RestController
 @RequestMapping("/${smartwork.verision}/company-user")
-@Api(tags = {"Api--添加员工和设置员工岗位"})
+@Api(tags = {"Api--公司成员,岗位管理"})
 @Slf4j
 public class ZGCmRelUserApiProvider {
 
@@ -42,8 +43,7 @@ public class ZGCmRelUserApiProvider {
     /***
      * page方法概述:分页查询公司人员列表
      * @param basePageDto, pageDto
-     * @return org.forbes.comm.vo.Result<com.baomidou.mybatisplus.core.metadata.IPage<org.smartwork.dal.entity.ZGCmRelUser>>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/23 12:56
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -66,10 +66,9 @@ public class ZGCmRelUserApiProvider {
     }
 
     /***
-     * addCmUser方法概述:添加员工
+     * addCmUser方法概述:新增公司成员,岗位等
      * @param zgCmRelUserDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCmRelUserDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/17 11:50
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -94,8 +93,7 @@ public class ZGCmRelUserApiProvider {
     /***
      * updateCmUser方法概述:员工岗位变更
      * @param zgCmRelUserDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCmRelUserDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/17 13:59
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -120,8 +118,7 @@ public class ZGCmRelUserApiProvider {
     /***
      * removeTeamUser方法概述:公司人员离职
      * @param cmId, userId
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCmRelUserDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/23 12:50
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -146,8 +143,7 @@ public class ZGCmRelUserApiProvider {
     /***
      * updateAdminFlag方法概述:公司设置管理员
      * @param cmId, userId, adminFlag
-     * @return org.forbes.comm.vo.Result<org.smartwork.dal.entity.ZGCmRelUser>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/23 13:32
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -204,8 +200,6 @@ public class ZGCmRelUserApiProvider {
 
     /***
      * selectAdminFlag方法概述:判断当前登录用户是否是管理员
-     * @param
-     * @return org.forbes.comm.vo.Result<org.smartwork.dal.entity.ZGCmRelUser>
      * @创建人 Tom
      * @创建时间 2020/3/24 10:20
      * @修改人 (修改了该文件，请填上修改人的名字)
@@ -213,12 +207,18 @@ public class ZGCmRelUserApiProvider {
      */
     @RequestMapping(value = "/select-adminflag", method = RequestMethod.GET)
     @ApiOperation("判断当前登录用户是否是管理员")
-    public Result<ZGCmRelUser> selectAdminFlag(){
-        Result<ZGCmRelUser> result=new Result<ZGCmRelUser>();
+    public Result<String> selectAdminFlag(){
+        Result<String> result=new Result<>();
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
         ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
-        result.setResult(zgCmRelUser);
+        if(zgCmRelUser.getAdminFlag().equalsIgnoreCase(YesNoEnum.YES.getCode())){
+            result.setResult(YesNoEnum.YES.getCode());
+            result.setMessage(MemberBizResultEnum.USER_ADMIN.getBizMessage());
+        }else {
+            result.setResult(YesNoEnum.NO.getCode());
+            result.setMessage(MemberBizResultEnum.USER_UN_ADMIN.getBizMessage());
+        }
         return result;
     }
 

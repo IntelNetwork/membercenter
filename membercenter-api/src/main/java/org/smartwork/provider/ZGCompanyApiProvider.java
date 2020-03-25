@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /***
- * 类概述:Api新建公司，修改，设置岗位管理
- * @创建人 Tom
+ * 类概述:公司创建,完善信息等管理
+ * @创建人 nhy
  * @创建时间 2020/3/16
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
 @RestController
 @RequestMapping("/${smartwork.verision}/company")
-@Api(tags = {"Api--创建公司-修改公司管理"})
+@Api(tags = {"Api--公司创建,完善信息等管理"})
 @Slf4j
 public class ZGCompanyApiProvider {
 
@@ -59,18 +59,17 @@ public class ZGCompanyApiProvider {
     }
 
     /***
-     * updateCompany方法概述:公司信息修改
+     * updateCompany方法概述:公司信息修改(完善公司信息)
      * @param zgCompanyDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCompanyDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/16 14:43
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
+    @ApiOperation("公司信息修改(完善公司信息)")
     @RequestMapping(value = "/alter-company", method = RequestMethod.PUT)
-    @ApiOperation("公司信息修改")
     public Result<ZGCompanyDto> updateCompany(@RequestBody @Validated(value = SaveValid.class) ZGCompanyDto zgCompanyDto) {
-        Result<ZGCompanyDto> result=new Result<ZGCompanyDto>();
+        Result<ZGCompanyDto> result=new Result<>();
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
         ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
@@ -79,10 +78,14 @@ public class ZGCompanyApiProvider {
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_CM.getBizMessage());
             return result;
         }
+
         zgCompanyService.updateCompany(zgCompanyDto);
         result.setResult(zgCompanyDto);
         return result;
     }
+
+
+
 
 
 }

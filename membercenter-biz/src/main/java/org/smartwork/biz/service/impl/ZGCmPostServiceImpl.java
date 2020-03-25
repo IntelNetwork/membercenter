@@ -2,32 +2,30 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import org.forbes.comm.constant.DataColumnConstant;
+import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.exception.ForbesException;
 import org.smartwork.biz.service.IZGCmPostService;
-import org.smartwork.comm.constant.CompanyPostConstant;
+import org.smartwork.biz.service.IZGCmRelUserService;
+import org.smartwork.comm.constant.CmRelUserCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmPostDto;
-import org.smartwork.comm.model.ZGCompanyDto;
 import org.smartwork.dal.entity.ZGCmPost;
 import org.smartwork.dal.entity.ZGCmRelUser;
-import org.smartwork.dal.entity.ZGCompany;
 import org.smartwork.dal.mapper.ZGCmPostMapper;
-import org.smartwork.dal.mapper.ZGCmRelUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 
 @Service
 public class ZGCmPostServiceImpl extends ServiceImpl<ZGCmPostMapper, ZGCmPost> implements IZGCmPostService {
 
     @Autowired
-    ZGCmRelUserMapper zgCmRelUserMapper;
+    IZGCmRelUserService cmRelUserService;
 
     /***
      * addPost方法概述:
@@ -65,5 +63,29 @@ public class ZGCmPostServiceImpl extends ServiceImpl<ZGCmPostMapper, ZGCmPost> i
         BeanCopier.create(ZGCmPostDto.class, ZGCmPost.class, false)
                 .copy(zgCmPostDto, zgCmPost, null);
         baseMapper.updateById(zgCmPost);
+    }
+
+
+    /***
+     * 概述:公司删除岗位
+     * @param idList
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/25
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean removeByIds(Collection<? extends Serializable> idList) {
+        //判断中间表中是否有员工拥有此岗位
+        idList.forEach(id -> {
+            Integer count = cmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.POST_ID, id));
+            if (count > 0) {
+                throw new ForbesException(MemberBizResultEnum.NO_DELECT_POST.getBizCode()
+                        , String.format(MemberBizResultEnum.NO_DELECT_POST.getBizMessage()));
+            }
+            baseMapper.deleteById(id);
+        });
+        return false;
     }
 }

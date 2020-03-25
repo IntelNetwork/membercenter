@@ -3,7 +3,9 @@ package org.smartwork.comm.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -49,5 +51,6 @@ public class ZGCmPostDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "公司id",example="0")
+    @NotNull(message = "公司id不能为空",groups = Validated.class)
     private Long cmId;
 }

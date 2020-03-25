@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @date 2020/3/16 13:57
  */
 @Data
-@ApiModel(description="创建公司传入dto")
+@ApiModel(description = "创建公司传入dto")
 public class ZGCompanyDto implements Serializable {
 
     private static final long serialVersionUID = 5342459506556732373L;
@@ -25,74 +26,76 @@ public class ZGCompanyDto implements Serializable {
 
     /**
      * 公司名称
-     *
+     * <p>
      * Table:     fb_zg_company
      * Column:    name
      * Nullable:  true
      */
-    @ApiModelProperty(value = "公司名称",example="")
+    @ApiModelProperty(value = "公司名称", example = "", required = true)
+    @NotEmpty(message = "公司名称为空")
     private String name;
 
     /**
      * 组织机构代码
-     *
+     * <p>
      * Table:     fb_zg_company
      * Column:    org_code
      * Nullable:  true
      */
-    @ApiModelProperty(value = "组织机构代码",example="")
+    @ApiModelProperty(value = "组织机构代码", example = "", required = true)
+    @NotEmpty(message = "组织机构代码为空")
     private String orgCode;
 
     /**
      * 法人
-     *
+     * <p>
      * Table:     fb_zg_company
      * Column:    legal_person
      * Nullable:  true
      */
-    @ApiModelProperty(value = "法人",example="")
+    @ApiModelProperty(value = "法人", example = "", required = true)
+    @NotEmpty(message = "法人为空")
     private String legalPerson;
 
     /**
      * 法人身份证
-     *
+     * <p>
      * Table:     fb_zg_company
      * Column:    Id_card
      * Nullable:  true
      */
-    @ApiModelProperty(value = "法人身份证",example="")
+    @ApiModelProperty(value = "法人身份证", example = "", required = true)
+    @NotEmpty(message = "法人身份证为空")
     private String idCard;
 
     /**
      * 公司规模公司规模
-     *
+     * <p>
      * Table:     fb_zg_company
      * Column:    scale
      * Nullable:  true
      */
-    @ApiModelProperty(value = "公司规模公司规模",example="")
+    @ApiModelProperty(value = "公司规模公司规模", example = "")
     private Byte scale;
 
     /**
      * 公司介绍
-     *
+     * <p>
      * Table:     fb_zg_company
      * Column:    intr
      * Nullable:  true
      */
-    @ApiModelProperty(value = "公司介绍",example="")
+    @ApiModelProperty(value = "公司介绍", example = "")
     private String intr;
 
     /**
      * 公司附件dto
-     *
      */
     @ApiModelProperty(value = "公司附件dto")
     List<ZGCmAttachDto> zgCmAttachDtos;
 
     /**
      * 公司用户中间表dto
-     *
      */
     @ApiModelProperty(value = "公司用户中间表dto")
     ZGCmRelUserDto zgCmRelUserDto;

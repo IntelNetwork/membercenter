@@ -5,17 +5,20 @@ package org.smartwork.comm.constant;
  */
 public interface CmRelUserCommonConstant {
 
-
     /**
      * 用户名
      */
     public static final String CM_USER_NAME = "user_name";
     /**
-     * 用户名
+     * 用户id
      */
     public static final String CM_USER_ID = "user_id";
     /**
      * 公司id
      */
     public static final String CM_ID = "cm_id";
+    /**
+     * 公司id
+     */
+    public static final String POST_ID = "post_id";
 }
