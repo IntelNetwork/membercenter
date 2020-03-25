@@ -20,27 +20,25 @@ import java.util.List;
 public class ZGWorkPlanServiceImpl extends ServiceImpl<ZGWorkPlanMapper, ZGWorkPlan> implements IZGWorkPlanService {
 
     @Autowired
-    ZGWorkPlanExtMapper zgWorkPlanExtMapper;
+    ZGWorkPlanExtMapper workPlanExtMapper;
 
     /***
      * selectPlanDay方法概述:查询我的日程计划
      * @param startTime, endTime
-     * @return org.forbes.comm.vo.Result<java.util.List<org.smartwork.dal.entity.ZGWorkPlan>>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/23 12:34
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Override
     public List<ZGWorkPlan> selectPlanDay(Date startTime, Date endTime) {
-        return zgWorkPlanExtMapper.selectPlanDay(startTime,endTime);
+        return workPlanExtMapper.selectPlanDay(startTime,endTime);
     }
 
     /***
      * addWorkPlan方法概述:写工作计划
      * @param zgWorkPlanDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGWorkPlanDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/24 9:49
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -58,8 +56,7 @@ public class ZGWorkPlanServiceImpl extends ServiceImpl<ZGWorkPlanMapper, ZGWorkP
     /***
      * updateWorkPlan方法概述:修改工作计划
      * @param zgWorkPlanDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGWorkPlanDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/24 10:06
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)

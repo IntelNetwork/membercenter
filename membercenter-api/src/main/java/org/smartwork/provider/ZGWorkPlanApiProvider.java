@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGWorkPlanService;
+import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGWorkPlanDto;
 import org.smartwork.dal.entity.ZGWorkPlan;
@@ -28,13 +30,12 @@ import java.util.List;
 public class ZGWorkPlanApiProvider {
 
     @Autowired
-    IZGWorkPlanService izgWorkPlanService;
+    IZGWorkPlanService workPlanService;
 
     /***
      * selectPlanDay方法概述:查询我的日程计划
      * @param startTime, endTime
-     * @return org.forbes.comm.vo.Result<java.util.List<org.smartwork.dal.entity.ZGWorkPlan>>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/23 12:34
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -42,8 +43,8 @@ public class ZGWorkPlanApiProvider {
     @RequestMapping(value = "/select-plan-day", method = RequestMethod.GET)
     @ApiOperation("查询我的日程计划")
     public Result<List<ZGWorkPlan>> selectPlanDay(@RequestParam(value = "startTime")Date startTime,@RequestParam(value = "endTime")Date endTime) {
-        Result<List<ZGWorkPlan>> result=new Result<List<ZGWorkPlan>>();
-        List<ZGWorkPlan> zgWorkPlans = izgWorkPlanService.selectPlanDay(startTime,endTime);
+        Result<List<ZGWorkPlan>> result=new Result<>();
+        List<ZGWorkPlan> zgWorkPlans = workPlanService.selectPlanDay(startTime,endTime);
         result.setResult(zgWorkPlans);
         return result;
     }
@@ -51,8 +52,7 @@ public class ZGWorkPlanApiProvider {
     /***
      * addWorkPlan方法概述:写工作计划
      * @param zgWorkPlanDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGWorkPlanDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/24 9:49
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -60,27 +60,32 @@ public class ZGWorkPlanApiProvider {
     @RequestMapping(value = "/insert-work-plan", method = RequestMethod.POST)
     @ApiOperation("写工作计划")
     public Result<ZGWorkPlanDto> addWorkPlan(@RequestBody @Validated(value = SaveValid.class) ZGWorkPlanDto zgWorkPlanDto) {
-        Result<ZGWorkPlanDto> result = new Result<ZGWorkPlanDto>();
-        izgWorkPlanService.addWorkPlan(zgWorkPlanDto);
+        Result<ZGWorkPlanDto> result = new Result<>();
+        workPlanService.addWorkPlan(zgWorkPlanDto);
         result.setResult(zgWorkPlanDto);
         return result;
     }
 
     /***
      * updateWorkPlan方法概述:修改工作计划
-     * @param zgWorkPlanDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGWorkPlanDto>
-     * @创建人 Tom
+     * @param workPlanDto
+     * @创建人 nhy
      * @创建时间 2020/3/24 10:06
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/update-work-plan", method = RequestMethod.PUT)
     @ApiOperation("修改工作计划")
-    public Result<ZGWorkPlanDto> updateWorkPlan(@RequestBody @Validated(value = UpdateValid.class) ZGWorkPlanDto zgWorkPlanDto) {
-        Result<ZGWorkPlanDto> result = new Result<ZGWorkPlanDto>();
-        izgWorkPlanService.updateWorkPlan(zgWorkPlanDto);
-        result.setResult(zgWorkPlanDto);
+    public Result<ZGWorkPlanDto> updateWorkPlan(@RequestBody @Validated(value = UpdateValid.class) ZGWorkPlanDto workPlanDto) {
+        Result<ZGWorkPlanDto> result = new Result<>();
+        if(ConvertUtils.isNotEmpty(workPlanDto.getAssessId())){
+            result.setBizCode(MemberBizResultEnum.WORK_PLAN_ASSESS.getBizCode());
+            result.setMessage(MemberBizResultEnum.WORK_PLAN_ASSESS.getBizMessage());
+            return result;
+        }
+
+        workPlanService.updateWorkPlan(workPlanDto);
+        result.setResult(workPlanDto);
         return result;
     }
 }

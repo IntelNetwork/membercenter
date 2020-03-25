@@ -5,8 +5,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
+import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.model.SysUser;
+import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.biz.service.IZGCompanyService;
@@ -35,16 +37,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ZGCompanyApiProvider {
 
     @Autowired
-    IZGCompanyService zgCompanyService;
+    IZGCompanyService companyService;
 
     @Autowired
-    IZGCmRelUserService zgCmRelUserService;
+    IZGCmRelUserService cmRelUserService;
 
     /***
      * addCompany方法概述:创建公司
      * @param zgCompanyDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCompanyDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/16 14:43
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -52,8 +53,13 @@ public class ZGCompanyApiProvider {
     @RequestMapping(value = "/insert-company", method = RequestMethod.POST)
     @ApiOperation("创建公司")
     public Result<ZGCompanyDto> addCompany(@RequestBody @Validated(value = SaveValid.class) ZGCompanyDto zgCompanyDto) {
-        Result<ZGCompanyDto> result=new Result<ZGCompanyDto>();
-        zgCompanyService.addCompany(zgCompanyDto);
+        Result<ZGCompanyDto> result = new Result<ZGCompanyDto>();
+        if (ConvertUtils.isEmpty(zgCompanyDto)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        companyService.addCompany(zgCompanyDto);
         result.setResult(zgCompanyDto);
         return result;
     }
@@ -68,24 +74,20 @@ public class ZGCompanyApiProvider {
      */
     @ApiOperation("公司信息修改(完善公司信息)")
     @RequestMapping(value = "/alter-company", method = RequestMethod.PUT)
-    public Result<ZGCompanyDto> updateCompany(@RequestBody @Validated(value = SaveValid.class) ZGCompanyDto zgCompanyDto) {
-        Result<ZGCompanyDto> result=new Result<>();
+    public Result<ZGCompanyDto> updateCompany(@RequestBody @Validated(value = UpdateValid.class) ZGCompanyDto zgCompanyDto) {
+        Result<ZGCompanyDto> result = new Result<>();
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser=zgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID,user.getId()));
-        if(!zgCmRelUser.getAdminFlag().equals(1)){
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(1)) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_CM.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_CM.getBizMessage());
             return result;
         }
-
-        zgCompanyService.updateCompany(zgCompanyDto);
+        companyService.updateCompany(zgCompanyDto);
         result.setResult(zgCompanyDto);
         return result;
     }
-
-
-
 
 
 }

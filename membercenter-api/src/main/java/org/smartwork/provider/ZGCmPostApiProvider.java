@@ -70,7 +70,6 @@ public class ZGCmPostApiProvider {
     /***
      * addPost方法概述:
      * @param zgCmPostDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGCmPostDto>
      * @创建人 nhy
      * @创建时间 2020/3/16 16:03
      * @修改人 (修改了该文件，请填上修改人的名字)
@@ -154,7 +153,7 @@ public class ZGCmPostApiProvider {
     })
     @RequestMapping(value = "/delete-batch", method = RequestMethod.DELETE)
     public Result<Boolean> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
-        Result<Boolean> result = new Result<Boolean>();
+        Result<Boolean> result = new Result<>();
         try {
             cmPostService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
         } catch (ForbesException e) {

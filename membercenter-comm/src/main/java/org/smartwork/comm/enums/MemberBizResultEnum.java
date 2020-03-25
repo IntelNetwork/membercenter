@@ -36,8 +36,8 @@ public enum MemberBizResultEnum {
     DID_NOT_ORDER("008005007", "您还未订购会员等级权益", "%s:未订购会员等级权益"),
     MEMBER_LEVEL_EXP_TIME("008005008", "您的会员等级即将到期，请直接升级", "%s:会员等级即将到期，请直接升级"),
     MEMBER_LEVEL_LOW("008005009", "会员等级低于当前订购会员等级", "%s:会员等级低于当前订购会员等级"),
-
-
+    /*****工作计划006(中间三位)****/
+    WORK_PLAN_ASSESS("008006001", "该任务已被评估,无法修改", "%s该任务已被评估,无法修改"),
 
     ;
     private String bizCode;

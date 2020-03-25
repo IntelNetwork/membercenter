@@ -21,7 +21,7 @@
         <plugin type="com.chrm.mybatis.generator.plugins.LombokPlugin">
             <property name="hasLombok" value="true"/>
             <!--设置表对应名称-->
-            <property name="fb_zg_cm_attach" value="公司附件"/>
+            <!--<property name="fb_zg_cm_attach" value="公司附件"/>
             <property name="fb_zg_cm_post" value="公司岗位"/>
             <property name="fb_zg_cm_rel_user" value="用户公司岗位"/>
             <property name="fb_zg_company" value="公司"/>
@@ -37,7 +37,10 @@
             <property name="fb_zg_team" value="团队"/>
             <property name="fb_zg_team_attach" value="团队附件"/>
             <property name="fb_zg_team_rel_user" value="用户团队岗位"/>
-            <property name="fb_zg_work_plan" value="工作计划"/>
+            <property name="fb_zg_work_plan" value="工作计划"/>-->
+            <property name="fb_zg_earnings" value="智工收益"/>
+            <property name="fb_zg_revenue_record" value="个人营收记录"/>
+            <property name="fb_zg_sett_appl" value="结算申请"/>
         </plugin>
         <!--整合序列化-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
@@ -53,7 +56,7 @@
             <property name="serviceSuffix" value="Service"></property>
             <property name="superProvider" value="org.forbes.provider.BaseProvider"></property>
             <!--设置表对应名称-->
-            <property name="fb_zg_cm_attach" value="公司附件"/>
+            <!--<property name="fb_zg_cm_attach" value="公司附件"/>
             <property name="fb_zg_cm_post" value="公司岗位"/>
             <property name="fb_zg_cm_rel_user" value="用户公司岗位"/>
             <property name="fb_zg_company" value="公司"/>
@@ -69,7 +72,10 @@
             <property name="fb_zg_team" value="团队"/>
             <property name="fb_zg_team_attach" value="团队附件"/>
             <property name="fb_zg_team_rel_user" value="用户团队岗位"/>
-            <property name="fb_zg_work_plan" value="工作计划"/>
+            <property name="fb_zg_work_plan" value="工作计划"/>-->
+            <property name="fb_zg_earnings" value="智工收益"/>
+            <property name="fb_zg_revenue_record" value="个人营收记录"/>
+            <property name="fb_zg_sett_appl" value="结算申请"/>
         </plugin>
         <!--整合service-->
         <plugin type="com.chrm.mybatis.generator.plugins.ServicePlugin">
@@ -113,7 +119,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="org.smartwork.dal.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="fb_zg_cm_attach" domainObjectName="ZGCmAttach" enableSelectByPrimaryKey="true"
+        <!--<table tableName="fb_zg_cm_attach" domainObjectName="ZGCmAttach" enableSelectByPrimaryKey="true"
                enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false"
                enableCountByExample="false"
@@ -291,6 +297,39 @@
             <property name="useActualColumnNames" value="false"/>
         </table>
         <table tableName="fb_zg_work_plan" domainObjectName="ZGWorkPlan" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+        <table tableName="fb_zg_earnings" domainObjectName="ZGEarnings" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_sett_appl" domainObjectName="ZGSettAppl" enableSelectByPrimaryKey="true"
+               enableDeleteByPrimaryKey="false"
+               enableUpdateByPrimaryKey="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               selectByPrimaryKeyQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="fb_zg_revenue_record" domainObjectName="ZGRevenueRecord" enableSelectByPrimaryKey="true"
                enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false"
                enableCountByExample="false"

@@ -12,8 +12,7 @@ public interface IZGWorkPlanService extends IService<ZGWorkPlan> {
     /***
      * selectPlanDay方法概述:查询我的日程计划
      * @param startTime, endTime
-     * @return org.forbes.comm.vo.Result<java.util.List<org.smartwork.dal.entity.ZGWorkPlan>>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/23 12:34
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -23,8 +22,7 @@ public interface IZGWorkPlanService extends IService<ZGWorkPlan> {
     /***
      * addWorkPlan方法概述:写工作计划
      * @param zgWorkPlanDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGWorkPlanDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/24 9:49
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
@@ -34,8 +32,7 @@ public interface IZGWorkPlanService extends IService<ZGWorkPlan> {
     /***
      * updateWorkPlan方法概述:修改工作计划
      * @param zgWorkPlanDto
-     * @return org.forbes.comm.vo.Result<org.smartwork.comm.model.ZGWorkPlanDto>
-     * @创建人 Tom
+     * @创建人 nhy
      * @创建时间 2020/3/24 10:06
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
