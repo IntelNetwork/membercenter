@@ -18,7 +18,7 @@ public interface CmRelUserCommonConstant {
      */
     public static final String CM_ID = "cm_id";
     /**
-     * 公司id
+     * 岗位id
      */
     public static final String POST_ID = "post_id";
 }
