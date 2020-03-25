@@ -174,4 +174,7 @@ public class ZGSettAppl extends BaseEntity {
      */
     @ApiModelProperty(value = "失败次数",example="")
     private Byte failureCount;
+
+    @ApiModelProperty(value = "结算商户ID",example="")
+    private String mchId;
 }
