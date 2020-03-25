@@ -16,13 +16,16 @@ import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
+import org.smartwork.biz.service.IZGCompanyService;
 import org.smartwork.comm.constant.CmRelUserCommonConstant;
+import org.smartwork.comm.constant.CompanyConstant;
 import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGCmRelUserPageDto;
 import org.smartwork.comm.vo.ZGCmRelUserVo;
 import org.smartwork.dal.entity.ZGCmRelUser;
+import org.smartwork.dal.entity.ZGCompany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +42,10 @@ public class ZGCmRelUserApiProvider {
 
     @Autowired
     IZGCmRelUserService cmRelUserService;
+    @Autowired
+    IZGCompanyService companyService;
+
+
 
     /***
      * page方法概述:分页查询公司人员列表
@@ -160,6 +167,14 @@ public class ZGCmRelUserApiProvider {
             result.setMessage(String.format(MemberBizResultEnum.CM_ADMINFLAG_NO_EXISTS.getBizFormateMessage(), adminFlag));
             return result;
         }
+        //判断当前登录人是否为公司负责人,只有负责人才可以设置管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCompany com = companyService.getOne(new QueryWrapper<ZGCompany>().eq(CompanyConstant.LEGAL_PERSON,user.getRealname()));
+        if(!com.getLegalPerson().equalsIgnoreCase(user.getRealname())){
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
+            return result;
+        }
         QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
         qw.eq(CmRelUserCommonConstant.CM_ID, cmId);
         qw.eq(CmRelUserCommonConstant.CM_USER_ID, userId);
@@ -212,7 +227,7 @@ public class ZGCmRelUserApiProvider {
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
         ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (zgCmRelUser.getAdminFlag().equalsIgnoreCase(YesNoEnum.YES.getCode())) {
+        if (zgCmRelUser.getAdminFlag().equalsIgnoreCase(CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setResult(YesNoEnum.YES.getCode());
             result.setMessage(MemberBizResultEnum.USER_ADMIN.getBizMessage());
         } else {

@@ -12,9 +12,9 @@ public interface CompanyConstant {
     public static final String DATAID = "data_id";
 
     /**
-     * 公司id
+     * 公司法人
      */
-    public static final String CMID = "cm_id";
+    public static final String LEGAL_PERSON = "legal_person";
 
     /**
      * 公司id

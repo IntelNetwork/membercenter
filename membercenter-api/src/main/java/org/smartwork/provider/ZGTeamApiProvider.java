@@ -57,8 +57,8 @@ public class ZGTeamApiProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
-        //默认将当前登录人设置为团队负责人
-        teamDto.setLegalPerson(UserContext.getSysUser().getUsername());
+        //默认将当前登录人姓名那个设置为团队负责人
+        teamDto.setLegalPerson(UserContext.getSysUser().getRealname());
         teamService.addTeam(teamDto);
         result.setResult(teamDto);
         return result;
@@ -123,7 +123,7 @@ public class ZGTeamApiProvider {
         ZGTeam team = teamService.getOne(qw);
         //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
         SysUser user = UserContext.getSysUser();
-        if (!team.getLegalPerson().equals(user.getUsername())) {
+        if (!team.getLegalPerson().equals(user.getRealname())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
