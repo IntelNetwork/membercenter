@@ -26,7 +26,11 @@ public enum MemberBizResultEnum {
     MEMBER_DEAD_UNIT("008004002", "期限单位不存在", "%s期限单位不存在"),
     ACTIVITY_STATE("008004003", "等级已启用", "%s等级已启用"),
     TAKE_EFFECT("008005001", "等级再申请中", "%s等级再申请中"),
-    APPLY_TAKE_EFFECT("008005002", "等级已申请", "%s等级已申请");
+    APPLY_TAKE_EFFECT("008005002", "等级已申请", "%s等级已申请"),
+    LEVEL_CHANGE("008005003", "请选择等级变更申请", "%s请选择等级变更申请"),
+    DID_NOT_ORDER("008005004", "您还未订购会员等级权益", "%s:未订购会员等级权益"),
+    MEMBER_LEVEL_EXP_TIME("008005005", "您的会员等级即将到期，请直接升级", "%s:会员等级即将到期，请直接升级"),
+    MEMBER_LEVEL_LOW("008005006", "会员等级低于当前订购会员等级", "%s:会员等级低于当前订购会员等级");
     private String bizCode;
     /**
      * 错误描述

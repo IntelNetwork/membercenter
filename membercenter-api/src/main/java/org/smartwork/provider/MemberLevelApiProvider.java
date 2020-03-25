@@ -5,8 +5,11 @@ import com.google.common.collect.Maps;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.enums.ActivityStateEnum;
 import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.enums.YesNoEnum;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGMemberLevelOrderService;
@@ -51,6 +54,28 @@ public class MemberLevelApiProvider {
     }
 
 
+    /****
+     * @return
+     */
+    @RequestMapping(value = "/current-member-level",method = RequestMethod.PUT)
+    public  Result<ZGMemberLevel> currentMemberlevel(){
+        Result<ZGMemberLevel> result = new Result<ZGMemberLevel>();
+        Map<String,Object> resultMap = Maps.newHashMap();
+        try {
+            SysUser sysUser = UserContext.getSysUser();
+            ZGMemberLevelOrder memberLevelOrder = memberLevelOrderService.getOne(new QueryWrapper<ZGMemberLevelOrder>()
+                    .eq("member_id",sysUser.getId())
+                    .eq("take_effect", YesNoEnum.YES.getCode()));
+            String bid = memberLevelOrder.getBid();
+            ZGMemberLevel  memberLevel = memberLevelService.getOne(new QueryWrapper<ZGMemberLevel>().eq("bid",bid));
+            result.setResult(memberLevel);
+        } catch (Exception e) {
+            result.error500(e.getMessage());
+        }
+        return result;
+    }
+
+
     /***
      * 会员等级升级
      * @param bid
@@ -89,4 +114,86 @@ public class MemberLevelApiProvider {
     }
 
 
+    /***
+     * 会员等级申请
+     * @param bid
+     * @return
+     */
+    @ApiOperation("会员等级申请")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "bid",value = "等级业务ID")
+    })
+
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
+    })
+    @RequestMapping(value = "/upgrade-member-level",method = RequestMethod.PUT)
+    public  Result<Map<String,Object>> changeMemberlevel(@RequestParam(value = "bid",required = true)String bid){
+        Result<Map<String,Object>> result = new Result<Map<String,Object>>();
+        Map<String,Object> resultMap = Maps.newHashMap();
+        try {
+            ZGMemberLevel  memberLevel = memberLevelService.getOne(new QueryWrapper<ZGMemberLevel>()
+                    .eq("bid",bid));
+            if (ConvertUtils.isNotEmpty(memberLevel)){
+                ZGMemberLevelOrder memberLevelOrder = memberLevelOrderService.createLevelOrder(memberLevel);
+                resultMap.put("mchOrderNo",memberLevelOrder.getMlOrderNo());
+                resultMap.put("amount",memberLevelOrder.getPayAmount().multiply(new BigDecimal("100")));
+                resultMap.put("currency","cny");
+                resultMap.put("subject",memberLevel.getName());
+                resultMap.put("body",memberLevel.getName());
+                resultMap.put("notifyUrl","topicMemberlevel");
+            } else {
+                result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
+                result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
+            }
+            result.setResult(resultMap);
+        } catch (Exception e) {
+            result.error500(e.getMessage());
+        }
+        return result;
+    }
+
+
+
+
+    /***
+     * 会员等级变更
+     * @param bid
+     * @return
+     */
+    @ApiOperation("会员等级变更")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "bid",value = "等级业务ID")
+    })
+
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
+    })
+    @RequestMapping(value = "/change-member-level",method = RequestMethod.PUT)
+    public  Result<Map<String,Object>> changeLevelOrder(@RequestParam(value = "bid",required = true)String bid){
+        Result<Map<String,Object>> result = new Result<Map<String,Object>>();
+        Map<String,Object> resultMap = Maps.newHashMap();
+        try {
+            ZGMemberLevel  memberLevel = memberLevelService.getOne(new QueryWrapper<ZGMemberLevel>()
+                    .eq("bid",bid));
+            if (ConvertUtils.isNotEmpty(memberLevel)){
+                ZGMemberLevelOrder memberLevelOrder = memberLevelOrderService.changeLevelOrder(memberLevel);
+                resultMap.put("mchOrderNo",memberLevelOrder.getMlOrderNo());
+                resultMap.put("amount",memberLevelOrder.getPayAmount().multiply(new BigDecimal("100")));
+                resultMap.put("currency","cny");
+                resultMap.put("subject",memberLevel.getName());
+                resultMap.put("body",memberLevel.getName());
+                resultMap.put("notifyUrl","topicMemberlevel");
+            } else {
+                result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
+                result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
+            }
+            result.setResult(resultMap);
+        } catch (Exception e) {
+            result.error500(e.getMessage());
+        }
+        return result;
+    }
 }
