@@ -47,24 +47,32 @@ public class MemberLevelConsumer {
                     .eq("ml_order_no",mchOrderNo));
             if(ConvertUtils.isNotEmpty(memberLevelOrder)
                     && YesNoEnum.NO.getCode().equalsIgnoreCase(String.valueOf(memberLevelOrder.getTakeEffect()))){
-                Date currentDate = new Date();
-                Date endDate = null;
-                String deadUnit = memberLevelOrder.getDeadUnit();
-                int deadLine = memberLevelOrder.getDeadline();
-                if(DeadUnitEnum.MONTH.equals(deadUnit)){
-                    endDate  = DateUtils.addMonths(currentDate,deadLine);
+                String  beforeBid = memberLevelOrder.getBeforeBid();
+                /****等级变更
+                 * **/
+                if(ConvertUtils.isNotEmpty(beforeBid)){
+                    memberLevelOrderService.takeEffectMemberLevelOrder(memberLevelOrder);
+                }/**等级申请**/
+                else {
+                    Date currentDate = new Date();
+                    Date endDate = null;
+                    String deadUnit = memberLevelOrder.getDeadUnit();
+                    int deadLine = memberLevelOrder.getDeadline();
+                    if(DeadUnitEnum.MONTH.equals(deadUnit)){
+                        endDate  = DateUtils.addMonths(currentDate,deadLine);
+                    }
+                    if(DeadUnitEnum.QUARTER.equals(deadUnit)){
+                        endDate  = DateUtils.addMonths(currentDate,deadLine*3);
+                    }
+                    if(DeadUnitEnum.YEAR.equals(deadUnit)){
+                        endDate  = DateUtils.addYears(currentDate,deadLine);
+                    }
+                    memberLevelOrderService.update(new UpdateWrapper<ZGMemberLevelOrder>()
+                            .set("start_date",currentDate)
+                            .set("end_date",endDate)
+                            .set("take_effect",YesNoEnum.YES.getCode())
+                            .eq("ml_order_no",mchOrderNo));
                 }
-                if(DeadUnitEnum.QUARTER.equals(deadUnit)){
-                    endDate  = DateUtils.addMonths(currentDate,deadLine*3);
-                }
-                if(DeadUnitEnum.YEAR.equals(deadUnit)){
-                    endDate  = DateUtils.addYears(currentDate,deadLine);
-                }
-                memberLevelOrderService.update(new UpdateWrapper<ZGMemberLevelOrder>()
-                        .set("start_date",currentDate)
-                        .set("end_date",endDate)
-                        .set("take_effect",YesNoEnum.YES.getCode())
-                        .eq("ml_order_no",mchOrderNo));
             }
             Result<Object> result = mchApiNotifyService.notifySuccess(payOrderId);
             log.error("====回写返回结果===="+JSON.toJSONString(result));

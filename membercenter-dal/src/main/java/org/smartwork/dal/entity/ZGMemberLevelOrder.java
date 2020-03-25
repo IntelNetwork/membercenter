@@ -101,6 +101,12 @@ public class ZGMemberLevelOrder extends BaseEntity {
     @ApiModelProperty(value = "业务ID",example="0")
     private String  bid;
 
+    @ApiModelProperty(value = "升级前业务ID",example="0")
+    private String  beforeBid;
+
+    @ApiModelProperty(value = "升级后业务ID",example="0")
+    private String  afterBid;
+
 
     @ApiModelProperty(value = "期限",example="0")
     private Integer deadline;

@@ -15,4 +15,22 @@ public interface IZGMemberLevelOrderService extends IService<ZGMemberLevelOrder>
      * @throws ForbesException
      */
     ZGMemberLevelOrder createLevelOrder(ZGMemberLevel memberLevel) throws ForbesException;
+
+
+    /***
+     * 会员等级变更
+     * @param memberLevel
+     * @return
+     * @throws ForbesException
+     */
+    ZGMemberLevelOrder changeLevelOrder(ZGMemberLevel memberLevel) throws ForbesException;
+
+
+    /***
+     * 订单生效
+     * @param memberLevelOrder
+     * @throws ForbesException
+     */
+    void takeEffectMemberLevelOrder(ZGMemberLevelOrder memberLevelOrder) throws ForbesException;
+
 }
