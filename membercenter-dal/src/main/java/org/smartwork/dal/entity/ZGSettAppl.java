@@ -8,6 +8,8 @@ import java.util.Date;
 import lombok.Data;
 import org.forbes.comm.entity.BaseEntity;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Table: fb_zg_sett_appl
  */
@@ -15,6 +17,13 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="结算申请")
 @TableName("fb_zg_sett_appl")
 public class ZGSettAppl extends BaseEntity {
+
+
+    /**
+     *
+     */
+    @ApiModelProperty(value = "申请标题",example="")
+    private String title;
     /**
      * 申请结算金额
      *
@@ -23,6 +32,7 @@ public class ZGSettAppl extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "申请结算金额",example="0.00")
+    @NotNull(message = "申请结算金额为空")
     private BigDecimal amount;
 
     /**
@@ -177,4 +187,22 @@ public class ZGSettAppl extends BaseEntity {
 
     @ApiModelProperty(value = "结算商户ID",example="")
     private String mchId;
+
+    /**
+     * Table:     fb_zg_revenue_record
+     * Column:    user_id
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "",example="0")
+    private Long userId;
+
+    /**
+     * 用户名
+     *
+     * Table:     fb_zg_revenue_record
+     * Column:    user_name
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "用户名",example="")
+    private String userName;
 }

@@ -24,10 +24,13 @@
     <result column="retry_count" jdbcType="TINYINT" property="retryCount" />
     <result column="failure_count" jdbcType="TINYINT" property="failureCount" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_by, create_time, update_by, update_time, amount, appl_order_no, actual_amount, 
     plat_ded_amount, review_status, reviewer, reviewer_time, review_note, settl_account, 
-    account_name, settl_type, settl_status, pay_cred, failure, retry_count, failure_count,mch_id
+    account_name, settl_type, settl_status, pay_cred, failure, retry_count, failure_count,mch_id,title, user_id, user_name
   </sql>
 </mapper>

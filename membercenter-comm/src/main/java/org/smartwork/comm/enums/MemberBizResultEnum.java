@@ -38,8 +38,13 @@ public enum MemberBizResultEnum {
     MEMBER_LEVEL_LOW("008005009", "会员等级低于当前订购会员等级", "%s:会员等级低于当前订购会员等级"),
     /*****工作计划006(中间三位)****/
     WORK_PLAN_ASSESS("008006001", "该任务已被评估,无法修改", "%s该任务已被评估,无法修改"),
-
-    ;
+    /***结算申请审核**/
+    REVIEW_STATUS_NOT_EXISTS("008007001", "审核状态不存在", "%s审核状态不存在"),
+    REVIEW_STATUS_EXISTS("008007002", "申请已审核", "%s申请已审核"),
+    PAY_CRED_NOT_EXISTS("008007003", "线下支付需上传支付凭证", "%s线下支付需上传支付凭证"),
+    NOT_AVAILABLE_BALANCE("008007004", "暂无可用余额", "%s暂无可用余额"),
+    ZERO_AMOUNT("008007005", "结算金额不能为零/负数", "%s结算金额不能为零/负数"),
+    DEF_AVAILABLE_BALANCE("008007005", "可用余额不足", "%s可用余额不足");
     private String bizCode;
     /**
      * 错误描述
