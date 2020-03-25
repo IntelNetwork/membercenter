@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+
 @RequestMapping("/${smartwork.verision}/member-level")
 @Api(tags = {"前端会员等级管理"})
 @Slf4j
 public class MemberLevelApiProvider {
-
 
 
     @Autowired
@@ -40,14 +40,14 @@ public class MemberLevelApiProvider {
      * 查询所有已启用等级
      * @return
      */
-    @RequestMapping(value = "/lists",method = RequestMethod.GET)
+    @RequestMapping(value = "/lists", method = RequestMethod.GET)
     @ApiOperation("查询所有已启用等级")
     @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.ROLE_LIST_MSG),
-            @ApiResponse(code = 500,message = Result.ROLE_LIST_ERROR_MSG)
+            @ApiResponse(code = 200, message = Result.ROLE_LIST_MSG),
+            @ApiResponse(code = 500, message = Result.ROLE_LIST_ERROR_MSG)
     })
-    public Result<List<ZGMemberLevel>> selecAlls(){
-        Result<List<ZGMemberLevel>> result=new Result<>();
+    public Result<List<ZGMemberLevel>> selecAlls() {
+        Result<List<ZGMemberLevel>> result = new Result<>();
         List<ZGMemberLevel> allLists = memberLevelService.list(new QueryWrapper<ZGMemberLevel>().eq("state", ActivityStateEnum.ACTIVITY.getCode()));
         result.setResult(allLists);
         return result;
@@ -74,45 +74,6 @@ public class MemberLevelApiProvider {
         }
         return result;
     }
-
-
-    /***
-     * 会员等级升级
-     * @param bid
-     * @return
-     */
-    @ApiOperation("会员等级升级")
-    @ApiImplicitParam(name = "bid",value = "等级业务ID")
-    @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
-            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
-    })
-    @RequestMapping(value = "/upgrade-member-level",method = RequestMethod.PUT)
-    public  Result<Map<String,Object>> upgradeMemberlevel(@RequestParam(value = "bid",required = true)String bid){
-        Result<Map<String,Object>> result = new Result<Map<String,Object>>();
-        Map<String,Object> resultMap = Maps.newHashMap();
-        try {
-            ZGMemberLevel  memberLevel = memberLevelService.getOne(new QueryWrapper<ZGMemberLevel>()
-                    .eq("bid",bid));
-            if (ConvertUtils.isNotEmpty(memberLevel)){
-                ZGMemberLevelOrder memberLevelOrder = memberLevelOrderService.createLevelOrder(memberLevel);
-                resultMap.put("mchOrderNo",memberLevelOrder.getMlOrderNo());
-                resultMap.put("amount",memberLevelOrder.getPayAmount().multiply(new BigDecimal("100")));
-                resultMap.put("currency","cny");
-                resultMap.put("subject",memberLevel.getName());
-                resultMap.put("body",memberLevel.getName());
-                resultMap.put("notifyUrl","topicMemberlevel");
-            } else {
-                result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
-                result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
-            }
-            result.setResult(resultMap);
-        } catch (Exception e) {
-            result.error500(e.getMessage());
-        }
-        return result;
-    }
-
 
     /***
      * 会员等级申请

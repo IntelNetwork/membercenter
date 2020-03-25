@@ -1,21 +1,29 @@
-package org.smartwork.dal.entity;
+package org.smartwork.comm.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Data;
-import org.forbes.comm.entity.BaseEntity;
 
 /**
  * Table: fb_zg_work_plan
  * @author Administrator
  */
 @Data
-@ApiModel(description="工作计划")
-@TableName("fb_zg_work_plan")
-public class ZGWorkPlan extends BaseEntity {
+@ApiModel(value = "工作计划参数")
+public class ZGWorkPlanDto implements Serializable {
+
+    private static final long serialVersionUID = 9093780754175897989L;
+
+    /**
+     * id
+     */
+    @ApiModelProperty(value = "id,添加不传值", example = "0")
+    private Long id;
+
     /**
      * 人员id
      *

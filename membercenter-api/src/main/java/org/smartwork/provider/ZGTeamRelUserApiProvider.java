@@ -94,6 +94,29 @@ public class ZGTeamRelUserApiProvider {
 
 
     /***
+     * 方法概述:添加团队人员
+     * @param teamRelUser
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/team-user-create", method = RequestMethod.DELETE)
+    @ApiOperation("添加团队人员")
+    public Result<List<ZGTeamRelUser>> createTeamUser(ZGTeamRelUser teamRelUser) {
+        Result<List<ZGTeamRelUser>> result = new Result<>();
+        if (ConvertUtils.isEmpty(teamRelUser)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        teamRelUserService.save(teamRelUser);
+        return result;
+    }
+
+
+
+    /***
      * 方法概述:团队人员删除
      * @param teamId,userId
      * @创建人 niehy(Frunk)
