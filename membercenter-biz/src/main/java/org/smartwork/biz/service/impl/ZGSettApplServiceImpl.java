@@ -1,6 +1,7 @@
 package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.forbes.comm.constant.UserContext;
@@ -15,7 +16,9 @@ import org.smartwork.dal.entity.ZGEarnings;
 import org.smartwork.dal.entity.ZGSettAppl;
 import org.smartwork.dal.mapper.ZGEarningsMapper;
 import org.smartwork.dal.mapper.ZGSettApplMapper;
+import org.smartwork.dal.mapper.ext.ZGSettApplExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +32,13 @@ public class ZGSettApplServiceImpl extends ServiceImpl<ZGSettApplMapper, ZGSettA
 
     @Autowired
     ZGEarningsMapper  earningsMapper;
+    @Autowired
+    ZGSettApplExtMapper settApplExtMapper;
+
     String TITLE_FORMAT = "%s会员%s申请体现:%s";
     private  String format = "TX%s";
+    @Value("${smartwork.transfer.retry-count}")
+    private  Integer retryCount;
 
 
 
@@ -39,6 +47,7 @@ public class ZGSettApplServiceImpl extends ServiceImpl<ZGSettApplMapper, ZGSettA
      * @param settAppl
      * @throws ForbesException
      */
+    @Override
     @Transactional(rollbackFor = {Exception.class})
     public void applySett(ZGSettAppl settAppl, String mchId, BigDecimal reflectPoints) throws ForbesException{
         SysUser sysUser = UserContext.getSysUser();
@@ -61,7 +70,21 @@ public class ZGSettApplServiceImpl extends ServiceImpl<ZGSettApplMapper, ZGSettA
         settAppl.setActualAmount(actualAmount);
         settAppl.setUserId(sysUser.getId());
         settAppl.setUserName(sysUser.getUsername());
+        settAppl.setRetryCount(retryCount);
+        settAppl.setFailureCount(0);
         settAppl.setApplOrderNo(String.format(format,DateFormatUtils.format(new Date(),"yyyyMMddHHmmssSSS")));
         baseMapper.insert(settAppl);
+    }
+
+
+    /***查询待转账数据
+     * @param page
+     * @param reviewStatus
+     * @param settlStatus
+     * @return
+     */
+    @Override
+    public IPage<ZGSettAppl> pageTransfer(IPage<ZGSettAppl> page, String reviewStatus, String settlStatus){
+        return  settApplExtMapper.pageTransfer(page,reviewStatus,settlStatus);
     }
 }

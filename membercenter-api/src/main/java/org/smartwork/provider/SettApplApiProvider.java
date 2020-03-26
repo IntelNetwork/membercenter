@@ -1,5 +1,6 @@
 package org.smartwork.provider;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
@@ -20,6 +21,7 @@ import org.smartwork.comm.enums.SettlTypeEnum;
 import org.smartwork.dal.entity.ZGSettAppl;
 import org.smartwork.service.IMchInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +43,50 @@ public class SettApplApiProvider {
     IZGEarningsService earningsService;
     @Autowired
     IMchInfoService mchInfoService;
+
+
+    /****
+     * 查询待结算记录
+     * @param pageDto
+     * @return
+     */
+    @RequestMapping(value = "/select-sett-list", method = RequestMethod.GET)
+    @ApiOperation("分页查询我的申请记录")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
+    })
+    public  Result<IPage<ZGSettAppl>> selectSettList(BasePageDto pageDto){
+        Result<IPage<ZGSettAppl>> result = new Result<>();
+        IPage<ZGSettAppl> page = new Page<ZGSettAppl>(pageDto.getPageNo(),pageDto.getPageSize());
+        IPage<ZGSettAppl> pageResult = settApplService.pageTransfer(page,ReviewStatusEnum.SUCCEED.getCode(),SettlStatusEnum.NO_SETTL.getCode());
+        result.setResult(pageResult);
+        return result;
+    }
+
+
+    /***更新为转帐中
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "/up-in-settl", method = RequestMethod.GET)
+    @ApiImplicitParam(value = "ids",name = "申请记录结果集")
+    @ApiOperation("更新记录为转帐中")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
+    })
+    public  Result<Boolean> upInSettl(@RequestParam(value = "ids",required = true)Long[] ids){
+        Result<Boolean> result = new Result<>();
+        settApplService.update(new UpdateWrapper<ZGSettAppl>().set("settl_status",SettlStatusEnum.IN_SETTL.getCode())
+                .in("id",ids)
+                .eq("review_status", ReviewStatusEnum.SUCCEED.getCode())
+                .eq("settl_status", SettlStatusEnum.NO_SETTL.getCode()));
+        result.setResult(true);
+        return result;
+    }
+
+
 
     /***
      *

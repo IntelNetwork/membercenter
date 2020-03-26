@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.smartwork.dal.mapper.ZGSettApplMapper">
+  <resultMap id="BaseResultMap" type="org.smartwork.dal.entity.ZGSettAppl">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="appl_order_no" jdbcType="VARCHAR" property="applOrderNo" />
+    <result column="actual_amount" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="plat_ded_amount" jdbcType="DECIMAL" property="platDedAmount" />
+    <result column="review_status" jdbcType="VARCHAR" property="reviewStatus" />
+    <result column="reviewer" jdbcType="VARCHAR" property="reviewer" />
+    <result column="reviewer_time" jdbcType="TIMESTAMP" property="reviewerTime" />
+    <result column="review_note" jdbcType="VARCHAR" property="reviewNote" />
+    <result column="settl_account" jdbcType="VARCHAR" property="settlAccount" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="settl_type" jdbcType="CHAR" property="settlType" />
+    <result column="settl_status" jdbcType="VARCHAR" property="settlStatus" />
+    <result column="pay_cred" jdbcType="VARCHAR" property="payCred" />
+    <result column="failure" jdbcType="VARCHAR" property="failure" />
+    <result column="retry_count" jdbcType="TINYINT" property="retryCount" />
+    <result column="failure_count" jdbcType="TINYINT" property="failureCount" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_by, create_time, update_by, update_time, amount, appl_order_no, actual_amount, 
+    plat_ded_amount, review_status, reviewer, reviewer_time, review_note, settl_account, 
+    account_name, settl_type, settl_status, pay_cred, failure, retry_count, failure_count,mch_id,title, user_id, user_name
+  </sql>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.smartwork.dal.mapper.ZGMemberLevelOrderMapper">
+  <resultMap id="BaseResultMap" type="org.smartwork.dal.entity.ZGMemberLevelOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="pay_amount" jdbcType="DECIMAL" property="payAmount" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="take_effect" jdbcType="BIT" property="takeEffect" />
+    <result column="ml_order_no" jdbcType="VARCHAR" property="mlOrderNo" />
+    <result column="bid" jdbcType="VARCHAR" property="bid" />
+    <result column="deadline" jdbcType="TINYINT" property="deadline" />
+    <result column="dead_unit" jdbcType="VARCHAR" property="deadUnit" />
+    <result column="before_bid" jdbcType="VARCHAR" property="beforeBid" />
+    <result column="after_bid" jdbcType="VARCHAR" property="afterBid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_by, create_time, update_by, update_time, member_id, member_name, pay_amount, 
+    start_date, end_date, take_effect, ml_order_no,bid,deadline,dead_unit,before_bid,after_bid
+  </sql>
+</mapper>

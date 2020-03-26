@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 @ConditionalOnProperty(name = "spring.application.paycenter")
-@FeignClient(name = "${spring.application.paycenter}" ,path = "/api/v1.0/transfer")
+@FeignClient(name = "mchInfoService",url="http://${spring.application.paycenter}",path = "/api/v1.0/transfer")
 public interface IMchInfoService {
 
 

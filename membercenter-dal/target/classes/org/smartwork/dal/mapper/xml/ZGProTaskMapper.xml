@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.smartwork.dal.mapper.ZGProTaskMapper">
+    <resultMap id="BaseResultMap" type="org.smartwork.dal.entity.ZGProTask">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="pro_id" jdbcType="BIGINT" property="proId"/>
+        <result column="task_name" jdbcType="VARCHAR" property="taskName"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="pre_task_id" jdbcType="BIGINT" property="preTaskId"/>
+        <result column="rear_task_id" jdbcType="BIGINT" property="rearTaskId"/>
+        <result column="ratio" jdbcType="DECIMAL" property="ratio"/>
+        <result column="task_state" jdbcType="TINYINT" property="taskState"/>
+        <result column="delay" jdbcType="VARCHAR" property="delay"/>
+        <result column="des" jdbcType="VARCHAR" property="des"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="actual_start_time" jdbcType="TIMESTAMP" property="actualStartTime"/>
+        <result column="actual_end_time" jdbcType="TIMESTAMP" property="actualEndTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, create_by, create_time, update_by, update_time, pro_id, task_name, user_id, user_name, pre_task_id,
+    rear_task_id, ratio, task_state, delay, des, start_time, end_time, actual_start_time, 
+    actual_end_time
+  </sql>
+</mapper>

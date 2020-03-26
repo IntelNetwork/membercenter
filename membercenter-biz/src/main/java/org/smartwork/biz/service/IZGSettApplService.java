@@ -1,5 +1,7 @@
 package org.smartwork.biz.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.forbes.comm.exception.ForbesException;
 import org.smartwork.dal.entity.ZGSettAppl;
@@ -17,4 +19,13 @@ public interface IZGSettApplService extends IService<ZGSettAppl> {
      * @throws ForbesException
      */
     void applySett(ZGSettAppl settAppl, String mchId, BigDecimal reflectPoints) throws ForbesException;
+
+
+    /***查询待转账数据
+     * @param page
+     * @param reviewStatus
+     * @param settlStatus
+     * @return
+     */
+    IPage<ZGSettAppl> pageTransfer(IPage<ZGSettAppl> page,String reviewStatus,String settlStatus);
 }

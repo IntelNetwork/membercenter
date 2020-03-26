@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.forbes.comm.entity.BaseEntity;
 
@@ -142,7 +144,7 @@ public class ZGSettAppl extends BaseEntity {
      * Column:    settl_status
      * Nullable:  true
      */
-    @ApiModelProperty(value = "0-未结算1-已结算3-结算异常",example="")
+    @ApiModelProperty(value = "0-未结算1-结算中,2-已结算3-结算异常",example="")
     private String settlStatus;
 
     /**
@@ -173,7 +175,7 @@ public class ZGSettAppl extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "重试次数",example="")
-    private Byte retryCount;
+    private Integer retryCount;
 
     /**
      * 失败次数
@@ -183,7 +185,7 @@ public class ZGSettAppl extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "失败次数",example="")
-    private Byte failureCount;
+    private Integer failureCount;
 
     @ApiModelProperty(value = "结算商户ID",example="")
     private String mchId;

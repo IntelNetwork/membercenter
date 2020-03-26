@@ -1,13 +1,11 @@
 package org.smartwork.dal.mapper.ext;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.smartwork.dal.entity.ZGWorkPlan;
 
 import java.util.Date;
 import java.util.List;
 
-public interface ZGWorkPlanExtMapper extends BaseMapper<ZGWorkPlan> {
+public interface ZGWorkPlanExtMapper {
 
     /***
      * selectPlanDay方法概述:查询我的日程计划

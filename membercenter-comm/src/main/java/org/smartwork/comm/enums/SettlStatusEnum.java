@@ -10,8 +10,9 @@ public enum SettlStatusEnum {
 
 
     NO_SETTL("0", "待结算"),
-    HAS_SETTL("1", "已结算"),
-    ABNORMAL("2", "结算异常");
+    IN_SETTL("1", "结算中"),
+    HAS_SETTL("2", "已结算"),
+    ABNORMAL("3", "结算异常");
 
     /***编码
      */
