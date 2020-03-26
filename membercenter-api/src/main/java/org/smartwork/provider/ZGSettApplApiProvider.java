@@ -49,7 +49,9 @@ public class ZGSettApplApiProvider {
         Result<IPage<ZGSettAppl>> result = new Result<>();
         QueryWrapper<ZGSettAppl> qw = new QueryWrapper<>();
         if (ConvertUtils.isNotEmpty(pageDto)) {
-            if (ConvertUtils.isNotEmpty(pageDto.getApplOrderNo())) {
+            if (ConvertUtils.isNotEmpty(pageDto.getTitle())) {
+                qw.like(ZGSettApplConstant.TITLE, pageDto.getTitle());
+            } if (ConvertUtils.isNotEmpty(pageDto.getApplOrderNo())) {
                 qw.like(ZGSettApplConstant.APPL_ORDER_NO, pageDto.getApplOrderNo());
             }
             if (ConvertUtils.isNotEmpty(pageDto.getReviewStatus())) {

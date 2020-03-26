@@ -19,8 +19,13 @@ import javax.validation.constraints.NotNull;
 public class ZGSettAppl extends BaseEntity {
 
 
+    private static final long serialVersionUID = 3538186117068392469L;
     /**
+     * 申请标题
      *
+     * Table:     fb_zg_sett_appl
+     * Column:    title
+     * Nullable:  true
      */
     @ApiModelProperty(value = "申请标题",example="")
     private String title;

@@ -13,6 +13,16 @@ public class ZGSettApplPageDto implements Serializable{
     private static final long serialVersionUID = 7626126367961497308L;
 
     /**
+     * 申请标题
+     *
+     * Table:     fb_zg_sett_appl
+     * Column:    title
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "申请标题",example="")
+    private String title;
+
+    /**
      * 申请单号
      *
      * Table:     fb_zg_sett_appl

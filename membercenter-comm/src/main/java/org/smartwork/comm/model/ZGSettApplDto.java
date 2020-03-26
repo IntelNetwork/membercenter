@@ -12,6 +12,17 @@ import java.util.Date;
 public class ZGSettApplDto implements Serializable{
 
     private static final long serialVersionUID = -6183245043431770704L;
+
+    /**
+     * 申请标题
+     *
+     * Table:     fb_zg_sett_appl
+     * Column:    title
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "申请标题",example="")
+    private String title;
+
     /**
      * 申请结算金额
      *
