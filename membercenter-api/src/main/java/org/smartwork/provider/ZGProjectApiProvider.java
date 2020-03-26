@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGProjectService;
-import org.smartwork.comm.constant.ProjectCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
+import org.smartwork.comm.enums.ProjectStateEnum;
 import org.smartwork.comm.model.ProjectPageDto;
 import org.smartwork.comm.model.ZGProjectDto;
 import org.smartwork.dal.entity.ZGProject;
@@ -56,13 +58,13 @@ public class ZGProjectApiProvider {
         QueryWrapper<ZGProject> qw = new QueryWrapper<>();
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getName())) {
-                qw.like(ProjectCommonConstant.PRO_NAME, pageDto.getName());
+                qw.like("name", pageDto.getName());
             }
             if (ConvertUtils.isNotEmpty(pageDto.getStartDate())) {
-                qw.ge(ProjectCommonConstant.START_DATE, pageDto.getStartDate());
+                qw.ge("start_date", pageDto.getStartDate());
             }
             if (ConvertUtils.isNotEmpty(pageDto.getEndTime())) {
-                qw.le(ProjectCommonConstant.END_TIME, pageDto.getEndTime());
+                qw.le("end_time", pageDto.getEndTime());
             }
         }
         IPage<ZGProject> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
@@ -89,6 +91,9 @@ public class ZGProjectApiProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
+        SysUser user = UserContext.getSysUser();
+        //判断当前操作人是否为团队/公司的管理员
+        projectDto.setStatus(ProjectStateEnum.NOT_YET_BEGUN.getCode());
         projectService.createPro(projectDto);
         result.setResult(projectDto);
         return result;

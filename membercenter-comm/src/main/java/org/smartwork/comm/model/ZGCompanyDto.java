@@ -75,8 +75,8 @@ public class ZGCompanyDto implements Serializable {
      * Column:    scale
      * Nullable:  true
      */
-    @ApiModelProperty(value = "公司规模公司规模", example = "")
-    private Byte scale;
+    @ApiModelProperty(value = "公司规模公司规模", example = "0")
+    private Integer scale;
 
     /**
      * 公司介绍
@@ -105,11 +105,5 @@ public class ZGCompanyDto implements Serializable {
      */
     @ApiModelProperty(value = "公司附件dto")
     List<ZGCmAttachDto> zgCmAttachDtos;
-
-    /**
-     * 公司用户中间表dto
-     */
-    @ApiModelProperty(value = "公司用户中间表dto")
-    ZGCmRelUserDto zgCmRelUserDto;
 
 }

@@ -6,7 +6,6 @@ import org.forbes.comm.model.SysUser;
 import org.forbes.comm.service.ISysUserService;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamRelUserService;
-import org.smartwork.comm.constant.TeamRelUserCommonConstant;
 import org.smartwork.comm.model.ZGTeamRelUserDto;
 import org.smartwork.comm.vo.ZGTeamRelUserVo;
 import org.smartwork.dal.entity.ZGTeamRelUser;
@@ -61,8 +60,8 @@ public class ZGTeamRelUserServiceImpl extends ServiceImpl<ZGTeamRelUserMapper, Z
     @Override
     public ZGTeamRelUserVo teamUserDetail(Long teamId, String userName) {
         QueryWrapper<ZGTeamRelUser> qw = new QueryWrapper<>();
-        qw.eq(TeamRelUserCommonConstant.TEAM_TEAM_ID, teamId);
-        qw.eq(TeamRelUserCommonConstant.TEAM_USER_NAME, userName);
+        qw.eq("team_id", teamId);
+        qw.eq("user_name", userName);
         ZGTeamRelUser teamRelUser = teamRelUserMapper.selectOne(qw);
         Result<SysUser> user = sysUserService.getUserByName(userName);
         ZGTeamRelUserVo teamRelUserVo = new ZGTeamRelUserVo();

@@ -12,7 +12,7 @@ import java.util.List;
  * 概述: 团队相关传入参数
  * @创建人 niehy(Frunk)
  * @创建时间 2020/3/16
- * @修改人 (修改了该文件，请填上修改人的名字)
+ * @修改人 (修改了该文件 ， 请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
 @Data
@@ -60,7 +60,7 @@ public class ZGTeamDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "团队规模", example = "")
-    private Byte scale;
+    private Integer scale;
 
     /**
      * 团队介绍
@@ -85,9 +85,4 @@ public class ZGTeamDto implements Serializable {
 
     @ApiModelProperty(value = "团队附件(集合)", example = "")
     private List<ZGTeamAttachDto> teamAttachDtos;
-
-
-    @ApiModelProperty(value = "团队用户(集合)", example = "")
-    private List<ZGTeamRelUserDto> teamRelUserDtos;
-
 }

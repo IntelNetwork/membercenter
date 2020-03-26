@@ -2,12 +2,13 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.smartwork.biz.service.IZGTeamService;
-import org.smartwork.comm.constant.TeamRelUserCommonConstant;
+import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.model.ZGTeamAttachDto;
 import org.smartwork.comm.model.ZGTeamDto;
-import org.smartwork.comm.model.ZGTeamRelUserDto;
 import org.smartwork.dal.entity.ZGTeam;
 import org.smartwork.dal.entity.ZGTeamAttach;
 import org.smartwork.dal.entity.ZGTeamRelUser;
@@ -42,7 +43,7 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
      * @param teamDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(rollbackFor = Exception.class)
@@ -51,7 +52,16 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
         ZGTeam team = new ZGTeam();
         BeanCopier.create(ZGTeamDto.class, ZGTeam.class, false)
                 .copy(teamDto, team, null);
+
         baseMapper.insert(team);
+        //将创建人加入团队,默认管理员
+        ZGTeamRelUser teamRelUser = new ZGTeamRelUser();
+        SysUser user = UserContext.getSysUser();
+        teamRelUser.setTeamId(team.getId());
+        teamRelUser.setUserId(user.getId());
+        teamRelUser.setAdminFlag(CmAdminFlagEnum.SUPER_ADMIN.getCode());
+        teamRelUser.setUserName(user.getUsername());
+        teamRelUserMapper.insert(teamRelUser);
 
         //关联团队附件
         List<ZGTeamAttachDto> zgTaskAttachDtos = teamDto.getTeamAttachDtos();
@@ -70,21 +80,6 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
             });
         }
 
-        //关联团队用户
-        List<ZGTeamRelUserDto> teamRelUserDtos = teamDto.getTeamRelUserDtos();
-        if (ConvertUtils.isNotEmpty(teamRelUserDtos)) {
-            Long teamId = team.getId();
-            ZGTeamRelUser teamUser = new ZGTeamRelUser();
-            teamRelUserDtos.stream().forEach(temp -> {
-                teamUser.setTeamId(teamId);
-                teamUser.setUserId(temp.getUserId());
-                teamUser.setAdminFlag(temp.getAdminFlag());
-                teamUser.setDirection(temp.getDirection());
-                teamUser.setUserName(temp.getUserName());
-                //执行添加
-                teamRelUserMapper.insert(teamUser);
-            });
-        }
     }
 
 
@@ -93,7 +88,7 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
      * @param teamDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(rollbackFor = Exception.class)
@@ -130,14 +125,14 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
      * @param id
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/23
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean removeById(Serializable id) {
 
-        teamRelUserMapper.deleteById(new QueryWrapper<ZGTeamRelUser>().eq(TeamRelUserCommonConstant.TEAM_TEAM_ID,id));
+        teamRelUserMapper.deleteById(new QueryWrapper<ZGTeamRelUser>().eq("team_id", id));
 
         return true;
     }

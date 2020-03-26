@@ -62,7 +62,7 @@ public class ZGCompany extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "公司规模公司规模",example="")
-    private Byte scale;
+    private Integer scale;
 
     /**
      * 公司介绍

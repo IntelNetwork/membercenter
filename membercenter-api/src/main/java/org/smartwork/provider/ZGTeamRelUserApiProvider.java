@@ -8,14 +8,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.enums.AdminFlagEnum;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.biz.service.IZGTeamRelUserService;
-import org.smartwork.comm.constant.CmRelUserCommonConstant;
-import org.smartwork.comm.constant.TeamRelUserCommonConstant;
 import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGTeamRelUserDto;
@@ -33,7 +32,7 @@ import java.util.List;
  * 概述:团队任务分配
  * @创建人 niehy(Frunk)
  * @创建时间 2020/3/16
- * @修改人 (修改了该文件，请填上修改人的名字)
+ * @修改人 (修改了该文件 ， 请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
 @RestController
@@ -53,7 +52,7 @@ public class ZGTeamRelUserApiProvider {
      * @param pageDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/team-users", method = RequestMethod.GET)
@@ -62,11 +61,11 @@ public class ZGTeamRelUserApiProvider {
         Result<IPage<ZGTeamRelUser>> result = new Result<>();
         QueryWrapper<ZGTeamRelUser> qw = new QueryWrapper<>();
         if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
-            qw.eq(TeamRelUserCommonConstant.TEAM_TEAM_ID, pageDto.getTeamId());
+            qw.eq("team_id", pageDto.getTeamId());
         }
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
-                qw.like(TeamRelUserCommonConstant.TEAM_USER_NAME, pageDto.getUserName());
+                qw.like("user_name", pageDto.getUserName());
             }
         }
         IPage<ZGTeamRelUser> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
@@ -81,7 +80,7 @@ public class ZGTeamRelUserApiProvider {
      * @param teamRelUserDtos
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
@@ -95,8 +94,8 @@ public class ZGTeamRelUserApiProvider {
         }
         //只有管理员才能进行此操作
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (!zgCmRelUser.getAdminFlag().equalsIgnoreCase(CmAdminFlagEnum.ORDINARY.getCode())) {
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!(zgCmRelUser.getAdminFlag() == CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
@@ -112,7 +111,7 @@ public class ZGTeamRelUserApiProvider {
      * @param teamRelUser
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/team-user-create", method = RequestMethod.DELETE)
@@ -126,8 +125,8 @@ public class ZGTeamRelUserApiProvider {
         }
         //只有管理员才能进行此操作
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (!zgCmRelUser.getAdminFlag().equalsIgnoreCase(CmAdminFlagEnum.ORDINARY.getCode())) {
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!(zgCmRelUser.getAdminFlag() == CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
@@ -142,7 +141,7 @@ public class ZGTeamRelUserApiProvider {
      * @param teamId,userId
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/team-user-remove", method = RequestMethod.DELETE)
@@ -156,15 +155,15 @@ public class ZGTeamRelUserApiProvider {
         }
         //只有管理员才能进行此操作
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (!zgCmRelUser.getAdminFlag().equalsIgnoreCase(CmAdminFlagEnum.ORDINARY.getCode())) {
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!(zgCmRelUser.getAdminFlag() == CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
         }
         QueryWrapper<ZGTeamRelUser> qw = new QueryWrapper<>();
-        qw.eq(TeamRelUserCommonConstant.TEAM_TEAM_ID, teamId);
-        qw.eq(TeamRelUserCommonConstant.TEAM_USER_ID, userId);
+        qw.eq("team_id", teamId);
+        qw.eq("user_id", userId);
         ZGTeamRelUser teamRelUser = teamRelUserService.getOne(qw);
         teamRelUserService.removeById(teamRelUser);
         return result;
@@ -175,7 +174,7 @@ public class ZGTeamRelUserApiProvider {
      * @param teamId,userId
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/team-user-detail", method = RequestMethod.GET)

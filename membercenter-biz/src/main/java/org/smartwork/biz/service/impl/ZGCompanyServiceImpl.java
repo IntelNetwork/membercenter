@@ -2,13 +2,12 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.smartwork.biz.service.IZGCompanyService;
-import org.smartwork.comm.constant.CompanyConstant;
 import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.model.ZGCmAttachDto;
-import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGCompanyDto;
 import org.smartwork.dal.entity.ZGCmAttach;
 import org.smartwork.dal.entity.ZGCmRelUser;
@@ -27,30 +26,40 @@ import java.util.List;
 public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany> implements IZGCompanyService {
 
     @Autowired
-    ZGCmAttachMapper zgCmAttachMapper;
+    ZGCmAttachMapper cmAttachMapper;
     @Autowired
-    ZGCmRelUserMapper zgCmRelUserMapper;
+    ZGCmRelUserMapper cmRelUserMapper;
 
     /***
      * addCompany方法概述:创建公司
      * @param zgCompanyDto
      * @创建人 nhy
      * @创建时间 2020/3/16 14:43
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addCompany(ZGCompanyDto zgCompanyDto) {
         //添加公司信息
-        ZGCompany zgCompany = new ZGCompany();
+        ZGCompany company = new ZGCompany();
         BeanCopier.create(ZGCompanyDto.class, ZGCompany.class, false)
-                .copy(zgCompanyDto, zgCompany, null);
-        baseMapper.insert(zgCompany);
+                .copy(zgCompanyDto, company, null);
+        baseMapper.insert(company);
 
-        Long companyId=zgCompany.getId();
+        //将创建人加入公司,默认管理员
+        ZGCmRelUser cmRelUser = new ZGCmRelUser();
+        SysUser user = UserContext.getSysUser();
+        cmRelUser.setCmId(company.getId());
+        cmRelUser.setUserId(user.getId());
+        cmRelUser.setAdminFlag(CmAdminFlagEnum.SUPER_ADMIN.getCode());
+        cmRelUser.setUserName(user.getUsername());
+        cmRelUserMapper.insert(cmRelUser);
+
+
+        Long companyId = company.getId();
         //添加公司附件信息
-        List<ZGCmAttachDto> zgCmAttachDtos=zgCompanyDto.getZgCmAttachDtos();
+        List<ZGCmAttachDto> zgCmAttachDtos = zgCompanyDto.getZgCmAttachDtos();
         if (ConvertUtils.isNotEmpty(zgCmAttachDtos)) {
             zgCmAttachDtos.stream().forEach(zgCmAttachDto -> {
                 ZGCmAttach attach = new ZGCmAttach();
@@ -60,22 +69,8 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
                 attach.setFilePath(zgCmAttachDto.getFilePath());
                 attach.setDataType(zgCmAttachDto.getDataType());
                 attach.setOrders(zgCmAttachDto.getOrders());
-                zgCmAttachMapper.insert(attach);
+                cmAttachMapper.insert(attach);
             });
-        }
-        //添加公司用户中间表信息
-        ZGCmRelUserDto zgCmRelUserDto=zgCompanyDto.getZgCmRelUserDto();
-        if (ConvertUtils.isNotEmpty(zgCmRelUserDto)) {
-            ZGCmRelUser zgCmRelUser = new ZGCmRelUser();
-            BeanCopier.create(ZGCmRelUserDto.class, ZGCmRelUser.class, false)
-                    .copy(zgCmRelUserDto, zgCmRelUser, null);
-            zgCmRelUser.setCmId(companyId);
-            zgCmRelUser.setAdminFlag(CmAdminFlagEnum.ORDINARY.getCode());
-            //获取当前用户名
-            SysUser user = org.forbes.comm.constant.UserContext.getSysUser();
-            zgCmRelUser.setUserId(user.getId());
-            zgCmRelUser.setUserName(user.getUsername());
-            zgCmRelUserMapper.insert(zgCmRelUser);
         }
     }
 
@@ -84,7 +79,7 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
      * @param zgCompanyDto
      * @创建人 nhy
      * @创建时间 2020/3/16 14:43
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(rollbackFor = Exception.class)
@@ -96,10 +91,10 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
                 .copy(zgCompanyDto, zgCompany, null);
         baseMapper.updateById(zgCompany);
 
-        zgCmAttachMapper.delete(new QueryWrapper<ZGCmAttach>().eq(CompanyConstant.DATAID, zgCompanyDto.getId()));
-        Long companyId=zgCompanyDto.getId();
+        cmAttachMapper.delete(new QueryWrapper<ZGCmAttach>().eq("data_id", zgCompanyDto.getId()));
+        Long companyId = zgCompanyDto.getId();
         //添加公司附件信息
-        List<ZGCmAttachDto> zgCmAttachDtos=zgCompanyDto.getZgCmAttachDtos();
+        List<ZGCmAttachDto> zgCmAttachDtos = zgCompanyDto.getZgCmAttachDtos();
         if (ConvertUtils.isNotEmpty(zgCmAttachDtos)) {
             ZGCmAttach zgCmAttach = new ZGCmAttach();
             zgCmAttachDtos.stream().forEach(zgCmAttachDto -> {
@@ -109,7 +104,7 @@ public class ZGCompanyServiceImpl extends ServiceImpl<ZGCompanyMapper, ZGCompany
                 zgCmAttach.setFilePath(zgCmAttachDto.getFilePath());
                 zgCmAttach.setDataType(zgCmAttachDto.getDataType());
                 zgCmAttach.setOrders(zgCmAttachDto.getOrders());
-                zgCmAttachMapper.insert(zgCmAttach);
+                cmAttachMapper.insert(zgCmAttach);
             });
         }
     }

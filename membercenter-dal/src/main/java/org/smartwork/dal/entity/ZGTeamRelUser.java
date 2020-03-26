@@ -59,7 +59,7 @@ public class ZGTeamRelUser extends BaseEntity {
      */
     @ApiModelProperty(value = "是否管理员0-否1-是,",example="",required = true)
     @NotNull(message = "是否管理员为空")
-    private Byte adminFlag;
+    private Integer adminFlag;
 
     /**
      * 负责方向：比如前端、后端

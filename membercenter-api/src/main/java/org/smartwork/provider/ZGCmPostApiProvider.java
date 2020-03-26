@@ -11,15 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
-import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmPostService;
 import org.smartwork.biz.service.IZGCmRelUserService;
-import org.smartwork.comm.constant.CmRelUserCommonConstant;
-import org.smartwork.comm.constant.CompanyConstant;
-import org.smartwork.comm.constant.CompanyPostConstant;
+import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmPostDto;
 import org.smartwork.dal.entity.ZGCmPost;
@@ -29,7 +28,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author nhy
@@ -60,7 +58,7 @@ public class ZGCmPostApiProvider {
     public Result<IPage<ZGCmPost>> selectPost(BasePageDto basePageDto, ZGCmPostDto cmPostDto) {
         Result<IPage<ZGCmPost>> result = new Result<>();
         QueryWrapper<ZGCmPost> qw = new QueryWrapper<>();
-        qw.eq(CompanyPostConstant.CM_ID, cmPostDto.getCmId());
+        qw.eq("cm_id", cmPostDto.getCmId());
         IPage<ZGCmPost> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGCmPost> cmPosts = cmPostService.page(page, qw);
         result.setResult(cmPosts);
@@ -78,8 +76,16 @@ public class ZGCmPostApiProvider {
     @RequestMapping(value = "/insert-post", method = RequestMethod.POST)
     @ApiOperation("新建岗位")
     public Result<ZGCmPostDto> addPost(@RequestBody @Validated(value = SaveValid.class) ZGCmPostDto zgCmPostDto) {
-        Result<ZGCmPostDto> result = new Result<ZGCmPostDto>();
-        int count = cmPostService.count(new QueryWrapper<ZGCmPost>().eq(CompanyPostConstant.POST_NAME, zgCmPostDto.getName()));
+        Result<ZGCmPostDto> result = new Result<>();
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
+            return result;
+        }
+        int count = cmPostService.count(new QueryWrapper<ZGCmPost>().eq("name", zgCmPostDto.getName()));
         if (count > 0) {
             result.setBizCode(MemberBizResultEnum.COMPANY_POST_EXEITS.getBizCode());
             result.setMessage(MemberBizResultEnum.COMPANY_POST_EXEITS.getBizMessage());
@@ -102,7 +108,15 @@ public class ZGCmPostApiProvider {
     @ApiOperation("修改岗位")
     public Result<ZGCmPostDto> updatePost(@RequestBody @Validated(value = UpdateValid.class) ZGCmPostDto zgCmPostDto) {
         Result<ZGCmPostDto> result = new Result<>();
-        int count = cmPostService.count(new QueryWrapper<ZGCmPost>().eq(CompanyPostConstant.POST_NAME, zgCmPostDto.getName()));
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
+            return result;
+        }
+        int count = cmPostService.count(new QueryWrapper<ZGCmPost>().eq("name", zgCmPostDto.getName()));
         if (count > 0) {
             result.setBizCode(MemberBizResultEnum.COMPANY_POST_EXEITS.getBizCode());
             result.setMessage(MemberBizResultEnum.COMPANY_POST_EXEITS.getBizMessage());
@@ -127,7 +141,15 @@ public class ZGCmPostApiProvider {
     @ApiOperation("岗位删除")
     public Result<Boolean> deletePost(@RequestParam(name = "id") Long id) {
         Result<Boolean> result = new Result<>();
-        Integer count = cmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.POST_ID, id));
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
+            return result;
+        }
+        Integer count = cmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq("post_id", id));
         if (count > 0) {
             result.setBizCode(MemberBizResultEnum.NO_DELECT_POST.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_DELECT_POST.getBizMessage());
@@ -154,6 +176,14 @@ public class ZGCmPostApiProvider {
     @RequestMapping(value = "/delete-batch", method = RequestMethod.DELETE)
     public Result<Boolean> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         Result<Boolean> result = new Result<>();
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
+            return result;
+        }
         try {
             cmPostService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
         } catch (ForbesException e) {
