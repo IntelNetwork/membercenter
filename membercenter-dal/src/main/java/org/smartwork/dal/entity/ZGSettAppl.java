@@ -42,6 +42,12 @@ public class ZGSettAppl extends BaseEntity {
     @NotNull(message = "申请结算金额为空")
     private BigDecimal amount;
 
+
+
+    @ApiModelProperty(value = "当前佣金金额",example="0.00")
+    private BigDecimal earningsAmount;
+
+
     /**
      * 申请单号
      *

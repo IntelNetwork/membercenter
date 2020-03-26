@@ -1,6 +1,7 @@
 package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -12,9 +13,12 @@ import org.smartwork.biz.service.IZGSettApplService;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.enums.ReviewStatusEnum;
 import org.smartwork.comm.enums.SettlStatusEnum;
+import org.smartwork.comm.enums.SourceDataTypeEnum;
 import org.smartwork.dal.entity.ZGEarnings;
+import org.smartwork.dal.entity.ZGRevenueRecord;
 import org.smartwork.dal.entity.ZGSettAppl;
 import org.smartwork.dal.mapper.ZGEarningsMapper;
+import org.smartwork.dal.mapper.ZGRevenueRecordMapper;
 import org.smartwork.dal.mapper.ZGSettApplMapper;
 import org.smartwork.dal.mapper.ext.ZGSettApplExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,8 @@ public class ZGSettApplServiceImpl extends ServiceImpl<ZGSettApplMapper, ZGSettA
     ZGEarningsMapper  earningsMapper;
     @Autowired
     ZGSettApplExtMapper settApplExtMapper;
+    @Autowired
+    ZGRevenueRecordMapper revenueRecordMapper;
 
     String TITLE_FORMAT = "%s会员%s申请体现:%s";
     private  String format = "TX%s";
@@ -72,8 +78,17 @@ public class ZGSettApplServiceImpl extends ServiceImpl<ZGSettApplMapper, ZGSettA
         settAppl.setUserName(sysUser.getUsername());
         settAppl.setRetryCount(retryCount);
         settAppl.setFailureCount(0);
+        settAppl.setEarningsAmount(earnings.getAmount());
         settAppl.setApplOrderNo(String.format(format,DateFormatUtils.format(new Date(),"yyyyMMddHHmmssSSS")));
         baseMapper.insert(settAppl);
+        /**扣减余额**/
+       BigDecimal earningsAmount =  earnings.getAmount();
+       BigDecimal afterAmount = earningsAmount.subtract(amount);
+        earningsMapper.update(null,new UpdateWrapper<ZGEarnings>()
+                .set("amount",afterAmount)
+                .set("before_amount",earningsAmount)
+                .set("have_time",new Date())
+                .eq("user_id",sysUser.getId()));
     }
 
 
@@ -86,5 +101,32 @@ public class ZGSettApplServiceImpl extends ServiceImpl<ZGSettApplMapper, ZGSettA
     @Override
     public IPage<ZGSettAppl> pageTransfer(IPage<ZGSettAppl> page, String reviewStatus, String settlStatus){
         return  settApplExtMapper.pageTransfer(page,reviewStatus,settlStatus);
+    }
+
+
+    /***
+     * 转账成功
+     * @param mchOrderNo
+     * @throws ForbesException
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void transferSuccess(String mchOrderNo) throws ForbesException{
+        ZGSettAppl settAppl =  baseMapper.selectOne(new QueryWrapper<ZGSettAppl>().eq("appl_order_no",mchOrderNo));
+        baseMapper.update(null,new UpdateWrapper<ZGSettAppl>()
+                .set("settl_status",SettlStatusEnum.HAS_SETTL.getCode())
+                .eq("appl_order_no",mchOrderNo));
+        Long   userId = settAppl.getUserId();
+        BigDecimal earningsAmount = settAppl.getEarningsAmount();
+        ZGRevenueRecord revenueRecord = new ZGRevenueRecord();
+        revenueRecord.setUserId(userId);
+        revenueRecord.setUserName(settAppl.getUserName());
+        revenueRecord.setSourceTitle(settAppl.getTitle());
+        revenueRecord.setDataId(settAppl.getId());
+        revenueRecord.setDataType(SourceDataTypeEnum.IN_SETTL.getCode());
+        revenueRecord.setChangeAmount(settAppl.getAmount().negate());
+        revenueRecord.setBeforeAmount(earningsAmount);
+        revenueRecord.setAfterAmount(earningsAmount.subtract(settAppl.getAmount()));
+        revenueRecordMapper.insert(revenueRecord);
     }
 }

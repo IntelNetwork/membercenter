@@ -70,7 +70,7 @@ public class ZGRevenueRecord extends BaseEntity {
      * Column:    data_type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "0-任务佣金1-佣金结算",example="")
+    @ApiModelProperty(value = "0-任务佣金1-佣金提现",example="")
     private String dataType;
 
     /**

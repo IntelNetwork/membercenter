@@ -27,10 +27,11 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="earnings_amount" jdbcType="DECIMAL" property="earningsAmount" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_by, create_time, update_by, update_time, amount, appl_order_no, actual_amount, 
     plat_ded_amount, review_status, reviewer, reviewer_time, review_note, settl_account, 
-    account_name, settl_type, settl_status, pay_cred, failure, retry_count, failure_count,mch_id,title, user_id, user_name
+    account_name, settl_type, settl_status, pay_cred, failure, retry_count, failure_count,mch_id,title, user_id, user_name,earnings_amount
   </sql>
 </mapper>
