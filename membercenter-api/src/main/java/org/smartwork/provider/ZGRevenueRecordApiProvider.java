@@ -10,7 +10,6 @@ import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGRevenueRecordService;
-import org.smartwork.comm.constant.ZGRevenueRecordConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGRevenueRecordPageDto;
 import org.smartwork.dal.entity.ZGRevenueRecord;
@@ -51,14 +50,14 @@ public class ZGRevenueRecordApiProvider {
         Result<IPage<ZGRevenueRecord>> result = new Result<>();
         QueryWrapper<ZGRevenueRecord> qw = new QueryWrapper<>();
         if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
-            qw.like(ZGRevenueRecordConstant.USER_NAME, pageDto.getUserName());
+            qw.like("user_name", pageDto.getUserName());
         }
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getSourceTitle())) {
-                qw.like(ZGRevenueRecordConstant.SOURCE_TITLE, pageDto.getSourceTitle());
+                qw.like("source_title", pageDto.getSourceTitle());
             }
             if (ConvertUtils.isNotEmpty(pageDto.getDataType())) {
-                qw.eq(ZGRevenueRecordConstant.DATA_TYPE, pageDto.getDataType());
+                qw.eq("data_type", pageDto.getDataType());
             }
         }
         IPage<ZGRevenueRecord> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());

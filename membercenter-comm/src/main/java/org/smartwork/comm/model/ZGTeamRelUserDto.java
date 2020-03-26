@@ -63,7 +63,7 @@ public class ZGTeamRelUserDto implements Serializable{
      * Nullable:  true
      */
     @ApiModelProperty(value = "0-否1-是",example="")
-    private Byte adminFlag;
+    private Integer adminFlag;
 
     /**
      * 负责方向：比如前端、后端

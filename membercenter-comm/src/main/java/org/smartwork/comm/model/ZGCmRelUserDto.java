@@ -73,5 +73,5 @@ public class ZGCmRelUserDto implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "0-否1-是",example="")
-    private String adminFlag;
+    private Integer adminFlag;
 }

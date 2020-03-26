@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 public enum CmAdminFlagEnum {
 
 	
-	SUPER_ADMIN("0","普通员工"),
-	ORDINARY("1","管理员");
+	SUPER_ADMIN(0,"普通员工"),
+	ORDINARY(1,"管理员");
 	
-	private String code;
+	private Integer code;
 	private String name;
 
 
@@ -53,7 +53,7 @@ public enum CmAdminFlagEnum {
 	 * @param code
 	 * @param name
 	 */
-	CmAdminFlagEnum(String code, String name){
+	CmAdminFlagEnum(Integer code, String name){
 		this.code = code;
 		this.name = name;
 	}
@@ -61,7 +61,7 @@ public enum CmAdminFlagEnum {
 	/** 
 	 * @return code 
 	 */
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

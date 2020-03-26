@@ -7,7 +7,6 @@ import org.forbes.comm.model.SysUser;
 import org.forbes.comm.service.ISysUserService;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
-import org.smartwork.comm.constant.CmRelUserCommonConstant;
 import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.vo.ZGCmRelUserVo;
@@ -76,8 +75,8 @@ public class ZGCmRelUserServiceImpl extends ServiceImpl<ZGCmRelUserMapper, ZGCmR
     @Override
     public ZGCmRelUserVo cmUserDetail(Long cmId, String userName) {
         QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
-        qw.eq(CmRelUserCommonConstant.CM_ID, cmId);
-        qw.eq(CmRelUserCommonConstant.CM_USER_NAME, userName);
+        qw.eq("cm_id", cmId);
+        qw.eq("user_name", userName);
         ZGCmRelUser cmRelUser = cmRelUserMapper.selectOne(qw);
         Result<SysUser> user = sysUserService.getUserByName(userName);
         ZGCmRelUserVo cmRelUserVo = new ZGCmRelUserVo();

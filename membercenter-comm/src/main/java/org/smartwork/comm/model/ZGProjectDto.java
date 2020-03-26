@@ -11,8 +11,28 @@ import java.util.List;
 
 @Data
 @ApiModel("项目传入参数")
-public class ZGProjectDto implements Serializable{
+public class ZGProjectDto implements Serializable {
     private static final long serialVersionUID = -8507477860558837152L;
+
+    /**
+     * 数据ID(团队ID或者公司ID)
+     * <p>
+     * Table:     fb_zg_project
+     * Column:    dataId
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "数据ID(团队ID或者公司ID)", example = "0")
+    private Long dataId;
+
+    /**
+     * 数据类型(0团队项目1公司项目)
+     * <p>
+     * Table:     fb_zg_project
+     * Column:    dataType
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "数据类型(0团队项目1公司项目)", example = "0")
+    private Long dataType;
 
     /**
      * 项目名称
@@ -55,12 +75,13 @@ public class ZGProjectDto implements Serializable{
     private Date endTime;
 
     /**
+     * 状态,0未开始1进行中2已完成3延期
      * Table:     fb_zg_project
      * Column:    status
      * Nullable:  true
      */
-    @ApiModelProperty(value = "状态", example = "")
-    private Byte status;
+    @ApiModelProperty(value = "状态,0未开始1进行中2已完成3延期", example = "0")
+    private String status;
 
     /**
      * 实际开始时间

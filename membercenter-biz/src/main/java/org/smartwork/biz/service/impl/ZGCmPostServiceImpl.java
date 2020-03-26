@@ -2,11 +2,9 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.exception.ForbesException;
 import org.smartwork.biz.service.IZGCmPostService;
 import org.smartwork.biz.service.IZGCmRelUserService;
-import org.smartwork.comm.constant.CmRelUserCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmPostDto;
 import org.smartwork.dal.entity.ZGCmPost;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 
 @Service
@@ -77,7 +74,7 @@ public class ZGCmPostServiceImpl extends ServiceImpl<ZGCmPostMapper, ZGCmPost> i
     public boolean removeByIds(Collection<? extends Serializable> idList) {
         //判断中间表中是否有员工拥有此岗位
         idList.forEach(id -> {
-            Integer count = cmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.POST_ID, id));
+            Integer count = cmRelUserService.count(new QueryWrapper<ZGCmRelUser>().eq("post_id", id));
             if (count > 0) {
                 throw new ForbesException(MemberBizResultEnum.NO_DELECT_POST.getBizCode()
                         , String.format(MemberBizResultEnum.NO_DELECT_POST.getBizMessage()));

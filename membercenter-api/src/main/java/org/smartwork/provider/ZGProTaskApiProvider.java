@@ -13,7 +13,6 @@ import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGProTaskService;
-import org.smartwork.comm.constant.ProTaskCommonConstant;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.enums.ProTaskEnum;
 import org.smartwork.comm.model.ProTaskPageDto;
@@ -58,11 +57,11 @@ public class ZGProTaskApiProvider {
         if (ConvertUtils.isNotEmpty(pageDto)) {
             //项目任务名称
             if (ConvertUtils.isNotEmpty(pageDto.getTaskName())) {
-                qw.like(ProTaskCommonConstant.PRO_TASK_NAME, pageDto.getTaskName());
+                qw.like("task_name", pageDto.getTaskName());
             }
             //项目任务状态
             if (ConvertUtils.isNotEmpty(pageDto.getTaskState())) {
-                qw.eq(ProTaskCommonConstant.PRO_TASK_STATE, pageDto.getTaskState());
+                qw.eq("task_state", pageDto.getTaskState());
             }
         }
         IPage<ZGProTask> page = new Page<ZGProTask>(basePageDto.getPageNo(), basePageDto.getPageSize());

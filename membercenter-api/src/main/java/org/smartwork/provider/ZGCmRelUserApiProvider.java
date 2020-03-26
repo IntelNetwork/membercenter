@@ -17,8 +17,6 @@ import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGCmRelUserService;
 import org.smartwork.biz.service.IZGCompanyService;
-import org.smartwork.comm.constant.CmRelUserCommonConstant;
-import org.smartwork.comm.constant.CompanyConstant;
 import org.smartwork.comm.enums.CmAdminFlagEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
@@ -46,13 +44,12 @@ public class ZGCmRelUserApiProvider {
     IZGCompanyService companyService;
 
 
-
     /***
      * page方法概述:分页查询公司人员列表
      * @param basePageDto, pageDto
      * @创建人 nhy
      * @创建时间 2020/3/23 12:56
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -62,10 +59,10 @@ public class ZGCmRelUserApiProvider {
         QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
-                qw.like(CmRelUserCommonConstant.CM_USER_NAME, pageDto.getUserName());
+                qw.like("user_name", pageDto.getUserName());
             }
         }
-        qw.eq(CmRelUserCommonConstant.CM_ID, pageDto.getCmId());
+        qw.eq("cm_id", pageDto.getCmId());
         IPage<ZGCmRelUser> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGCmRelUser> pages = cmRelUserService.page(page, qw);
         result.setResult(pages);
@@ -77,7 +74,7 @@ public class ZGCmRelUserApiProvider {
      * @param zgCmRelUserDto
      * @创建人 nhy
      * @创建时间 2020/3/17 11:50
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -86,8 +83,8 @@ public class ZGCmRelUserApiProvider {
         Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (!zgCmRelUser.getAdminFlag().equals(1)) {
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_ADD_USER.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_ADD_USER.getBizMessage());
             return result;
@@ -102,7 +99,7 @@ public class ZGCmRelUserApiProvider {
      * @param zgCmRelUserDto
      * @创建人 nhy
      * @创建时间 2020/3/17 13:59
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/modify", method = RequestMethod.PUT)
@@ -111,8 +108,8 @@ public class ZGCmRelUserApiProvider {
         Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (!zgCmRelUser.getAdminFlag().equals(1)) {
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
             return result;
@@ -127,23 +124,31 @@ public class ZGCmRelUserApiProvider {
      * @param cmId, userId
      * @创建人 nhy
      * @创建时间 2020/3/23 12:50
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
     @ApiOperation("删除公司人员")
     public Result<ZGCmRelUserDto> removeTeamUser(@RequestParam(value = "cmId") Long cmId, @RequestParam(value = "userId") Long userId) {
-        Result<ZGCmRelUserDto> result = new Result<ZGCmRelUserDto>();
+        Result<ZGCmRelUserDto> result = new Result<>();
         if (ConvertUtils.isEmpty(cmId) || ConvertUtils.isEmpty(userId)) {
             result.setBizCode(MemberBizResultEnum.EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.EMPTY.getBizMessage());
             return result;
         }
+        //对比当前操作人是否是管理员
+        SysUser user = UserContext.getSysUser();
+        ZGCmRelUser relUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (!relUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_UPDATE_CM.getBizMessage());
+            return result;
+        }
         QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
-        qw.eq(CmRelUserCommonConstant.CM_ID, cmId);
-        qw.eq(CmRelUserCommonConstant.CM_USER_ID, userId);
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(qw);
-        cmRelUserService.removeById(zgCmRelUser);
+        qw.eq("cm_id", cmId);
+        qw.eq("user_id", userId);
+        ZGCmRelUser cmRelUser = cmRelUserService.getOne(qw);
+        cmRelUserService.removeById(cmRelUser);
         return result;
     }
 
@@ -152,14 +157,14 @@ public class ZGCmRelUserApiProvider {
      * @param cmId, userId, adminFlag
      * @创建人 nhy
      * @创建时间 2020/3/23 13:32
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/admin-flag", method = RequestMethod.PUT)
-    @ApiOperation("设置管理员")
+    @ApiOperation("負責人设置管理员")
     public Result<ZGCmRelUser> updateAdminFlag(@RequestParam(value = "cmId", required = true) Long cmId,
                                                @RequestParam(value = "userId", required = true) Long userId,
-                                               @RequestParam(value = "adminFlag", required = true) String adminFlag) {
+                                               @RequestParam(value = "adminFlag", required = true) Integer adminFlag) {
         Result<ZGCmRelUser> result = new Result<>();
         boolean adminFlags = CmAdminFlagEnum.existsCode(adminFlag);
         if (!adminFlags) {
@@ -169,15 +174,15 @@ public class ZGCmRelUserApiProvider {
         }
         //判断当前登录人是否为公司负责人,只有负责人才可以设置管理员
         SysUser user = UserContext.getSysUser();
-        ZGCompany com = companyService.getOne(new QueryWrapper<ZGCompany>().eq(CompanyConstant.LEGAL_PERSON,user.getRealname()));
-        if(!com.getLegalPerson().equalsIgnoreCase(user.getRealname())){
+        ZGCompany com = companyService.getOne(new QueryWrapper<ZGCompany>().eq("legal_person", user.getRealname()));
+        if (!com.getLegalPerson().equalsIgnoreCase(user.getRealname())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
         }
         QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
-        qw.eq(CmRelUserCommonConstant.CM_ID, cmId);
-        qw.eq(CmRelUserCommonConstant.CM_USER_ID, userId);
+        qw.eq("cm_id", cmId);
+        qw.eq("user_id", userId);
         ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(qw);
         if (ConvertUtils.isEmpty(zgCmRelUser)) {
             result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
@@ -196,7 +201,7 @@ public class ZGCmRelUserApiProvider {
      * @param cmId,userId
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/cm-user-details", method = RequestMethod.GET)
@@ -217,7 +222,7 @@ public class ZGCmRelUserApiProvider {
      * selectAdminFlag方法概述:判断当前登录用户是否是管理员
      * @创建人 nhy
      * @创建时间 2020/3/24 10:20
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/if-adminflag", method = RequestMethod.GET)
@@ -226,8 +231,8 @@ public class ZGCmRelUserApiProvider {
         Result<String> result = new Result<>();
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
-        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq(CmRelUserCommonConstant.CM_USER_ID, user.getId()));
-        if (zgCmRelUser.getAdminFlag().equalsIgnoreCase(CmAdminFlagEnum.ORDINARY.getCode())) {
+        ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
+        if (zgCmRelUser.getAdminFlag() == Integer.valueOf(CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setResult(YesNoEnum.YES.getCode());
             result.setMessage(MemberBizResultEnum.USER_ADMIN.getBizMessage());
         } else {

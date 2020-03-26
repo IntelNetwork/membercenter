@@ -12,10 +12,11 @@ import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGTeamRelUserService;
 import org.smartwork.biz.service.IZGTeamService;
-import org.smartwork.comm.constant.TeamCommonConstant;
-import org.smartwork.comm.constant.TeamRelUserCommonConstant;
+import org.smartwork.comm.enums.CompanyTeamStateEnum;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGTeamDto;
+import org.smartwork.dal.entity.ZGCmRelUser;
+import org.smartwork.dal.entity.ZGCompany;
 import org.smartwork.dal.entity.ZGTeam;
 import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * 概述:团队增删改设置
  * @创建人 niehy(Frunk)
  * @创建时间 2020/3/16
- * @修改人 (修改了该文件，请填上修改人的名字)
+ * @修改人 (修改了该文件 ， 请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
 @RestController
@@ -39,13 +40,15 @@ public class ZGTeamApiProvider {
      */
     @Autowired
     IZGTeamService teamService;
+    @Autowired
+    IZGTeamRelUserService teamRelUserService;
 
     /***
      * 方法概述:创建团队
      * @param teamDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/create-team", method = RequestMethod.POST)
@@ -59,6 +62,8 @@ public class ZGTeamApiProvider {
         }
         //默认将当前登录人姓名那个设置为团队负责人
         teamDto.setLegalPerson(UserContext.getSysUser().getRealname());
+        //默认审核状态
+        teamDto.setState(CompanyTeamStateEnum.AUDITED.getCode());
         teamService.addTeam(teamDto);
         result.setResult(teamDto);
         return result;
@@ -69,25 +74,19 @@ public class ZGTeamApiProvider {
      * @param teamDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/modify-team", method = RequestMethod.PUT)
     @ApiOperation("编辑团队")
     public Result<ZGTeamDto> editTeam(@RequestBody @Validated(value = UpdateValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
-
+        //对比当前操作人是否是负责人本人(只有负责人才可以修改团队信息)
         QueryWrapper<ZGTeam> qw = new QueryWrapper<>();
-        qw.eq(TeamCommonConstant.ID, teamDto.getId());
-        qw.eq(TeamCommonConstant.LEGAL_PERSON, teamDto.getLegalPerson());
-        ZGTeam team = teamService.getOne(qw);
-        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        qw.eq("id", teamDto.getId());
         SysUser user = UserContext.getSysUser();
-        if (!team.getLegalPerson().equals(user.getUsername())) {
-            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
-            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
-            return result;
-        }
+        ZGTeamRelUser teamRelUser = teamRelUserService.getOne(new QueryWrapper<ZGTeamRelUser>().eq("user_id", user.getId()));
+        ZGTeam team = teamService.getById(teamRelUser.getTeamId());
         if (ConvertUtils.isEmpty(teamDto)) {
             result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
@@ -96,6 +95,11 @@ public class ZGTeamApiProvider {
         if (ConvertUtils.isEmpty(teamDto.getId())) {
             result.setBizCode(MemberBizResultEnum.EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.EMPTY.getBizMessage());
+            return result;
+        }
+        if (!team.getLegalPerson().equals(user.getRealname())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
         }
         teamService.editTeam(teamDto);
@@ -109,7 +113,7 @@ public class ZGTeamApiProvider {
      * @param id,legalPerson
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/18
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/modify-admin", method = RequestMethod.PUT)
@@ -118,24 +122,24 @@ public class ZGTeamApiProvider {
         Result<ZGTeam> result = new Result<>();
 
         QueryWrapper<ZGTeam> qw = new QueryWrapper<>();
-        qw.eq(TeamCommonConstant.ID, id);
-        qw.eq(TeamCommonConstant.LEGAL_PERSON, legalPerson);
-        ZGTeam team = teamService.getOne(qw);
-        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        qw.eq("id", id);
         SysUser user = UserContext.getSysUser();
-        if (!team.getLegalPerson().equals(user.getRealname())) {
-            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
-            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
-            return result;
-        }
-        if (ConvertUtils.isEmpty(team)) {
+        ZGTeamRelUser teamRelUser = teamRelUserService.getOne(new QueryWrapper<ZGTeamRelUser>().eq("user_id", user.getId()));
+        ZGTeam company = teamService.getById(teamRelUser.getTeamId());
+        if (ConvertUtils.isEmpty(company)) {
             result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
-        team.setLegalPerson(legalPerson);
-        teamService.updateById(team);
-        result.setResult(team);
+        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        if (!company.getLegalPerson().equals(user.getRealname())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
+            return result;
+        }
+        company.setLegalPerson(legalPerson);
+        teamService.updateById(company);
+        result.setResult(company);
         return result;
     }
 
@@ -145,7 +149,7 @@ public class ZGTeamApiProvider {
      * @param id,团队ID
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/remove-team", method = RequestMethod.DELETE)
@@ -153,9 +157,16 @@ public class ZGTeamApiProvider {
     public Result<ZGTeam> removeTeam(@RequestParam(value = "id") Long id) {
         Result<ZGTeam> result = new Result<>();
         ZGTeam team = teamService.getById(id);
-        if(team != null){
+        if (ConvertUtils.isEmpty(team)) {
             result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        SysUser user = UserContext.getSysUser();
+        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        if (!team.getLegalPerson().equals(user.getRealname())) {
+            result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+            result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
             return result;
         }
         teamService.removeById(id);
