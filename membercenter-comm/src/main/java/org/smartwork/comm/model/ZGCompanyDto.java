@@ -89,6 +89,18 @@ public class ZGCompanyDto implements Serializable {
     private String intr;
 
     /**
+     * 公司状态-0待审核-1审核通过-2审核未通过
+     * <p>
+     * Table:     fb_zg_company
+     * Column:    state
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "公司状态-0待审核-1审核通过-2审核未通过", example = "")
+    private String state;
+
+
+
+    /**
      * 公司附件dto
      */
     @ApiModelProperty(value = "公司附件dto")

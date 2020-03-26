@@ -10,14 +10,10 @@
     <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
     <result column="Id_card" jdbcType="VARCHAR" property="idCard" />
     <result column="scale" jdbcType="TINYINT" property="scale" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.smartwork.dal.entity.ZGTeam">
     <result column="intr" jdbcType="LONGVARCHAR" property="intr" />
+    <result column="state" jdbcType="VARCHAR" property="state"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, create_by, create_time, update_by, update_time, legal_person, Id_card, scale
-  </sql>
-  <sql id="Blob_Column_List">
-    intr
+    id, create_by, create_time, update_by, update_time, legal_person, Id_card, scale,intr,state
   </sql>
 </mapper>
