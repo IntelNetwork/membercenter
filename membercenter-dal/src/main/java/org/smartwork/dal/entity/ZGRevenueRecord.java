@@ -14,6 +14,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="个人营收记录")
 @TableName("fb_zg_revenue_record")
 public class ZGRevenueRecord extends BaseEntity {
+    private static final long serialVersionUID = 6294865772383544042L;
     /**
      * Table:     fb_zg_revenue_record
      * Column:    user_id

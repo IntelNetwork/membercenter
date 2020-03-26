@@ -15,6 +15,7 @@ import org.forbes.comm.entity.BaseEntity;
 @ApiModel(description="智工收益")
 @TableName("fb_zg_earnings")
 public class ZGEarnings extends BaseEntity {
+    private static final long serialVersionUID = 6450314062449646587L;
     /**
      * 用户ID
      *

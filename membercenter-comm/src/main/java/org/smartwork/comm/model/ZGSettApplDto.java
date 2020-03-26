@@ -1,21 +1,17 @@
-package org.smartwork.dal.entity;
+package org.smartwork.comm.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Data;
-import org.forbes.comm.entity.BaseEntity;
-
-/**
- * Table: fb_zg_sett_appl
- */
 @Data
-@ApiModel(description="结算申请")
-@TableName("fb_zg_sett_appl")
-public class ZGSettAppl extends BaseEntity {
-    private static final long serialVersionUID = 5134420471847817682L;
+@ApiModel("结算申请(佣金结算申请)Dto")
+public class ZGSettApplDto implements Serializable{
+
+    private static final long serialVersionUID = -6183245043431770704L;
     /**
      * 申请结算金额
      *
