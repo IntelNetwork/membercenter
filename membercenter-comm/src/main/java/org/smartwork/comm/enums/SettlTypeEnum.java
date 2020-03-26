@@ -53,6 +53,16 @@ public enum SettlTypeEnum {
     }
 
     /***
+     * 获取渠道
+     * @param code
+     * @return
+     */
+    public static String receChannel(String code){
+       return Arrays.asList(SettlTypeEnum.values()).stream().filter(settlType -> settlType.getCode().equalsIgnoreCase(code))
+                .map(settlType->settlType.getChannel()).findFirst().orElse("ALIPAY");
+    }
+
+    /***
      *
      * 构造函数:
      * @param code

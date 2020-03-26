@@ -44,7 +44,14 @@ public enum MemberBizResultEnum {
     PAY_CRED_NOT_EXISTS("008007003", "线下支付需上传支付凭证", "%s线下支付需上传支付凭证"),
     NOT_AVAILABLE_BALANCE("008007004", "暂无可用余额", "%s暂无可用余额"),
     ZERO_AMOUNT("008007005", "结算金额不能为零/负数", "%s结算金额不能为零/负数"),
-    DEF_AVAILABLE_BALANCE("008007005", "可用余额不足", "%s可用余额不足");
+    DEF_AVAILABLE_BALANCE("008007005", "可用余额不足", "%s可用余额不足"),
+    SETTL_TYPE("008007006", "结算方式不存在", "%s结算方式不存在"),
+    ACCOUNT("008007007", "结算账号为空", "%s结算账号为空"),
+    ACCOUNT_NAME("008007008", "账号名称为空", "%s账号名称为空"),
+    AUDIT_WAY("008007009", "审核时结算方式只允许修改为线下支付", "%s审核时结算方式只允许修改为线下支付");;
+
+
+
     private String bizCode;
     /**
      * 错误描述
