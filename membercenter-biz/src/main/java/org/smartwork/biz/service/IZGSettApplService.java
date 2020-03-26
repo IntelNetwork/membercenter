@@ -28,4 +28,11 @@ public interface IZGSettApplService extends IService<ZGSettAppl> {
      * @return
      */
     IPage<ZGSettAppl> pageTransfer(IPage<ZGSettAppl> page,String reviewStatus,String settlStatus);
+
+    /***
+     * 转账成功
+     * @param mchOrderNo
+     * @throws ForbesException
+     */
+    void transferSuccess(String mchOrderNo) throws ForbesException;
 }

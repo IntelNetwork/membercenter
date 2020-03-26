@@ -76,7 +76,7 @@ public class SettApplApiProvider {
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
     })
-    public  Result<Boolean> upInSettl(@RequestParam(value = "ids",required = true)Long[] ids){
+    public  Result<Boolean> upInSettl(@RequestParam(value = "ids",required = true)List<Long>  ids){
         Result<Boolean> result = new Result<>();
         settApplService.update(new UpdateWrapper<ZGSettAppl>().set("settl_status",SettlStatusEnum.IN_SETTL.getCode())
                 .in("id",ids)

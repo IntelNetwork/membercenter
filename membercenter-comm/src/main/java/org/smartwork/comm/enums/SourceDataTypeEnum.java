@@ -1,18 +1,18 @@
 package org.smartwork.comm.enums;
+
 import org.forbes.comm.vo.ResultEnum;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-/***结算状态
+
+/***来源数据类型
  */
-public enum SettlStatusEnum {
+public enum SourceDataTypeEnum {
 
 
-    NO_SETTL("0", "待结算"),
-    IN_SETTL("1", "结算中"),
-    HAS_SETTL("2", "结算成功"),
-    ABNORMAL("3", "结算异常");
+    NO_SETTL("0", "任务佣金"),
+    IN_SETTL("1", "佣金提现");
 
     /***编码
      */
@@ -41,7 +41,7 @@ public enum SettlStatusEnum {
      * @修改日期 (请填上修改该文件时的日期)
      */
     public static List<ResultEnum> resultEnums(){
-        return Arrays.asList(SettlStatusEnum.values()).stream().map(tEnum -> {
+        return Arrays.asList(SourceDataTypeEnum.values()).stream().map(tEnum -> {
             return ResultEnum.ResultEnumBuild.build().setCode(tEnum.getCode()).setName(tEnum.getName());
         }).collect(Collectors.toList());
     }
@@ -52,7 +52,7 @@ public enum SettlStatusEnum {
      * @param code
      * @param name
      */
-    SettlStatusEnum(String code, String name) {
+    SourceDataTypeEnum(String code, String name) {
         this.code = code;
         this.name = name;
     }

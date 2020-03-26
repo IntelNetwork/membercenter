@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 public enum SettlTypeEnum {
 
 
-    ALIPAY_TO_ALIPAY("0", "支付宝转支付宝","ALIPAY"),
-    ALIPAY_TO_BANK_CARD("1", "支付宝转银行卡","ALIPAY"),
-    WECHAT_TO_WECHAT("2", "微信转微信","WX"),
-    OFFLINE("3", "线下结算","0");
+    ALIPAY_TO_ALIPAY("0", "支付宝转支付宝","ALIPAY","TRANS_ACCOUNT_NO_PWD"),
+    ALIPAY_TO_BANK_CARD("1", "支付宝转银行卡","ALIPAY","TRANS_BANKCARD_NO_PWD"),
+    WECHAT_TO_WECHAT("2", "微信转微信","WX",""),
+    OFFLINE("3", "线下结算","0","");
 
     /***编码
      */
@@ -26,6 +26,10 @@ public enum SettlTypeEnum {
     /**结算渠道
      * */
     private String channel;
+
+    /***产品编码
+     */
+    private String productCode;
 
     /***
      *
@@ -62,16 +66,28 @@ public enum SettlTypeEnum {
                 .map(settlType->settlType.getChannel()).findFirst().orElse("ALIPAY");
     }
 
+
+    /***
+     * 获取产品编码
+     * @param code
+     * @return
+     */
+    public static String receProductCode(String code){
+        return Arrays.asList(SettlTypeEnum.values()).stream().filter(settlType -> settlType.getCode().equalsIgnoreCase(code))
+                .map(settlType->settlType.getProductCode()).findFirst().orElse("TRANS_ACCOUNT_NO_PWD");
+    }
+
     /***
      *
      * 构造函数:
      * @param code
      * @param name
      */
-    SettlTypeEnum(String code, String name,String channel) {
+    SettlTypeEnum(String code, String name,String channel,String productCode) {
         this.code = code;
         this.name = name;
         this.channel = channel;
+        this.productCode = productCode;
     }
 
 
@@ -107,5 +123,9 @@ public enum SettlTypeEnum {
 
     public String getChannel() {
         return channel;
+    }
+
+    public String getProductCode() {
+        return productCode;
     }
 }
