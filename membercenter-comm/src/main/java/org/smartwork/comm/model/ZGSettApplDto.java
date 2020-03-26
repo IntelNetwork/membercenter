@@ -1,27 +1,18 @@
-package org.smartwork.dal.entity;
+package org.smartwork.comm.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import io.swagger.models.auth.In;
-import lombok.Data;
-import org.forbes.comm.entity.BaseEntity;
-
-import javax.validation.constraints.NotNull;
-
-/**
- * Table: fb_zg_sett_appl
- */
 @Data
-@ApiModel(description="结算申请")
-@TableName("fb_zg_sett_appl")
-public class ZGSettAppl extends BaseEntity {
+@ApiModel("结算申请(佣金结算申请)Dto")
+public class ZGSettApplDto implements Serializable{
 
+    private static final long serialVersionUID = -6183245043431770704L;
 
-    private static final long serialVersionUID = 3538186117068392469L;
     /**
      * 申请标题
      *
@@ -31,6 +22,7 @@ public class ZGSettAppl extends BaseEntity {
      */
     @ApiModelProperty(value = "申请标题",example="")
     private String title;
+
     /**
      * 申请结算金额
      *
@@ -39,7 +31,6 @@ public class ZGSettAppl extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "申请结算金额",example="0.00")
-    @NotNull(message = "申请结算金额为空")
     private BigDecimal amount;
 
     /**
@@ -149,7 +140,7 @@ public class ZGSettAppl extends BaseEntity {
      * Column:    settl_status
      * Nullable:  true
      */
-    @ApiModelProperty(value = "0-未结算1-结算中,2-已结算3-结算异常",example="")
+    @ApiModelProperty(value = "0-未结算1-已结算3-结算异常",example="")
     private String settlStatus;
 
     /**
@@ -180,7 +171,7 @@ public class ZGSettAppl extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "重试次数",example="")
-    private Integer retryCount;
+    private Byte retryCount;
 
     /**
      * 失败次数
@@ -190,26 +181,8 @@ public class ZGSettAppl extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "失败次数",example="")
-    private Integer failureCount;
+    private Byte failureCount;
 
     @ApiModelProperty(value = "结算商户ID",example="")
     private String mchId;
-
-    /**
-     * Table:     fb_zg_revenue_record
-     * Column:    user_id
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "",example="0")
-    private Long userId;
-
-    /**
-     * 用户名
-     *
-     * Table:     fb_zg_revenue_record
-     * Column:    user_name
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "用户名",example="")
-    private String userName;
 }
