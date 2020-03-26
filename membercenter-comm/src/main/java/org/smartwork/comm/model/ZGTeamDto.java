@@ -72,6 +72,16 @@ public class ZGTeamDto implements Serializable {
     @ApiModelProperty(value = "团队介绍", example = "")
     private String intr;
 
+    /**
+     * 团队状态-0待审核-1审核通过-2审核未通过
+     * <p>
+     * Table:     fb_zg_company
+     * Column:    state
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "团队状态-0待审核-1审核通过-2审核未通过", example = "")
+    private String state;
+
 
     @ApiModelProperty(value = "团队附件(集合)", example = "")
     private List<ZGTeamAttachDto> teamAttachDtos;
