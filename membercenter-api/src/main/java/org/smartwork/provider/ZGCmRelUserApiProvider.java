@@ -232,7 +232,7 @@ public class ZGCmRelUserApiProvider {
         //对比当前操作人是否是管理员
         SysUser user = UserContext.getSysUser();
         ZGCmRelUser zgCmRelUser = cmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id", user.getId()));
-        if (zgCmRelUser.getAdminFlag() == Integer.valueOf(CmAdminFlagEnum.ORDINARY.getCode())) {
+        if (zgCmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
             result.setResult(YesNoEnum.YES.getCode());
             result.setMessage(MemberBizResultEnum.USER_ADMIN.getBizMessage());
         } else {
