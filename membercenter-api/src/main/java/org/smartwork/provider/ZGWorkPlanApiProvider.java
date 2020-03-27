@@ -111,7 +111,8 @@ public class ZGWorkPlanApiProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
-        if(ConvertUtils.isNotEmpty(zgWorkPlanAssessDto.getAssessId())){
+        ZGWorkPlan zgWorkPlan=workPlanService.getById(zgWorkPlanAssessDto.getId());
+        if(ConvertUtils.isNotEmpty(zgWorkPlan.getAssessId())){
             result.setBizCode(MemberBizResultEnum.WORK_PLAN_ASSESS.getBizCode());
             result.setMessage(MemberBizResultEnum.WORK_PLAN_ASSESS.getBizMessage());
             return result;
