@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,7 +21,8 @@ public class ZGTeamRelUserPageDto implements Serializable{
      * Column:    user_name
      * Nullable:  true
      */
-    @ApiModelProperty(value = "团队ID",example="")
+    @ApiModelProperty(value = "团队ID",example="",required = true)
+    @NotNull(message = "团队ID为空")
     private Long teamId;
  /**
      * 用户名

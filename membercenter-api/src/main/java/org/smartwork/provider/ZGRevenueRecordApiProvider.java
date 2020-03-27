@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 概述:个人营收记录(佣金管理)
  * @创建人 niehy(Frunk)
  * @创建时间 2020/3/26
- * @修改人 (修改了该文件，请填上修改人的名字)
+ * @修改人 (修改了该文件 ， 请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
 @RestController
@@ -41,7 +41,7 @@ public class ZGRevenueRecordApiProvider {
      * @param pageDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/26
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/revs", method = RequestMethod.GET)
@@ -67,19 +67,19 @@ public class ZGRevenueRecordApiProvider {
     }
 
 
-/***
+    /***
      * 方法概述:查看佣金记录详情
      * @param id
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/26
-     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/rev-details", method = RequestMethod.GET)
     @ApiOperation("查看佣金记录详情")
-    public Result<ZGRevenueRecord> list(@RequestParam(value = "id")Long id) {
+    public Result<ZGRevenueRecord> list(@RequestParam(value = "id") Long id) {
         Result<ZGRevenueRecord> result = new Result<>();
-        if(ConvertUtils.isEmpty(id)){
+        if (ConvertUtils.isEmpty(id)) {
             result.setBizCode(MemberBizResultEnum.EMPTY.getBizCode());
             result.setMessage(MemberBizResultEnum.EMPTY.getBizMessage());
             return result;

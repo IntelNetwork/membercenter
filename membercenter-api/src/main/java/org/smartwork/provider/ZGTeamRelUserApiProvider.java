@@ -60,9 +60,7 @@ public class ZGTeamRelUserApiProvider {
     public Result<IPage<ZGTeamRelUser>> list(BasePageDto basePageDto, ZGTeamRelUserPageDto pageDto) {
         Result<IPage<ZGTeamRelUser>> result = new Result<>();
         QueryWrapper<ZGTeamRelUser> qw = new QueryWrapper<>();
-        if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
-            qw.eq("team_id", pageDto.getTeamId());
-        }
+        qw.eq("team_id", pageDto.getTeamId());
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
                 qw.like("user_name", pageDto.getUserName());

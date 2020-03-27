@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/${smartwork.verision}/company-user")
-@Api(tags = {"Api--公司成员,岗位管理"})
+@Api(tags = {"Api--公司成员列表,岗位管理等"})
 @Slf4j
 public class ZGCmRelUserApiProvider {
 
@@ -57,12 +57,12 @@ public class ZGCmRelUserApiProvider {
     public Result<IPage<ZGCmRelUser>> page(BasePageDto basePageDto, ZGCmRelUserPageDto pageDto) {
         Result<IPage<ZGCmRelUser>> result = new Result<>();
         QueryWrapper<ZGCmRelUser> qw = new QueryWrapper<>();
+        qw.eq("cm_id", pageDto.getCmId());
         if (ConvertUtils.isNotEmpty(pageDto)) {
             if (ConvertUtils.isNotEmpty(pageDto.getUserName())) {
                 qw.like("user_name", pageDto.getUserName());
             }
         }
-        qw.eq("cm_id", pageDto.getCmId());
         IPage<ZGCmRelUser> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGCmRelUser> pages = cmRelUserService.page(page, qw);
         result.setResult(pages);

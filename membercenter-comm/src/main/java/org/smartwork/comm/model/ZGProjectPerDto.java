@@ -1,19 +1,17 @@
-package org.smartwork.dal.entity;
+package org.smartwork.comm.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.forbes.comm.entity.BaseEntity;
 
-/**
- * Table: fb_zg_project_per
- */
+import java.io.Serializable;
+
 @Data
-@ApiModel(description="参与项目人员")
-@TableName("fb_zg_project_per")
-public class ZGProjectPer extends BaseEntity {
-    private static final long serialVersionUID = -5849881543566349320L;
+@ApiModel(description="项目人员参数")
+public class ZGProjectPerDto implements Serializable {
+
+    private static final long serialVersionUID = -4949182222344106125L;
+
     /**
      * 人员ID
      *
@@ -51,6 +49,6 @@ public class ZGProjectPer extends BaseEntity {
      * Column:    phone
      * Nullable:  true
      */
-    @ApiModelProperty(value = "联系电话",example="")
+    @ApiModelProperty(value = "联系电话",example="",required = true)
     private String phone;
 }
