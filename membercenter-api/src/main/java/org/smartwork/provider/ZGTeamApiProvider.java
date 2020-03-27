@@ -70,7 +70,7 @@ public class ZGTeamApiProvider {
     }
 
     /***
-     * 方法概述:编辑团队
+     * 方法概述:编辑团队(完善团队信息)
      * @param teamDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
@@ -78,7 +78,7 @@ public class ZGTeamApiProvider {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/modify-team", method = RequestMethod.PUT)
-    @ApiOperation("编辑团队")
+    @ApiOperation("编辑团队(完善团队信息)")
     public Result<ZGTeamDto> editTeam(@RequestBody @Validated(value = UpdateValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
         //对比当前操作人是否是负责人本人(只有负责人才可以修改团队信息)

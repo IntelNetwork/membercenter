@@ -64,7 +64,7 @@ public class ZGProTaskApiProvider {
                 qw.eq("task_state", pageDto.getTaskState());
             }
         }
-        IPage<ZGProTask> page = new Page<ZGProTask>(basePageDto.getPageNo(), basePageDto.getPageSize());
+        IPage<ZGProTask> page = new Page<>(basePageDto.getPageNo(), basePageDto.getPageSize());
         IPage<ZGProTask> pages = proTaskService.page(page, qw);
         result.setResult(pages);
         return result;
@@ -73,7 +73,7 @@ public class ZGProTaskApiProvider {
 
 
     /***
-     * 方法概述:项目任务进度更新
+     * 方法概述:创建项目任务(拆分项目为多个子任务)
      * @param proTask
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/16
@@ -81,7 +81,7 @@ public class ZGProTaskApiProvider {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/create-project-task", method = RequestMethod.PUT)
-    @ApiOperation("创建项目任务")
+    @ApiOperation("创建项目任务(拆分项目为多个子任务)")
     public Result<ZGProTask> createProTask(@RequestBody @Validated(value = SaveValid.class) ZGProTask proTask) {
         Result<ZGProTask> result = new Result<>();
         if (ConvertUtils.isEmpty(proTask)) {

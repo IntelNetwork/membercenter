@@ -104,15 +104,15 @@ public class ZGProjectApiProvider {
             return result;
         }
         //只有任务类型为0 团队类型 和 1 公司类型 的时候才能创建项目
-        if (!projectDto.getDataType().equals(ProjectTypeEnum.COMPANY_PRO.getCode())
-                || !projectDto.getDataType().equals(ProjectTypeEnum.TEAM_PRO.getCode())) {
+        if (!projectDto.getDataType().equals(Long.valueOf(ProjectTypeEnum.COMPANY_PRO.getCode()))
+                || !projectDto.getDataType().equals(Long.valueOf(ProjectTypeEnum.TEAM_PRO.getCode()))) {
             result.setBizCode(MemberBizResultEnum.DATA_TYPE_NO_EXIST.getBizCode());
             result.setMessage(MemberBizResultEnum.DATA_TYPE_NO_EXIST.getBizMessage());
             return result;
         }
         SysUser user = UserContext.getSysUser();
         //判断项目数据类型是否为团队类型
-        if (projectDto.getDataType().equals(ProjectTypeEnum.TEAM_PRO.getCode())) {
+        if (projectDto.getDataType().equals(Long.valueOf(ProjectTypeEnum.TEAM_PRO.getCode()))) {
             //判断判断当前操作人是否为团队的管理员
             QueryWrapper<ZGTeamRelUser> query = new QueryWrapper<>();
             query.eq("user_id", user.getId());
@@ -125,7 +125,7 @@ public class ZGProjectApiProvider {
             }
         }
         //判断项目数据类型是否为公司类型
-        if (projectDto.getDataType().equals(ProjectTypeEnum.COMPANY_PRO.getCode())) {
+        if (projectDto.getDataType().equals(Long.valueOf(ProjectTypeEnum.COMPANY_PRO.getCode()))) {
             //判断判断当前操作人是公司类型的管理员
             QueryWrapper<ZGCmRelUser> query = new QueryWrapper<>();
             query.eq("user_id", user.getId());
@@ -145,7 +145,7 @@ public class ZGProjectApiProvider {
 
 
     /***
-     * 方法概述:编辑项目
+     * 方法概述:编辑项目(完善项目)
      * @param projectDto
      * @创建人 niehy(Frunk)
      * @创建时间 2020/3/24
@@ -153,7 +153,7 @@ public class ZGProjectApiProvider {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/modify-project", method = RequestMethod.POST)
-    @ApiOperation("编辑项目")
+    @ApiOperation("编辑项目(完善项目)")
     public Result<ZGProjectDto> modifyPro(@RequestBody @Validated(value = UpdateValid.class) ZGProjectDto projectDto) {
         Result<ZGProjectDto> result = new Result<>();
         if (ConvertUtils.isEmpty(projectDto)) {
@@ -161,8 +161,32 @@ public class ZGProjectApiProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
-
-        projectService.modifyPro(projectDto);
+        SysUser user = UserContext.getSysUser();
+        //任务类型1 公司类型
+        if (projectDto.getDataType().equals(Long.valueOf(ProjectTypeEnum.COMPANY_PRO.getCode()))) {
+            QueryWrapper<ZGCmRelUser> query = new QueryWrapper<>();
+            query.eq("user_id", user.getId());
+            query.eq("cm_id", projectDto.getDataId());
+            ZGCmRelUser cmRelUser = cmRelUserService.getOne(query);
+            if (!cmRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+                result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+                result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
+                return result;
+            }
+            projectService.modifyPro(projectDto);
+        }
+        if (projectDto.getDataType().equals(Long.valueOf(ProjectTypeEnum.TEAM_PRO.getCode()))) {
+            QueryWrapper<ZGTeamRelUser> query = new QueryWrapper<>();
+            query.eq("user_id", user.getId());
+            query.eq("team_id", projectDto.getDataId());
+            ZGTeamRelUser teamRelUser = teamRelUserService.getOne(query);
+            if (!teamRelUser.getAdminFlag().equals(CmAdminFlagEnum.ORDINARY.getCode())) {
+                result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
+                result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
+                return result;
+            }
+            projectService.modifyPro(projectDto);
+        }
         result.setResult(projectDto);
         return result;
     }
