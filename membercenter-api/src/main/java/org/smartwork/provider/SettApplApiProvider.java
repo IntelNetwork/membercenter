@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.QueryWrapperUtils;
@@ -21,7 +22,6 @@ import org.smartwork.comm.enums.SettlTypeEnum;
 import org.smartwork.dal.entity.ZGSettAppl;
 import org.smartwork.service.IMchInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,8 +69,8 @@ public class SettApplApiProvider {
      * @param ids
      * @return
      */
-    @RequestMapping(value = "/up-in-settl", method = RequestMethod.GET)
-    @ApiImplicitParam(value = "ids",name = "申请记录结果集")
+    @RequestMapping(value = "/up-in-settl", method = RequestMethod.PUT)
+    @ApiImplicitParam(name = "ids",value = "申请记录结果集")
     @ApiOperation("更新记录为转帐中")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
@@ -85,6 +85,66 @@ public class SettApplApiProvider {
         result.setResult(true);
         return result;
     }
+
+
+    /***
+     * 更新失败原因
+     * @param id
+     * @param failure
+     * @return
+     */
+    @RequestMapping(value = "/up-failure-settl", method = RequestMethod.PUT)
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "id",value = "主键ID"),
+            @ApiImplicitParam(name = "failure",value = "失败原因")
+    })
+    @ApiOperation("更新记录为转帐中")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
+    })
+    public  Result<Boolean> upfailureSettl(@RequestParam(value = "id",required = true)Long  id,
+                                           @RequestParam(value = "failure",required = true)String failure){
+        Result<Boolean> result = new Result<>();
+        ZGSettAppl settAppl = settApplService.getById(id);
+        if(ConvertUtils.isEmpty(settAppl)){
+            result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        if(!ReviewStatusEnum.SUCCEED.getCode().equalsIgnoreCase(settAppl.getReviewStatus())){
+            result.setBizCode(MemberBizResultEnum.NOT_AUDIT.getBizCode());
+            result.setMessage(MemberBizResultEnum.NOT_AUDIT.getBizMessage());
+            return result;
+        }
+        if(!SettlStatusEnum.IN_SETTL.getCode().equalsIgnoreCase(settAppl.getSettlStatus())){
+            result.setBizCode(MemberBizResultEnum.SETTL_STATUS.getBizCode());
+            result.setMessage(MemberBizResultEnum.SETTL_STATUS.getBizMessage());
+            return result;
+        }
+        Integer  failureCount = settAppl.getFailureCount();
+        failureCount += 1;
+        Integer retryCont = settAppl.getRetryCount();
+        UpdateWrapper updateWrapper =  new UpdateWrapper<ZGSettAppl>();
+        int  compareFailure = failureCount.compareTo(retryCont);
+        if( compareFailure < 0){
+            updateWrapper.set("settl_status",SettlStatusEnum.NO_SETTL.getCode());
+            updateWrapper.set("failure_count",failureCount);
+        }
+        if(compareFailure ==0 ){
+            updateWrapper.set("settl_status",SettlStatusEnum.ABNORMAL.getCode());
+            updateWrapper.set("failure_count",failureCount);
+        }
+        if(compareFailure > 0 ){
+            updateWrapper.set("settl_status",SettlStatusEnum.ABNORMAL.getCode());
+        }
+        updateWrapper.set("failure",failure);
+        updateWrapper.eq("id",id);
+        result.setResult(true);
+        return result;
+    }
+
+
 
 
 
