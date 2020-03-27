@@ -10,6 +10,7 @@ import org.forbes.comm.vo.Result;
 import org.smartwork.biz.service.IZGWorkPlanService;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
+import org.smartwork.comm.model.ZGWorkPlanAssessDto;
 import org.smartwork.comm.model.ZGWorkPlanDto;
 import org.smartwork.dal.entity.ZGWorkPlan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,11 @@ public class ZGWorkPlanApiProvider {
     @ApiOperation("写工作计划")
     public Result<ZGWorkPlanDto> addWorkPlan(@RequestBody @Validated(value = SaveValid.class) ZGWorkPlanDto zgWorkPlanDto) {
         Result<ZGWorkPlanDto> result = new Result<>();
+        if (ConvertUtils.isEmpty(zgWorkPlanDto)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
         workPlanService.addWorkPlan(zgWorkPlanDto);
         result.setResult(zgWorkPlanDto);
         return result;
@@ -68,7 +74,7 @@ public class ZGWorkPlanApiProvider {
 
     /***
      * updateWorkPlan方法概述:修改工作计划
-     * @param workPlanDto
+     * @param zgWorkPlanDto
      * @创建人 nhy
      * @创建时间 2020/3/24 10:06
      * @修改人 (修改了该文件，请填上修改人的名字)
@@ -76,16 +82,42 @@ public class ZGWorkPlanApiProvider {
      */
     @RequestMapping(value = "/update-work-plan", method = RequestMethod.PUT)
     @ApiOperation("修改工作计划")
-    public Result<ZGWorkPlanDto> updateWorkPlan(@RequestBody @Validated(value = UpdateValid.class) ZGWorkPlanDto workPlanDto) {
+    public Result<ZGWorkPlanDto> updateWorkPlan(@RequestBody @Validated(value = UpdateValid.class) ZGWorkPlanDto zgWorkPlanDto) {
         Result<ZGWorkPlanDto> result = new Result<>();
-        if(ConvertUtils.isNotEmpty(workPlanDto.getAssessId())){
+        if (ConvertUtils.isEmpty(zgWorkPlanDto)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        workPlanService.updateWorkPlan(zgWorkPlanDto);
+        result.setResult(zgWorkPlanDto);
+        return result;
+    }
+
+    /***
+     * updateWorkPlan方法概述:修改工作计划
+     * @param zgWorkPlanAssessDto
+     * @创建人 nhy
+     * @创建时间 2020/3/24 10:06
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/update-assess-plan", method = RequestMethod.PUT)
+    @ApiOperation("修改(评估)工作计划")
+    public Result<ZGWorkPlanAssessDto> updateWorkAssessPlan(@RequestBody @Validated(value = UpdateValid.class) ZGWorkPlanAssessDto zgWorkPlanAssessDto) {
+        Result<ZGWorkPlanAssessDto> result = new Result<>();
+        if (ConvertUtils.isEmpty(zgWorkPlanAssessDto)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        if(ConvertUtils.isNotEmpty(zgWorkPlanAssessDto.getAssessId())){
             result.setBizCode(MemberBizResultEnum.WORK_PLAN_ASSESS.getBizCode());
             result.setMessage(MemberBizResultEnum.WORK_PLAN_ASSESS.getBizMessage());
             return result;
         }
-
-        workPlanService.updateWorkPlan(workPlanDto);
-        result.setResult(workPlanDto);
+        workPlanService.updateWorkAssessPlan(zgWorkPlanAssessDto);
+        result.setResult(zgWorkPlanAssessDto);
         return result;
     }
 }

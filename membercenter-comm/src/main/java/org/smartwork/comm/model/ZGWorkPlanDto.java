@@ -153,66 +153,6 @@ public class ZGWorkPlanDto implements Serializable {
     private Byte actualPert;
 
     /**
-     * 绩效评估
-     *
-     * Table:     fb_zg_work_plan
-     * Column:    pert_assess
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "绩效评估",example="")
-    private Byte pertAssess;
-
-    /**
-     * 实际绩效评估
-     *
-     * Table:     fb_zg_work_plan
-     * Column:    actual_pert_assess
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "实际绩效评估",example="")
-    private Byte actualPertAssess;
-
-    /**
-     * 管理权重评估
-     *
-     * Table:     fb_zg_work_plan
-     * Column:    manager_weight
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "管理权重评估",example="")
-    private Byte managerWeight;
-
-    /**
-     * 管理绩效评估
-     *
-     * Table:     fb_zg_work_plan
-     * Column:    manag_pert_assess
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "管理绩效评估",example="")
-    private Byte managPertAssess;
-
-    /**
-     * 评估人ID
-     *
-     * Table:     fb_zg_work_plan
-     * Column:    assess_id
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "评估人ID",example="0")
-    private Long assessId;
-
-    /**
-     * 评估人
-     *
-     * Table:     fb_zg_work_plan
-     * Column:    assess_name
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "评估人",example="")
-    private String assessName;
-
-    /**
      * 说明
      *
      * Table:     fb_zg_work_plan
