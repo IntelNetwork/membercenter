@@ -12,7 +12,7 @@ public enum SettlTypeEnum {
 
     ALIPAY_TO_ALIPAY("0", "支付宝转支付宝","ALIPAY","TRANS_ACCOUNT_NO_PWD"),
     ALIPAY_TO_BANK_CARD("1", "支付宝转银行卡","ALIPAY","TRANS_BANKCARD_NO_PWD"),
-    WECHAT_TO_WECHAT("2", "微信转微信","WX",""),
+    WECHAT_TO_WECHAT("2", "微信转微信","WX","WECHAT_TO_WECHAT"),
     OFFLINE("3", "线下结算","0","");
 
     /***编码
