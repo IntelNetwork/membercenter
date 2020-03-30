@@ -1,5 +1,6 @@
 package org.smartwork.provider;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,23 @@ public class ZGWorkPlanApiProvider {
     public Result<List<ZGWorkPlan>> selectPlanDay(@RequestParam(value = "startTime")Date startTime,@RequestParam(value = "endTime")Date endTime) {
         Result<List<ZGWorkPlan>> result=new Result<>();
         List<ZGWorkPlan> zgWorkPlans = workPlanService.selectPlanDay(startTime,endTime);
+        result.setResult(zgWorkPlans);
+        return result;
+    }
+
+    /***
+     * selectPlanDay方法概述:查询成员的日程计划
+     * @param name
+     * @创建人 nhy
+     * @创建时间 2020/3/23 12:34
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select-user-plan", method = RequestMethod.GET)
+    @ApiOperation("查询成员日程计划")
+    public Result<List<ZGWorkPlan>> selectUserPlan(@RequestParam(value = "name")String name) {
+        Result<List<ZGWorkPlan>> result=new Result<>();
+        List<ZGWorkPlan> zgWorkPlans = workPlanService.list(new QueryWrapper<ZGWorkPlan>().like("name",name));
         result.setResult(zgWorkPlans);
         return result;
     }
