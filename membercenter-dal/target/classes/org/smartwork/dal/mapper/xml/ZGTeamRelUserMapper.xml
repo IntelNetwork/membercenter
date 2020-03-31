@@ -10,7 +10,7 @@
     <result column="team_id" jdbcType="BIGINT" property="teamId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="admin_flag" jdbcType="TINYINT" property="adminFlag" />
+    <result column="admin_flag" jdbcType="INTEGER" property="adminFlag" />
     <result column="direction" jdbcType="VARCHAR" property="direction" />
   </resultMap>
   <sql id="Base_Column_List">

@@ -52,7 +52,7 @@ public class ZGTeamApiProvider {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/create-team", method = RequestMethod.POST)
-    @ApiOperation("创建团队")
+    @ApiOperation("创建新团队")
     public Result<ZGTeamDto> addTeam(@RequestBody @Validated(value = SaveValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
         if (ConvertUtils.isEmpty(teamDto)) {
@@ -62,7 +62,7 @@ public class ZGTeamApiProvider {
         }
         //默认将当前登录人姓名那个设置为团队负责人
         teamDto.setLegalPerson(UserContext.getSysUser().getRealname());
-        //默认为审核状态
+        //默认状态为审核状态
         teamDto.setState(CompanyTeamStateEnum.AUDITED.getCode());
         teamService.addTeam(teamDto);
         result.setResult(teamDto);
