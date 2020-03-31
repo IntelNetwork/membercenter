@@ -227,21 +227,7 @@ public class ZGProjectApiProvider {
             result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
             return result;
         }
-        SysUser user = UserContext.getSysUser();
-        //是当前团队的项目,可以删除
-        if (project.getDataType().equals(ProjectTypeEnum.TEAM_PRO)) {
-            ZGTeam team = teamService.getOne(new QueryWrapper<ZGTeam>().eq("legal_person", user.getRealname()));
-            if (ConvertUtils.isNotEmpty(team)) {
-                projectService.removeById(project);
-            }
-        }
-        //是当前公司的项目,可以删除
-        if (project.getDataType().equals(ProjectTypeEnum.COMPANY_PRO)) {
-            ZGCompany company = companyService.getOne(new QueryWrapper<ZGCompany>().eq("legal_person", user.getRealname()));
-            if (ConvertUtils.isNotEmpty(company)) {
-                projectService.removeById(project);
-            }
-        }
+        projectService.removeById(project);
         return result;
     }
 

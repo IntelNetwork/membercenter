@@ -2,16 +2,15 @@ package org.smartwork.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.smartwork.biz.service.IZGProjectService;
+import org.smartwork.comm.enums.ProjectTypeEnum;
 import org.smartwork.comm.model.ZGProAttachDto;
 import org.smartwork.comm.model.ZGProjectDto;
-import org.smartwork.dal.entity.ZGProAttach;
-import org.smartwork.dal.entity.ZGProTask;
-import org.smartwork.dal.entity.ZGProject;
-import org.smartwork.dal.mapper.ZGProAttachMapper;
-import org.smartwork.dal.mapper.ZGProTaskMapper;
-import org.smartwork.dal.mapper.ZGProjectMapper;
+import org.smartwork.dal.entity.*;
+import org.smartwork.dal.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,13 @@ public class ZGProjectServiceImpl extends ServiceImpl<ZGProjectMapper, ZGProject
     ZGProAttachMapper proAttachMapper;
     @Autowired
     ZGProTaskMapper proTaskMapper;
+    @Autowired
+    ZGProjectMapper projectMapper;
+    @Autowired
+    ZGTeamMapper teamMapper;
+    @Autowired
+    ZGCompanyMapper companyMapper;
+
 
     /***
      * createPro方法概述:创建项目
@@ -98,7 +104,6 @@ public class ZGProjectServiceImpl extends ServiceImpl<ZGProjectMapper, ZGProject
     }
 
 
-
     /***
      * modifyPro方法概述:删除项目同时删除子项目
      * @param id
@@ -109,8 +114,25 @@ public class ZGProjectServiceImpl extends ServiceImpl<ZGProjectMapper, ZGProject
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean removeById(Serializable id) {
-        proTaskMapper.deleteById(new QueryWrapper<ZGProTask>().eq("pro_id", id));
+    public boolean updateById(ZGProject project) {
+        SysUser user = UserContext.getSysUser();
+        //是当前团队的项目,可以删除
+        if (project.getDataType().equals(ProjectTypeEnum.TEAM_PRO)) {
+            ZGTeam team = teamMapper.selectOne(new QueryWrapper<ZGTeam>().eq("legal_person", user.getRealname()));
+            if (ConvertUtils.isNotEmpty(team)) {
+                projectMapper.deleteById(project);
+                proTaskMapper.deleteById(new QueryWrapper<ZGProTask>().eq("pro_id", project.getId()));
+            }
+        }
+        //是当前公司的项目,可以删除
+        if (project.getDataType().equals(ProjectTypeEnum.COMPANY_PRO)) {
+            ZGCompany company = companyMapper.selectOne(new QueryWrapper<ZGCompany>().eq("legal_person", user.getRealname()));
+            if (ConvertUtils.isNotEmpty(company)) {
+                projectMapper.deleteById(project);
+                proTaskMapper.deleteById(new QueryWrapper<ZGProTask>().eq("pro_id", project.getId()));
+            }
+        }
+
         return true;
     }
 }
