@@ -62,7 +62,7 @@ public class ZGTeamApiProvider {
         }
         //默认将当前登录人姓名那个设置为团队负责人
         teamDto.setLegalPerson(UserContext.getSysUser().getRealname());
-        //默认审核状态
+        //默认状态为审核状态
         teamDto.setState(CompanyTeamStateEnum.AUDITED.getCode());
         teamService.addTeam(teamDto);
         result.setResult(teamDto);
