@@ -38,7 +38,7 @@ public class ZGTeamDto implements Serializable {
      * Column:    legal_person
      * Nullable:  true
      */
-    @ApiModelProperty(value = "负责人", example = "")
+    @ApiModelProperty(value = "负责人，添加不传值", example = "")
     @NotEmpty(message = "负责人为空")
     private String legalPerson;
 

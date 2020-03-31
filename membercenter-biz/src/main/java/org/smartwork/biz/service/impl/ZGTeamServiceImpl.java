@@ -120,6 +120,7 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
 
     }
 
+
     /***
      * 方法概述:删除团队并删除团队中用户
      * @param id
@@ -131,9 +132,7 @@ public class ZGTeamServiceImpl extends ServiceImpl<ZGTeamMapper, ZGTeam> impleme
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean removeById(Serializable id) {
-
         teamRelUserMapper.deleteById(new QueryWrapper<ZGTeamRelUser>().eq("team_id", id));
-
         return true;
     }
 }

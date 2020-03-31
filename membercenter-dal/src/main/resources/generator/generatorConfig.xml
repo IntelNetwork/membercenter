@@ -307,7 +307,41 @@
                selectByPrimaryKeyQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
-        <table tableName="fb_zg_earnings" domainObjectName="ZGEarnings" enableSelectByPrimaryKey="true"
+<!--        <table tableName="fb_zg_earnings" domainObjectName="ZGEarnings" enableSelectByPrimaryKey="true"-->
+<!--               enableDeleteByPrimaryKey="false"-->
+<!--               enableUpdateByPrimaryKey="false"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               selectByPrimaryKeyQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--        <table tableName="fb_zg_sett_appl" domainObjectName="ZGSettAppl" enableSelectByPrimaryKey="true"-->
+<!--               enableDeleteByPrimaryKey="false"-->
+<!--               enableUpdateByPrimaryKey="false"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               selectByPrimaryKeyQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--        <table tableName="fb_zg_revenue_record" domainObjectName="ZGRevenueRecord" enableSelectByPrimaryKey="true"-->
+<!--               enableDeleteByPrimaryKey="false"-->
+<!--               enableUpdateByPrimaryKey="false"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               selectByPrimaryKeyQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+
+        <table tableName="fb_zg_member_level_perm_member" domainObjectName="ZGLevelPermMember" enableSelectByPrimaryKey="true"
                enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false"
                enableCountByExample="false"
@@ -318,18 +352,7 @@
                selectByPrimaryKeyQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>
-        <table tableName="fb_zg_sett_appl" domainObjectName="ZGSettAppl" enableSelectByPrimaryKey="true"
-               enableDeleteByPrimaryKey="false"
-               enableUpdateByPrimaryKey="false"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               selectByPrimaryKeyQueryId="false">
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="fb_zg_revenue_record" domainObjectName="ZGRevenueRecord" enableSelectByPrimaryKey="true"
+        <table tableName="fb_zg_member_level_perm_name" domainObjectName="ZGLevelPermName" enableSelectByPrimaryKey="true"
                enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false"
                enableCountByExample="false"

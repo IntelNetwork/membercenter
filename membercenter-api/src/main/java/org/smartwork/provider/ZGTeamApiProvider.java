@@ -163,7 +163,7 @@ public class ZGTeamApiProvider {
             return result;
         }
         SysUser user = UserContext.getSysUser();
-        //对比当前操作人是否是管理员本人(只有管理员本人才可以修改管理员)
+        //对比当前操作人是否是负责人本人(只有负责人本人才可以删除团队)
         if (!team.getLegalPerson().equals(user.getRealname())) {
             result.setBizCode(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizCode());
             result.setMessage(MemberBizResultEnum.NO_PERMISSION_TO_MODIFY.getBizMessage());
