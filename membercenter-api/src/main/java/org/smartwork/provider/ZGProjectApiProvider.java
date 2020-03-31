@@ -20,15 +20,10 @@ import org.smartwork.comm.enums.ProjectStateEnum;
 import org.smartwork.comm.enums.ProjectTypeEnum;
 import org.smartwork.comm.model.ProjectPageDto;
 import org.smartwork.comm.model.ZGProjectDto;
-import org.smartwork.dal.entity.ZGCmRelUser;
-import org.smartwork.dal.entity.ZGProject;
-import org.smartwork.dal.entity.ZGTeamRelUser;
+import org.smartwork.dal.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /***
  * 概述:项目操作
@@ -190,4 +185,65 @@ public class ZGProjectApiProvider {
         result.setResult(projectDto);
         return result;
     }
+
+    /***
+     * 方法概述:事实更新项目进度
+     * @param id
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/31
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/real-time", method = RequestMethod.POST)
+    @ApiOperation("事实更新项目进度")
+    public Result<ZGProject> realTime(@RequestParam(value = "id", required = true) Long id) {
+        Result<ZGProject> result = new Result<>();
+        ZGProject project = projectService.getById(id);
+        if (ConvertUtils.isEmpty(project)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        result.setResult(project);
+        return result;
+    }
+
+
+    /***
+     * 方法概述:删除项目
+     * @param id
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/31
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/remove-pro", method = RequestMethod.POST)
+    @ApiOperation("删除项目")
+    public Result<ZGProject> removePro(@RequestParam(value = "id", required = true) String id) {
+        Result<ZGProject> result = new Result<>();
+        ZGProject project = projectService.getById(id);
+        if (ConvertUtils.isEmpty(project)) {
+            result.setBizCode(MemberBizResultEnum.ENTITY_EMPTY.getBizCode());
+            result.setMessage(MemberBizResultEnum.ENTITY_EMPTY.getBizMessage());
+            return result;
+        }
+        SysUser user = UserContext.getSysUser();
+        //是当前团队的项目,可以删除
+        if (project.getDataType().equals(ProjectTypeEnum.TEAM_PRO)) {
+            ZGTeam team = teamService.getOne(new QueryWrapper<ZGTeam>().eq("legal_person", user.getRealname()));
+            if (ConvertUtils.isNotEmpty(team)) {
+                projectService.removeById(project);
+            }
+        }
+        //是当前公司的项目,可以删除
+        if (project.getDataType().equals(ProjectTypeEnum.COMPANY_PRO)) {
+            ZGCompany company = companyService.getOne(new QueryWrapper<ZGCompany>().eq("legal_person", user.getRealname()));
+            if (ConvertUtils.isNotEmpty(company)) {
+                projectService.removeById(project);
+            }
+        }
+        return result;
+    }
+
+
 }

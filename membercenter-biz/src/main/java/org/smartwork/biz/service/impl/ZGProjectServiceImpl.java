@@ -1,19 +1,23 @@
 package org.smartwork.biz.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.comm.utils.ConvertUtils;
 import org.smartwork.biz.service.IZGProjectService;
 import org.smartwork.comm.model.ZGProAttachDto;
 import org.smartwork.comm.model.ZGProjectDto;
 import org.smartwork.dal.entity.ZGProAttach;
+import org.smartwork.dal.entity.ZGProTask;
 import org.smartwork.dal.entity.ZGProject;
 import org.smartwork.dal.mapper.ZGProAttachMapper;
+import org.smartwork.dal.mapper.ZGProTaskMapper;
 import org.smartwork.dal.mapper.ZGProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
@@ -21,6 +25,8 @@ public class ZGProjectServiceImpl extends ServiceImpl<ZGProjectMapper, ZGProject
 
     @Autowired
     ZGProAttachMapper proAttachMapper;
+    @Autowired
+    ZGProTaskMapper proTaskMapper;
 
     /***
      * createPro方法概述:创建项目
@@ -89,6 +95,22 @@ public class ZGProjectServiceImpl extends ServiceImpl<ZGProjectMapper, ZGProject
                 proAttachMapper.insert(attach);
             });
         }
+    }
 
+
+
+    /***
+     * modifyPro方法概述:删除项目同时删除子项目
+     * @param id
+     * @创建人 niehy(Frunk)
+     * @创建时间 2020/3/31
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean removeById(Serializable id) {
+        proTaskMapper.deleteById(new QueryWrapper<ZGProTask>().eq("pro_id", id));
+        return true;
     }
 }
