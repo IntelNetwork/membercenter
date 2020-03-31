@@ -6,13 +6,19 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
+import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
+import org.smartwork.biz.service.IZGCmRelUserService;
+import org.smartwork.biz.service.IZGTeamRelUserService;
 import org.smartwork.biz.service.IZGWorkPlanService;
 import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGWorkPlanAssessDto;
 import org.smartwork.comm.model.ZGWorkPlanDto;
+import org.smartwork.dal.entity.ZGCmRelUser;
+import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.smartwork.dal.entity.ZGWorkPlan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +39,12 @@ public class ZGWorkPlanApiProvider {
 
     @Autowired
     IZGWorkPlanService workPlanService;
+
+    @Autowired
+    IZGCmRelUserService izgCmRelUserService;
+
+    @Autowired
+    IZGTeamRelUserService izgTeamRelUserService;
 
     /***
      * selectPlanDay方法概述:查询我的日程计划
@@ -139,4 +151,68 @@ public class ZGWorkPlanApiProvider {
         result.setResult(zgWorkPlanAssessDto);
         return result;
     }
+
+
+    /***
+     * selectMyPlan方法概述:查询我的所有日程计划
+     * @param
+     * @return org.forbes.comm.vo.Result<java.util.List < org.smartwork.dal.entity.ZGWorkPlan>>
+     * @创建人 Tom
+     * @创建时间 2020/3/31 14:51
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select-my-plan", method = RequestMethod.GET)
+    @ApiOperation("查询我的所有日程计划")
+    public Result<List<ZGWorkPlan>> selectMyPlan() {
+        Result<List<ZGWorkPlan>> result=new Result<>();
+        SysUser user = UserContext.getSysUser();
+        List<ZGWorkPlan> zgWorkPlans = workPlanService.list(new QueryWrapper<ZGWorkPlan>().eq("user_id",user.getId()));
+        result.setResult(zgWorkPlans);
+        return result;
+    }
+
+    /***查询成员日程计划
+     * selectMemberPlan方法概述:查询成员日程计划
+     * @param
+     * @return org.forbes.comm.vo.Result<java.util.List < org.smartwork.dal.entity.ZGWorkPlan>>
+     * @创建人 Tom
+     * @创建时间 2020/3/31 15:32
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select-member-plan", method = RequestMethod.GET)
+    @ApiOperation("查询成员日程计划")
+    public Result<List<ZGWorkPlan>> selectMemberPlan() {
+        Result<List<ZGWorkPlan>> result=new Result<>();
+        SysUser user = UserContext.getSysUser();
+        //查询当前用户所属公司
+        ZGCmRelUser zgCmRelUser = izgCmRelUserService.getOne(new QueryWrapper<ZGCmRelUser>().eq("user_id",user.getId()));
+        //查询当前用户所属公司成员
+        List<ZGCmRelUser> zgCmRelUsers=izgCmRelUserService.list(new QueryWrapper<ZGCmRelUser>().eq("cm_id",zgCmRelUser.getCmId()));
+        zgCmRelUsers.stream().forEach(zgCmRel -> {
+            List<ZGWorkPlan> zgWorkPlans = workPlanService.list(new QueryWrapper<ZGWorkPlan>().eq("user_id",zgCmRel.getUserId()));
+            result.setResult(zgWorkPlans);
+        });
+        return result;
+    }
+
+    /***
+     * selectPlan方法概述:查询计划详情
+     * @param id
+     * @return org.forbes.comm.vo.Result<org.smartwork.dal.entity.ZGWorkPlan>
+     * @创建人 Tom
+     * @创建时间 2020/3/31 16:05
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select-plan", method = RequestMethod.GET)
+    @ApiOperation("查询计划详情")
+    public Result<ZGWorkPlan> selectPlan(@RequestParam(value = "id")Long id) {
+        Result<ZGWorkPlan> result=new Result<>();
+        ZGWorkPlan zgWorkPlan = workPlanService.getById(id);
+        result.setResult(zgWorkPlan);
+        return result;
+    }
+
 }
