@@ -11,7 +11,7 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="post_id" jdbcType="BIGINT" property="postId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="admin_flag" jdbcType="VARCHAR" property="adminFlag" />
+    <result column="admin_flag" jdbcType="INTEGER" property="adminFlag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_by, create_time, update_by, update_time, cm_id, user_id, post_id, user_name, 

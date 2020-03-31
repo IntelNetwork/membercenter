@@ -1,0 +1,3 @@
+2020-03-31 09:47:35.195 [http-nio-8868-exec-1] DEBUG org.smartwork.dal.mapper.ZGTeamMapper.insert - ==>  Preparing: INSERT INTO fb_zg_team ( legal_person, id_card, intr, state, create_by, create_time ) VALUES ( ?, ?, ?, ?, ?, ? ) 
+2020-03-31 09:47:35.282 [http-nio-8868-exec-1] DEBUG org.smartwork.dal.mapper.ZGTeamMapper.insert - ==> Parameters: system(String), 1234567899(String), 团队介绍(String), 0(String), system(String), 2020-03-31 09:47:35.165(Timestamp)
+2020-03-31 09:47:35.295 [http-nio-8868-exec-1] DEBUG org.smartwork.dal.mapper.ZGTeamMapper.insert - <==    Updates: 1
