@@ -52,7 +52,7 @@ public class ZGTeamApiProvider {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/create-team", method = RequestMethod.POST)
-    @ApiOperation("创建团队")
+    @ApiOperation("创建新团队")
     public Result<ZGTeamDto> addTeam(@RequestBody @Validated(value = SaveValid.class) ZGTeamDto teamDto) {
         Result<ZGTeamDto> result = new Result<>();
         if (ConvertUtils.isEmpty(teamDto)) {
