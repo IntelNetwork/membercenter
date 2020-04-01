@@ -1,12 +1,15 @@
 package org.smartwork.provider;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.constant.UserContext;
+import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.SysUser;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
@@ -17,6 +20,7 @@ import org.smartwork.comm.enums.MemberBizResultEnum;
 import org.smartwork.comm.model.ZGCmRelUserDto;
 import org.smartwork.comm.model.ZGWorkPlanAssessDto;
 import org.smartwork.comm.model.ZGWorkPlanDto;
+import org.smartwork.comm.model.ZGWorkPlanPageDto;
 import org.smartwork.dal.entity.ZGCmRelUser;
 import org.smartwork.dal.entity.ZGTeamRelUser;
 import org.smartwork.dal.entity.ZGWorkPlan;
@@ -164,11 +168,11 @@ public class ZGWorkPlanApiProvider {
      */
     @RequestMapping(value = "/select-my-plan", method = RequestMethod.GET)
     @ApiOperation("查询我的所有日程计划")
-    public Result<List<ZGWorkPlan>> selectMyPlan() {
-        Result<List<ZGWorkPlan>> result=new Result<>();
-        SysUser user = UserContext.getSysUser();
-        List<ZGWorkPlan> zgWorkPlans = workPlanService.list(new QueryWrapper<ZGWorkPlan>().eq("user_id",user.getId()));
-        result.setResult(zgWorkPlans);
+    public Result<IPage<ZGWorkPlan>> selectMyPlan(BasePageDto basePageDto, ZGWorkPlanPageDto zgWorkPlanPageDto) {
+        Result<IPage<ZGWorkPlan>> result=new Result<IPage<ZGWorkPlan>>();
+        IPage<ZGWorkPlan> page = new Page<ZGWorkPlan>(basePageDto.getPageNo(),basePageDto.getPageSize());
+        IPage<ZGWorkPlan> pageUsers =  workPlanService.page(page, zgWorkPlanPageDto);
+        result.setResult(pageUsers);
         return result;
     }
 

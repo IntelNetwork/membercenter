@@ -44,4 +44,22 @@
     WHERE
     w.start_time &gt;=#{startTime} AND w.end_time &lt;=#{endTime}
   </select>
+
+  <!--查询我的日程计划分页-->
+  <select id="page" parameterType="org.smartwork.comm.model.ZGWorkPlanPageDto" resultType="org.smartwork.dal.entity.ZGWorkPlan">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    fb_zg_work_plan w
+    <where>
+      <if test="zgWorkPlanPageDto.name != null and zgWorkPlanPageDto.name != '' and zgWorkPlanPageDto.name != 'null'">
+        AND w.name LIKE concat('%',#{zgWorkPlanPageDto.name,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="zgWorkPlanPageDto.title != null and zgWorkPlanPageDto.title != '' and zgWorkPlanPageDto.title != 'null'">
+        AND w.title LIKE concat('%',#{zgWorkPlanPageDto.title,jdbcType=VARCHAR},'%')
+      </if>
+        AND w.user_id=#{zgWorkPlanPageDto.userId}
+        ORDER BY w.start_time desc
+    </where>
+  </select>
 </mapper>

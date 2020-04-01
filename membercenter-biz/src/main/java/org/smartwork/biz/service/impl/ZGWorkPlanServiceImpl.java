@@ -1,5 +1,6 @@
 package org.smartwork.biz.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.model.SysUser;
@@ -7,6 +8,7 @@ import org.smartwork.biz.service.IZGWorkPlanService;
 import org.smartwork.comm.model.ZGCompanyDto;
 import org.smartwork.comm.model.ZGWorkPlanAssessDto;
 import org.smartwork.comm.model.ZGWorkPlanDto;
+import org.smartwork.comm.model.ZGWorkPlanPageDto;
 import org.smartwork.dal.entity.ZGCompany;
 import org.smartwork.dal.entity.ZGWorkPlan;
 import org.smartwork.dal.mapper.ZGWorkPlanMapper;
@@ -102,6 +104,22 @@ public class ZGWorkPlanServiceImpl extends ServiceImpl<ZGWorkPlanMapper, ZGWorkP
         zgWorkPlan.setAssessId(user.getId());
         zgWorkPlan.setAssessName(user.getRealname());
         baseMapper.updateById(zgWorkPlan);
+    }
+
+    /***
+     * selectMyPlan方法概述:查询我的所有日程计划
+     * @param
+     * @return org.forbes.comm.vo.Result<java.util.List < org.smartwork.dal.entity.ZGWorkPlan>>
+     * @创建人 Tom
+     * @创建时间 2020/3/31 14:51
+     * @修改人 (修改了该文件 ， 请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @Override
+    public IPage<ZGWorkPlan> page(IPage<ZGWorkPlan> page, ZGWorkPlanPageDto zgWorkPlanPageDto) {
+        SysUser user=UserContext.getSysUser();
+        zgWorkPlanPageDto.setUserId(user.getId());
+        return workPlanExtMapper.page(page,zgWorkPlanPageDto);
     }
 
 
