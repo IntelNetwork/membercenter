@@ -1,10 +1,13 @@
 package org.smartwork.dal.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.forbes.comm.entity.BaseEntity;
+
+import java.util.List;
 
 /**
  * Table: fb_zg_company
@@ -83,4 +86,8 @@ public class ZGCompany extends BaseEntity {
      */
     @ApiModelProperty(value = "公司状态-0待审核-1审核通过-2审核未通过", example = "")
     private String state;
+
+    @ApiModelProperty(value = "公司附件")
+    @TableField(exist = false)
+    List<ZGCmAttach> zgCmAttaches;
 }

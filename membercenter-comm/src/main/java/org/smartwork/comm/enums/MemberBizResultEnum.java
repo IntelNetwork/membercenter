@@ -21,6 +21,7 @@ public enum MemberBizResultEnum {
     NO_PERMISSION_ADD_USER("008002004", "你无法添加员工", "%你无法修改公司信息"),
     NO_PERMISSION_UPDATE_CM("008002005", "你无法变更岗位信息", "%你无法变更岗位信息"),
     COMPANY_NOT_CHECK_STATE("005001006","该公司不在被审核状态","%s该公司不在被审核状态"),
+    NOT_CHECK_STATE("005001007","审核状态不存在","%s审核状态不存在"),
     /*****团队002(中间三位)****/
     NO_PERMISSION_TO_MODIFY("008002001", "您没有权限进行此操作", "%您没有权限进行此操作"),
     TEAM_NOT_CHECK_STATE("005001002","该团队不在被审核状态","%s该团队不在被审核状态"),
