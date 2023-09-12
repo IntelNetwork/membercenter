@@ -29,7 +29,7 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <comm.version>1.0-SNAPSHOT</comm.version>
-        <runtime.version>7.5.0.Final</runtime.version>
+        <runtime.version>7.69.0.Final</runtime.version>
     </properties>
     <dependencies>
         <dependency>
